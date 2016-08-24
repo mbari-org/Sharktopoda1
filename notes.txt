@@ -33,3 +33,4 @@ Whether you accept my bid or not, I want to thank you for an interesting challen
 
 
 TODO: mark most classes as final
+TODO: make a Logging Coordinator and move the Log window loading into it and out of the storyboard

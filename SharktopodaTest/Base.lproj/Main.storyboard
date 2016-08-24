@@ -311,7 +311,11 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Window" systemMenu="window" id="Td7-aD-5lo">
                                     <items>
-                                        <menuItem title="Log" keyEquivalent="L" id="8yS-xf-0KK"/>
+                                        <menuItem title="Log" keyEquivalent="L" id="8yS-xf-0KK">
+                                            <connections>
+                                                <segue destination="CCh-Gi-0B7" kind="show" id="p9H-QD-Ccu"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="DDr-bK-uMr"/>
                                         <menuItem title="Minimize" keyEquivalent="m" id="OY7-WF-poV">
                                             <connections>
@@ -378,7 +382,7 @@
         <!--Preferences-->
         <scene sceneID="PDg-ly-0zj">
             <objects>
-                <viewController title="Preferences" id="inA-Kj-4Ib" customClass="PreferencesViewController" customModule="UDPServerTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Preferences" id="inA-Kj-4Ib" customClass="PreferencesViewController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="h0I-4p-R9e">
                         <rect key="frame" x="0.0" y="0.0" width="410" height="89"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -427,6 +431,76 @@
                 <customObject id="sBa-0R-HYy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-396" y="355"/>
+        </scene>
+        <!--Log-->
+        <scene sceneID="MGi-c5-Guj">
+            <objects>
+                <viewController title="Log" id="6ib-ra-NYR" customClass="LogViewController" customModule="UDPServerTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="hG8-57-clT">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gX8-7C-62y">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                <clipView key="contentView" id="DHx-xZ-3yx">
+                                    <rect key="frame" x="1" y="1" width="478" height="268"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="x4O-RT-Vct">
+                                            <rect key="frame" x="0.0" y="0.0" width="478" height="268"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="478" height="268"/>
+                                            <size key="maxSize" width="480" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="478" height="268"/>
+                                            <size key="maxSize" width="480" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="ibm-cg-vIT">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="4h3-Eg-dz3">
+                                    <rect key="frame" x="463" y="1" width="16" height="268"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gX8-7C-62y" secondAttribute="trailing" id="OUy-os-6aZ"/>
+                            <constraint firstItem="gX8-7C-62y" firstAttribute="leading" secondItem="hG8-57-clT" secondAttribute="leading" id="ftM-XY-DVS"/>
+                            <constraint firstItem="gX8-7C-62y" firstAttribute="top" secondItem="hG8-57-clT" secondAttribute="top" id="hHz-Kg-2Pu"/>
+                            <constraint firstAttribute="bottom" secondItem="gX8-7C-62y" secondAttribute="bottom" id="ii4-qB-feE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="logView" destination="x4O-RT-Vct" id="LcK-vS-pYf"/>
+                    </connections>
+                </viewController>
+                <customObject id="4FI-sO-TwC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="648" y="477"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="C4J-Ca-xrV">
+            <objects>
+                <windowController id="CCh-Gi-0B7" sceneMemberID="viewController">
+                    <window key="window" title="Log" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="pjP-KM-tCk">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="93"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                    </window>
+                    <connections>
+                        <segue destination="6ib-ra-NYR" kind="relationship" relationship="window.shadowedContentViewController" id="Ya8-WO-QEW"/>
+                    </connections>
+                </windowController>
+                <customObject id="wIz-1c-GTR" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="648" y="226.5"/>
         </scene>
     </scenes>
 </document>
