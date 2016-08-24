@@ -93,9 +93,13 @@ struct VerboseSharkResponse : SharkResponse {
         return out
     }
     
+    var jsonSafeDictionaryRepresentation : [String:JSONObject] {
+        return makeJSONSafe(dictionaryRepresentation)
+    }
+    
     var dataRepresentation : NSData? {
         do {
-            return try NSJSONSerialization.dataWithJSONObject(dictionaryRepresentation, options: NSJSONWritingOptions(rawValue:0))
+            return try NSJSONSerialization.dataWithJSONObject(jsonSafeDictionaryRepresentation, options: NSJSONWritingOptions(rawValue:0))
         }
         catch {
             return nil

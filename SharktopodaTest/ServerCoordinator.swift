@@ -126,7 +126,12 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
             callback(response!)
-            
         }
+        
+//        TODO:
+//        case .getVideoInfo:
+//        case .getAllVideosInfo:
+//        case .requestStatus:
+
     }
 }

@@ -68,7 +68,7 @@ struct SharkCommand {
         return NSURL(string: url)
     }
     
-    var uuid : String? {    // TODO: switch to NSUUID?
+    var uuid : String? {    // TODO: switch to NSUUID, it makes for cleaner calling
         return data["uuid"] as? String
     }
 
@@ -97,7 +97,7 @@ struct SharkCommand {
         return NSURL(string: url)
     }
 
-    var imageReferenceUUID : String? {    // TODO: switch to NSUUID?
+    var imageReferenceUUID : String? {    // TODO: switch to NSUUID
         return data["image_reference_uuid"] as? String
     }
     

@@ -159,18 +159,18 @@ class PlayerViewController: NSViewController {
 
     func playVideoAtRate(rate:Double = 1) {
         
-        guard let videoPlayer = videoPlayer else { return } // TODO: should probably report this as a failure
+        let vPlayer = videoPlayer!  // If this is being called before there's a player, then there's something wrong...
         
-        if videoPlayer.currentTime() >= videoPlayer.currentItem?.duration {
-            let frameRate : Int32 = (videoPlayer.currentItem!.currentTime().timescale)
-            videoPlayer.seekToTime(CMTimeMakeWithSeconds(0, frameRate))
+        if vPlayer.currentTime() >= vPlayer.currentItem?.duration {
+            let frameRate : Int32 = (vPlayer.currentItem!.currentTime().timescale)
+            vPlayer.seekToTime(CMTimeMakeWithSeconds(0, frameRate))
         }
         
-        if videoPlayer.rate == 0 {
-            videoPlayer.play()
+        if vPlayer.rate == 0 {
+            vPlayer.play()
         }
-        if rate != Double(videoPlayer.rate) {
-            videoPlayer.setRate(Float(rate), time: kCMTimeInvalid, atHostTime: kCMTimeInvalid)
+        if rate != Double(vPlayer.rate) {
+            vPlayer.setRate(Float(rate), time: kCMTimeInvalid, atHostTime: kCMTimeInvalid)
         }
     }
 
