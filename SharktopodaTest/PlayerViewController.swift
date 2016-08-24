@@ -141,6 +141,8 @@ class PlayerViewController: NSViewController {
         
         // TODO: close the window
         print("The video load failed! (See the console output)");
+        
+        // TODO: really, this should be sent back to the client, if it was created from the udp interface
     }
 
     var videoPlaybackRate : Double {

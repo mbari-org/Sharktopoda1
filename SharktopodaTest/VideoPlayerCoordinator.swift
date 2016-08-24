@@ -204,13 +204,6 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     
     func returnInfoForFrontmostVideo() throws -> [String : AnyObject] {
         
-        // TODO: perhaps a better way would be to traverse the window list and look for the frontmost window that IS a pwc,
-        // but that's a pretty low-percentage case...
-        //        let frontwindow = NSApp.mainWindow
-        //        guard let frontpwc = frontwindow?.windowController as? PlayerWindowController else {
-        //            throw(errorWithCode(.focusedVideoWindowDoesNotExist, description: "There is no focused video window"))
-        //        }
-        
         guard let frontpwc = frontmostPlayerWindowController else {
             throw(errorWithCode(.focusedVideoWindowDoesNotExist, description: "There is no focused video window"))
         }

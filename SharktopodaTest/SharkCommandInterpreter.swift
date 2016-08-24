@@ -43,7 +43,7 @@ class SharkCommandInterpreter { // TODO: can this be a struct?
             getInfoForAllVideos(command, then:callback)
             
         case .requestStatus:
-            requestStatus(command, then:callback)
+            getVideoStatus(command, then:callback)
             
         case .play:
             play(command, then:callback)
@@ -133,15 +133,15 @@ class SharkCommandInterpreter { // TODO: can this be a struct?
         pauseCallback(uuid: uuid, command:command, then:callback)
     }
 
-    var requestStatusCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
-    func requestStatus(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var getVideoStatusCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
+    func getVideoStatus(command:SharkCommand, then callback:(SharkResponse) -> ()) {
         
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
             return
         }
         
-        requestStatusCallback(uuid: uuid, command:command, then:callback)
+        getVideoStatusCallback(uuid: uuid, command:command, then:callback)
     }
 
     // MARK:- Error Handling

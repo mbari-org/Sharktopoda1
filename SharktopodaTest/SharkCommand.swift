@@ -77,17 +77,27 @@ struct SharkCommand {
     }
 
     var port : UInt16? {
+        if let out = data["port"] as? UInt16 {
+            return out
+        }
         guard let port = data["port"] as? String else { return nil }
         return UInt16(port)
     }
 
     var rate : Double {
         
+        if let out = data["rate"] as? Double {
+            return out
+        }
         let rateString = data["rate"] as? String ?? "1"
         return Double(rateString)!
     }
     
     var timeStamp : UInt32? {
+ 
+        if let out = data["elapsed_time_millis"] as? UInt32 {
+            return out
+        }
         guard let port = data["elapsed_time_millis"] as? String else { return nil }
         return UInt32(port)
     }

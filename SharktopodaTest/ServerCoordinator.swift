@@ -147,7 +147,46 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             callback(response!)
         }
         
+        inInterpreter.getFrontmostVideoInfoCallback = { command, callback in
+            
+            var response : SharkResponse?
+            do {
+                guard let info = try self.videoCoordinator?.returnInfoForFrontmostVideo() else {
+                    let error = NSError(domain: "ServerCoordinator", code: 13, userInfo:
+                        [NSLocalizedDescriptionKey: "Unable to retrieve info for frontmost video"])
+                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                    callback(response!)
+                    return
+                }
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: info)
+           }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            callback(response!)
+        }
         
+        inInterpreter.getVideoStatusCallback = { uuid, command, callback in
+            
+            var response : SharkResponse?
+            do {
+                guard let status = try self.videoCoordinator?.requestPlaybackStatusForVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!) else {
+                    let error = NSError(domain: "ServerCoordinator", code: 14, userInfo:
+                        [NSLocalizedDescriptionKey: "Unable to retrieve playback status for frontmost video"])
+                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                    callback(response!)
+                    return
+                }
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["status":status.rawValue])
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            callback(response!)
+       }
+        
+/*      The following is useful (we needed to be able to do this before we could do some other things), but not part of the spec
+         
         inInterpreter.getInfoForVideoWithUUIDCallback = { uuid, command, callback in
             
             var response : SharkResponse?
@@ -167,9 +206,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             callback(response!)
         }
-        //        TODO:
-        //        case .getVideoInfo:
-//        case .requestStatus:
+ */
 
     }
 }
