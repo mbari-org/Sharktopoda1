@@ -9,11 +9,13 @@
 import Foundation
 
 /*
- This is the active part of the app.
- It interprets commands that are sent from the client app
+ Interprets commands that are sent from the client app,
+ verifies that they're well-formed,
  then redirects them to callbacks
+ 
+ It acts as a big dispatch table, tying commands to implementations.
  */
-class SharkCommandInterpreter: NSObject {
+class SharkCommandInterpreter { // TODO: can this be a struct?
     
     func handle(command:SharkCommand, fromClient clientAddress:String, then callback:(SharkResponse) -> ()) {
         
@@ -152,4 +154,17 @@ class SharkCommandInterpreter: NSObject {
         let error = missingParameterErrorForCommand(command, parameter: parameter)
         callbackError(error, forCommand: command, callback: callback)
     }
+}
+
+/*
+ An object that can (help to) configure a SharkCommandInterpreter.
+ 
+ */
+protocol SharkCommandInterpreterConfigurator {
+    
+    // given a command interpreter, modify it as you see fit to make it handle ceertain commands the way you want
+    // It's even possible that one configurator can pass a command interpreter on to another one,
+    // with each one applying some change or another to the way the interpreter handles different commands
+    func configureInterpreter(interpreter inInterpreter:SharkCommandInterpreter)
+
 }

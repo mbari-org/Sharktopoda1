@@ -46,51 +46,15 @@ class MessageHandler: NSObject {
     }(UDPSender())
 
     lazy var interpreter : SharkCommandInterpreter = {
+        
+        // this class gets the first shot at configuring the interpreter
         self.configureInterpreter(interpreter: $0)
         return $0
     }(SharkCommandInterpreter())
 
-    
-    func configureInterpreter(interpreter inInterpreter:SharkCommandInterpreter) {
-        
-        // these two implementations are summy implementations,
-        // a subclass will override them and develop something much more interesting
-        
-        inInterpreter.connectCallback = { port, host, command, callback in
-            
-            // NOTE: per the spec, this is only used for 
-            // "additional out-of-band messages to (outside of the UDP command -> response messages)"
-            // I would think it would be a way to do a handshake before receiving any other messages, 
-            // but that's not my understanding of the spec right now...
-            // if this were the case, then we'd want to:
-            // - verify that this host is allowed (perhaps as simple as a blacklist)
-            // - build a data structure of allowed host and port for this address
-            
-            // but for now, all we do is log the fact that a connection was made,
-            // as if the connection has been
-            self.log("Connected to \(host):\(port)", label:.start)
-            
-            // in fact, we don't even callback here
-            // callback(nil)
-        }
-        
-        inInterpreter.openCallback = { url, uuid, command, callback in
-            
-            let response : SharkResponse
-            
-            // for now, respond with a success for local urls and a failure for all others
-            if url.scheme == "file" {
-                response = VerboseSharkResponse(successfullyCompletedCommand: command)
-            }
-            else {
-                response = VerboseSharkResponse(failedCommand: command, error: NSError(domain: "MessageHandler", code: 888, userInfo: [NSLocalizedDescriptionKey:"We don't support non-file URLs"]), canSendAnyway:true)
-            }
-            callback(response)
-        }
-    }
-    
     let log = Log()
     
+    var nextInterpreterConfigurator : SharkCommandInterpreterConfigurator?
     
     
     // MARK:- Toggling Server
@@ -188,6 +152,54 @@ class MessageHandler: NSObject {
     // - all commands except connect must follow a previous connect: call
     // - connections time out after a reasonable time
 }
+
+// MARK:- SharkCommandInterpreterConfigurator
+
+extension MessageHandler : SharkCommandInterpreterConfigurator {
+    
+    func configureInterpreter(interpreter inInterpreter:SharkCommandInterpreter) {
+        
+        // these two implementations are summy implementations,
+        // a subclass will override them and develop something much more interesting
+        
+        inInterpreter.connectCallback = { port, host, command, callback in
+            
+            // NOTE: per the spec, this is only used for
+            // "additional out-of-band messages to (outside of the UDP command -> response messages)"
+            // I would think it would be a way to do a handshake before receiving any other messages,
+            // but that's not my understanding of the spec right now...
+            // if this were the case, then we'd want to:
+            // - verify that this host is allowed (perhaps as simple as a blacklist)
+            // - build a data structure of allowed host and port for this address
+            
+            // but for now, all we do is log the fact that a connection was made,
+            // as if the connection has been
+            self.log("Connected to \(host):\(port)", label:.start)
+            
+            // in fact, we don't even callback here
+            // callback(nil)
+        }
+        
+        inInterpreter.openCallback = { url, uuid, command, callback in
+            
+            let response : SharkResponse
+            
+            // for now, respond with a success for local urls and a failure for all others
+            if url.scheme == "file" {
+                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+            }
+            else {
+                response = VerboseSharkResponse(failedCommand: command, error: NSError(domain: "MessageHandler", code: 888, userInfo: [NSLocalizedDescriptionKey:"We don't support non-file URLs"]), canSendAnyway:true)
+            }
+            callback(response)
+        }
+        
+        // if we have a next configurator in the chain, then give it a chance at configuring the interpreter
+        nextInterpreterConfigurator?.configureInterpreter(interpreter: inInterpreter)
+    }
+}
+
+// MARK:- Logging
 
 
 extension MessageHandler : Logging {
