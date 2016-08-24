@@ -55,11 +55,17 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
         let possibleURL = requester.urlToPlay
         
         if let url = NSURL(string:possibleURL) {
-            do {
-                try self.openVideoAtURL(url, usingUUID:NSUUID())
-            }
-            catch let error as NSError {
-                NSAlert(error: error).runModal()
+            self.openVideoAtURL(url, usingUUID:NSUUID()) { (success, error) in
+                
+                if !success {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        let alert = NSAlert()
+                        alert.messageText = "Failed to Load Video"
+                        alert.informativeText = "Could not load video at \(url.description ?? "unknown")\n\nerror:\(error!.localizedDescription ?? "unknown")"
+                        alert.runModal()
+                    }
+                }
             }
         }
         // otherwise, do nothing...
@@ -79,14 +85,20 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
             if result == NSFileHandlingPanelOKButton {
                 if let url = openPanel.URL {
                     
-                    do {
-                        try self.openVideoAtURL(url, usingUUID:NSUUID())
-                    }
-                    catch let error as NSError {
-                        NSAlert(error: error).runModal()
+                    self.openVideoAtURL(url, usingUUID:NSUUID()) { (success, error) in
+                        
+                        if !success {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                
+                                let alert = NSAlert()
+                                alert.messageText = "Failed to Load Video"
+                                alert.informativeText = "Could not load video at \(url.description ?? "unknown")\n\nerror:\(error!.localizedDescription ?? "unknown")"
+                                alert.runModal()
+                            }
+
+                        }
                     }
                 }
-                // otherwise do nothing...
             }
         }
     }
@@ -175,11 +187,11 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     
     // the main function that validates and then shows a video given an URL
     // this is the method that is called no matter how a video url is chosen (via open dialog, via openURL window, or via network)
-    func openVideoAtURL(url:NSURL, usingUUID uuid:NSUUID) throws {
+    func openVideoAtURL(url:NSURL, usingUUID uuid:NSUUID, callback:(success:Bool, error:NSError?) -> ()) {
         
         switch validateURL(url) {
         case .error(let error):
-            throw error
+            callback(success: false, error: error)
         default:
             break
         }
@@ -188,6 +200,10 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         playerWC.uuid = uuid
         playerWC.videoURL = url
         playerWC.window?.delegate = self
+        
+        let playerVC = playerWC.playerViewController
+        playerVC.videoLoadCompletionCallback = callback
+        
         playerWC.showWindow(self)
         
         videoPlayerWindowControllers[uuid] = playerWC

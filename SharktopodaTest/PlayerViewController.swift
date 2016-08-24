@@ -79,6 +79,8 @@ final class PlayerViewController: NSViewController {
     
     // MARK:- Video Setup
     
+    var videoLoadCompletionCallback : ((success:Bool, error:NSError?) -> ())?
+    
     private func openVideo() {
         
         guard let url = url else { return }
@@ -94,6 +96,8 @@ final class PlayerViewController: NSViewController {
         
         videoPlayer?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil);
         videoPlayer?.currentItem?.addObserver(self, forKeyPath: "presentationSize", options: NSKeyValueObservingOptions(), context: nil);
+
+        // TODO: there should be a reasonable timeout
     }
     
     func processVideoPlayerStatus() {
@@ -101,8 +105,9 @@ final class PlayerViewController: NSViewController {
         //Verify we can read info about the asset currently loading
         if(videoPlayer?.currentItem == nil || videoPlayer?.currentItem?.status == nil){
             // this is too rare and wild to report to the suer, we just want the video windo to disappear in this case
-            debugPrint("A video asset's status changed but the asset or its status returned nil. Status unknown.");
-            videoLoadFailed();
+            let desc = ("A video asset's status changed but the asset or its status returned nil. Status unknown.");
+            print(desc)
+            videoLoadFailed(withError: NSError(domain: "PlayerViewController", code: 1, userInfo: [NSLocalizedDescriptionKey:desc]))
             return;
         }
         
@@ -117,20 +122,17 @@ final class PlayerViewController: NSViewController {
         }else if(videoStatus == AVPlayerItemStatus.Failed){
             let paybackError:NSError? = videoPlayer?.currentItem?.error;
             let asset = videoPlayer?.currentItem!.asset;
-            // TODO: report the error
-            print("A video asset failed to load.\n\tAsset Description: \(assetString)\n\tAsset Readable: \(asset?.readable)\n\tAsset Playable: \(asset?.playable)\n\tAsset Has Protected Content: \(asset?.hasProtectedContent)\n\tFull error output:\n\(paybackError)");
-            
-            let alert = NSAlert()
-            alert.messageText = "Failed to Load Video"
-            alert.informativeText = "Could not load video at \(videoURL?.description ?? "unknown")\n\nerror:\(paybackError?.localizedDescription ?? "unknown")"
-            alert.runModal()
-            
-            videoLoadFailed();
+
+            let desc = ("A video asset failed to load.\n\tAsset Description: \(assetString)\n\tAsset Readable: \(asset?.readable)\n\tAsset Playable: \(asset?.playable)\n\tAsset Has Protected Content: \(asset?.hasProtectedContent)\n\tFull error output:\n\(paybackError)");
+            print(desc)
+                        
+            videoLoadFailed(withError: paybackError ?? NSError(domain: "PlayerViewController", code: 2, userInfo: [NSLocalizedDescriptionKey:desc]));
         }else if(videoStatus == AVPlayerItemStatus.Unknown){
             //The asset should have started in an Unknown state, so it *should* not have changed into this state
-            debugPrint("A video asset has an unknown status. (Asset Description: \(assetString))");
+            let desc = ("A video asset has an unknown status. (Asset Description: \(assetString))");
+            print(desc)
             // this is another case that's too weird to show the user
-            videoLoadFailed();
+            videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: 3, userInfo: [NSLocalizedDescriptionKey:desc])));
         }
         
         //De-register for infomation about the item because it is now either ready or failed to load
@@ -145,9 +147,13 @@ final class PlayerViewController: NSViewController {
         
         // apparently, this must be set here, after the video is ready, or it will turn on anyway
         videoPlayer?.allowsExternalPlayback = false
+        
+        // notify the callback that loading was successful
+        videoLoadCompletionCallback?(success:true, error:nil)
+        videoLoadCompletionCallback = nil   // clear it to be safe
     }
     
-    func videoLoadFailed(){
+    func videoLoadFailed(withError error:NSError){
         
         // There's no video to show, so close the window
         // if it's appropriate, the calling method has handled user notification
@@ -155,7 +161,9 @@ final class PlayerViewController: NSViewController {
         
         print("The video load failed! (See the console output)");
         
-        // TODO: really, this should be sent back to the client if it was created from the udp interface, as a response object
+        // notify the callback that loading failed and pass along the error
+        videoLoadCompletionCallback?(success: false, error: error)
+        videoLoadCompletionCallback = nil   // clear it to be safe
     }
 
     var videoPlaybackRate : Double {

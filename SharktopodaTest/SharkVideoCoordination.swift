@@ -26,14 +26,16 @@ enum SharkVideoPlaybackStatus : String {
 
 protocol SharkVideoCoordination {
     
-    // note: all of these methods are marked as throws 
+    // video loading requires some asynchronicity as the video file is loaded from disk or ther network
+    // so we need a callback to be called after the video load has succeeded or failed
+    // if success is false, then you should expect error to not be nil
+    func openVideoAtURL(url:NSURL, usingUUID uuid:NSUUID, callback:(success:Bool, error:NSError?) -> ())
+
+    // note: all of these methods are marked as throws
     // because they can be called by the ServerCoordinator
     // which will want to handle all errors the same way
-    // TODO: really, it might make sense to have them all report their results in a callback instead: consider it
-    
-    func openVideoAtURL(url:NSURL, usingUUID uuid:NSUUID) throws
-    
-    ////    Request Video Information for a Specific Window 
+
+    ////    Request Video Information for a Specific Window
     // (sperated into two methods for 2 slightly different use cases)
     func returnInfoForVideoWithUUID(uuid:NSUUID) throws -> [String:AnyObject]
     ////    It should return the UUID and URL of the currently focused (or top most in z order)

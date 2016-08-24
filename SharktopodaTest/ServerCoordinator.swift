@@ -76,17 +76,26 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
 
         inInterpreter.openCallback = { url, uuid, command, callback in
             
-            var response : SharkResponse?
+//            var response : SharkResponse?
             
-            do {
-                try self.videoCoordinator?.openVideoAtURL(url, usingUUID: NSUUID(UUIDString: uuid)!)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+            self.videoCoordinator?.openVideoAtURL(url, usingUUID: NSUUID(UUIDString: uuid)!) { success, error in
+                
+                if success {
+                    callback(VerboseSharkResponse(successfullyCompletedCommand: command))
+                }
+                else {
+                    callback(VerboseSharkResponse(failedCommand: command, error: error!, canSendAnyway: true))
+                }
             }
-            catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-            }
+//            do {
+//                try self.videoCoordinator?.openVideoAtURL(url, usingUUID: NSUUID(UUIDString: uuid)!)
+//                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+//            }
+//            catch let error as NSError {
+//                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+//            }
             
-            callback(response!)
+//            callback(response!)
         }
 
         inInterpreter.playCallback = { uuid, rate, command, callback in
