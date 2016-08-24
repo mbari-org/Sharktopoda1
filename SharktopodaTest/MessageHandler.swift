@@ -208,7 +208,7 @@ extension MessageHandler : Logging {
         
         #if false
             // to simultaneously log everything to the console as well, include this line
-        NSLog(message)  // TODO: Do I need this?
+        NSLog(message)  
         #endif
         log.log(message, label: label)
     }

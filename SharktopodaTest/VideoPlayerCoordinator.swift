@@ -114,7 +114,6 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     }()
     
     @IBAction func showTestWindow(sender:AnyObject) {
-        print(#function)
         
         testWindowController.showWindow(self)
     }

@@ -97,7 +97,7 @@ final class PlayerViewController: NSViewController {
         videoPlayer?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil);
         videoPlayer?.currentItem?.addObserver(self, forKeyPath: "presentationSize", options: NSKeyValueObservingOptions(), context: nil);
 
-        // TODO: there should be a reasonable timeout
+        // TODO: what about a reasonable timeout
     }
     
     func processVideoPlayerStatus() {
@@ -106,7 +106,7 @@ final class PlayerViewController: NSViewController {
         if(videoPlayer?.currentItem == nil || videoPlayer?.currentItem?.status == nil){
             // this is too rare and wild to report to the suer, we just want the video windo to disappear in this case
             let desc = ("A video asset's status changed but the asset or its status returned nil. Status unknown.");
-            print(desc)
+            debugPrint(desc)
             videoLoadFailed(withError: NSError(domain: "PlayerViewController", code: 1, userInfo: [NSLocalizedDescriptionKey:desc]))
             return;
         }
@@ -124,13 +124,13 @@ final class PlayerViewController: NSViewController {
             let asset = videoPlayer?.currentItem!.asset;
 
             let desc = ("A video asset failed to load.\n\tAsset Description: \(assetString)\n\tAsset Readable: \(asset?.readable)\n\tAsset Playable: \(asset?.playable)\n\tAsset Has Protected Content: \(asset?.hasProtectedContent)\n\tFull error output:\n\(paybackError)");
-            print(desc)
+            debugPrint(desc)
                         
             videoLoadFailed(withError: paybackError ?? NSError(domain: "PlayerViewController", code: 2, userInfo: [NSLocalizedDescriptionKey:desc]));
         }else if(videoStatus == AVPlayerItemStatus.Unknown){
             //The asset should have started in an Unknown state, so it *should* not have changed into this state
             let desc = ("A video asset has an unknown status. (Asset Description: \(assetString))");
-            print(desc)
+            debugPrint(desc)
             // this is another case that's too weird to show the user
             videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: 3, userInfo: [NSLocalizedDescriptionKey:desc])));
         }
