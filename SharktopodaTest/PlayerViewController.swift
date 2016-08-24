@@ -52,6 +52,8 @@ final class PlayerViewController: NSViewController {
         super.viewWillAppear()
         
         if nil == videoPlayer {
+            // TODO: see if we can keep the window hidden until the status has changed to something we know will work...
+            // could be a better experience than blitting the window...
             openVideo()
         }
     }
@@ -98,6 +100,7 @@ final class PlayerViewController: NSViewController {
         
         //Verify we can read info about the asset currently loading
         if(videoPlayer?.currentItem == nil || videoPlayer?.currentItem?.status == nil){
+            // this is too rare and wild to report to the suer, we just want the video windo to disappear in this case
             debugPrint("A video asset's status changed but the asset or its status returned nil. Status unknown.");
             videoLoadFailed();
             return;
@@ -116,10 +119,17 @@ final class PlayerViewController: NSViewController {
             let asset = videoPlayer?.currentItem!.asset;
             // TODO: report the error
             print("A video asset failed to load.\n\tAsset Description: \(assetString)\n\tAsset Readable: \(asset?.readable)\n\tAsset Playable: \(asset?.playable)\n\tAsset Has Protected Content: \(asset?.hasProtectedContent)\n\tFull error output:\n\(paybackError)");
+            
+            let alert = NSAlert()
+            alert.messageText = "Failed to Load Video"
+            alert.informativeText = "Could not load video at \(videoURL?.description ?? "unknown")\n\nerror:\(paybackError?.localizedDescription ?? "unknown")"
+            alert.runModal()
+            
             videoLoadFailed();
         }else if(videoStatus == AVPlayerItemStatus.Unknown){
             //The asset should have started in an Unknown state, so it *should* not have changed into this state
             debugPrint("A video asset has an unknown status. (Asset Description: \(assetString))");
+            // this is another case that's too weird to show the user
             videoLoadFailed();
         }
         
@@ -139,10 +149,13 @@ final class PlayerViewController: NSViewController {
     
     func videoLoadFailed(){
         
-        // TODO: close the window
+        // There's no video to show, so close the window
+        // if it's appropriate, the calling method has handled user notification
+        view.window?.windowController?.close()
+        
         print("The video load failed! (See the console output)");
         
-        // TODO: really, this should be sent back to the client, if it was created from the udp interface
+        // TODO: really, this should be sent back to the client if it was created from the udp interface, as a response object
     }
 
     var videoPlaybackRate : Double {
