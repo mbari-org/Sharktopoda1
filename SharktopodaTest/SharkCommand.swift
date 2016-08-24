@@ -47,6 +47,7 @@ struct SharkCommand {
                 return ["uuid"]
                 
             // TODO: fill out the rest of these
+                // or at least the ones I currently support
                 
             default:
                 return []
@@ -67,7 +68,7 @@ struct SharkCommand {
         return NSURL(string: url)
     }
     
-    var uuid : String? {    // TODO: is there a better repesentation for this?
+    var uuid : String? {    // TODO: switch to NSUUID?
         return data["uuid"] as? String
     }
 
@@ -95,7 +96,7 @@ struct SharkCommand {
         return NSURL(string: url)
     }
 
-    var imageReferenceUUID : String? {    // TODO: is there a better repesentation for this?
+    var imageReferenceUUID : String? {    // TODO: switch to NSUUID?
         return data["image_reference_uuid"] as? String
     }
     
