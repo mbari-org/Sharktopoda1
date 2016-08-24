@@ -97,11 +97,11 @@ class SharkCommandInterpreter { // TODO: can this be a struct?
         showCallback(uuid: uuid, command:command, then:callback)
     }
 
-    var getVideoWithUUIDInfoCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
+    var getInfoForVideoWithUUIDCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
     var getFrontmostVideoInfoCallback : (command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _ in }
     func getVideoInfo(command:SharkCommand, then callback:(SharkResponse) -> ()) {
         if let uuid = command.uuid {
-            getVideoWithUUIDInfoCallback(uuid: uuid, command: command, then: callback)
+            getInfoForVideoWithUUIDCallback(uuid: uuid, command: command, then: callback)
         }
         else {
             getFrontmostVideoInfoCallback(command: command, then: callback)

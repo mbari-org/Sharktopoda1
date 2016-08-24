@@ -148,9 +148,27 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
         }
         
         
-//        TODO:
-//        case .getVideoInfo:
-//        case .getAllVideosInfo:
+        inInterpreter.getInfoForVideoWithUUIDCallback = { uuid, command, callback in
+            
+            var response : SharkResponse?
+            do {
+                guard let info = try self.videoCoordinator?.returnInfoForVideoWithUUID(NSUUID(UUIDString: uuid)!) else {
+                    let error = NSError(domain: "ServerCoordinator", code: 12, userInfo:
+                        [NSLocalizedDescriptionKey: "Unable to retrieve info for video with uuid \(uuid)"])
+                   response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                    callback(response!)
+                    return
+                }
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: info)
+           }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            
+            callback(response!)
+        }
+        //        TODO:
+        //        case .getVideoInfo:
 //        case .requestStatus:
 
     }

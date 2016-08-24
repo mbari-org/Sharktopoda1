@@ -26,6 +26,9 @@ I use one third party library: CocoaAsyncSocket, to handle UDP. For the purposes
 About the 'connect' command:
 If I am hired for this project, I will want more guidance on how to approach this.  When I first read the spec, I took "connect" to mean that the client would have to send a connect message and receive a response before Sharktopoda would accept any other messages from that client.  I also took it to mean that the client would listen for responses from the server on the port passed in the 'connect' message.  On further reading, however, it appears that only SOME messages are meant to be restricted in this way.  As of this moment, this app logs any connect message, but doesn't do anything else with the connect message. It sends back responses on an arbitrary port number that's stored in a preferences file, not the most secure way to go... I've commented in a couple places in the code how I would approach it if 'connect' is meant to be more restrictive, which I would highly recommend from a security standpoint.
 
+About responses:
+In the requirements page, some commands' responses include a 'status' key (e.g. open) while others do not (e.g. 'request video information').  For this project, all command responses include a 'status' element, which can be either 'ok' or 'failed'
+
 There is a dummy client app in the UDPServerTest Project (the second target) that can be used to send messages to this app for testing purposes.
 There's also a test app that includes a test panel to see how the networking commands (once they're interprested by the networking layer) will control the video.
 
