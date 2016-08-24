@@ -1,0 +1,35 @@
+This is the beginnings of an implementation of Sharktopoda as it's described at https://github.com/underwatervideo/Sharktopoda/blob/master/REQUIREMENTS.md
+
+It uses a MVCNC architecture: Model-View-Controller-Networking-Coordinator
+This is like MVC with 2 major distinctions:
+1) Coordinators run the high level logic: deciding which windows are shown when, handling app-level logic, and integrating the Networking and Controller Layers
+2) A Networking layer is separate from the app logic and controller layer.  It is owned by the coordinator layer, and controllers can have a reference to it and interact with it (both getting updates and making changes)
+
+This project implements a subset of the features mentioned at the requirements page, just enough to make the rest of the process relatively easy should you accept my bid.  The app can:
+
+- load a video via the GUI either from an NSOpenPanel (for local files) or a separate openURL… dialog (for web videos)
+- show a standard set of floating controls for the video
+- respond to a subset of the Sharktopoda commands listed in the requirements page:
+open - either file: or http: urls
+play/pause (and play at various rates)
+show - bring a video window to the top based on its uuid
+request status
+request info for frontmost video
+request info for a video by uuid
+request info for all videos
+
+- accept a connect command, but at the moment, it simply logs the result
+- log to its own custom library that is seamless across the UI and allows for color-coded logging levels
+
+I use one third party library: CocoaAsyncSocket, to handle UDP. For the purposes of the demo, I've simply included the 2 files I need, but a production app would of course use cocoapods to guarantee it was up to date.
+
+About the 'connect' command:
+If I am hired for this project, I will want more guidance on how to approach this.  When I first read the spec, I took "connect" to mean that the client would have to send a connect message and receive a response before Sharktopoda would accept any other messages from that client.  I also took it to mean that the client would listen for responses from the server on the port passed in the 'connect' message.  On further reading, however, it appears that only SOME messages are meant to be restricted in this way.  As of this moment, this app logs any connect message, but doesn't do anything else with the connect message. It sends back responses on an arbitrary port number that's stored in a preferences file, not the most secure way to go... I've commented in a couple places in the code how I would approach it if 'connect' is meant to be more restrictive, which I would highly recommend from a security standpoint.
+
+There is a dummy client app in the UDPServerTest Project (the second target) that can be used to send messages to this app for testing purposes.
+There's also a test app that includes a test panel to see how the networking commands (once they're interprested by the networking layer) will control the video.
+
+Whether you accept my bid or not, I want to thank you for an interesting challenge. I hope to work with you on this some more.
+
+
+TODO: mark most classes as final

@@ -11,10 +11,16 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    var serverCoordinator : ServerCoordinator?
 
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        // Insert code here to initialize your application
+
+        serverCoordinator = ServerCoordinator()
+    
+        // add the serverCoordinator to the responder chain so it can respond to menu items
+        NSApp.nextResponder = serverCoordinator
+
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

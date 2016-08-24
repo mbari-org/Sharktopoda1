@@ -8,18 +8,43 @@
 
 /* Begin PBXBuildFile section */
 		7C09E2991D6D3836002F986C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2981D6D3836002F986C /* AppDelegate.swift */; };
-		7C09E29B1D6D3836002F986C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E29A1D6D3836002F986C /* ViewController.swift */; };
 		7C09E29D1D6D3836002F986C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C09E29C1D6D3836002F986C /* Assets.xcassets */; };
 		7C09E2A01D6D3836002F986C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C09E29E1D6D3836002F986C /* Main.storyboard */; };
+		7C09E2AB1D6D4C08002F986C /* ServerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2AA1D6D4C08002F986C /* ServerCoordinator.swift */; };
+		7C09E2AE1D6D4C41002F986C /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2AD1D6D4C41002F986C /* MessageHandler.swift */; };
+		7C09E2B11D6D4C79002F986C /* MessageHandlerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2B01D6D4C79002F986C /* MessageHandlerViewController.swift */; };
+		7C09E2B41D6D4CA5002F986C /* NSUserDefaults+ServerPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2B31D6D4CA5002F986C /* NSUserDefaults+ServerPreferences.swift */; };
+		7C09E2B71D6D4D15002F986C /* SharkCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2B61D6D4D15002F986C /* SharkCommand.swift */; };
+		7C09E2B91D6D4D2C002F986C /* SharkCommandInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2B81D6D4D2C002F986C /* SharkCommandInterpreter.swift */; };
+		7C09E2BB1D6D4D35002F986C /* SharkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2BA1D6D4D35002F986C /* SharkResponse.swift */; };
+		7C09E2BE1D6D4E6B002F986C /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2BD1D6D4E6B002F986C /* Logging.swift */; };
+		7C09E2C01D6D4F43002F986C /* IPGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */; };
+		7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C11D6D4F58002F986C /* UDPService.swift */; };
+		7C09E2C41D6D4F63002F986C /* UDPSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C31D6D4F63002F986C /* UDPSender.swift */; };
+		7C09E2CA1D6D4F96002F986C /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C91D6D4F96002F986C /* GCDAsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7C09E2951D6D3836002F986C /* SharktopodaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharktopodaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C09E2981D6D3836002F986C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7C09E29A1D6D3836002F986C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7C09E29C1D6D3836002F986C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C09E29F1D6D3836002F986C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7C09E2A11D6D3836002F986C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C09E2A71D6D3885002F986C /* notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.txt; sourceTree = "<group>"; };
+		7C09E2AA1D6D4C08002F986C /* ServerCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerCoordinator.swift; sourceTree = "<group>"; };
+		7C09E2AD1D6D4C41002F986C /* MessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageHandler.swift; sourceTree = "<group>"; };
+		7C09E2B01D6D4C79002F986C /* MessageHandlerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageHandlerViewController.swift; sourceTree = "<group>"; };
+		7C09E2B31D6D4CA5002F986C /* NSUserDefaults+ServerPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+ServerPreferences.swift"; sourceTree = "<group>"; };
+		7C09E2B61D6D4D15002F986C /* SharkCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharkCommand.swift; sourceTree = "<group>"; };
+		7C09E2B81D6D4D2C002F986C /* SharkCommandInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharkCommandInterpreter.swift; sourceTree = "<group>"; };
+		7C09E2BA1D6D4D35002F986C /* SharkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharkResponse.swift; sourceTree = "<group>"; };
+		7C09E2BD1D6D4E6B002F986C /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPGeneral.swift; sourceTree = "<group>"; };
+		7C09E2C11D6D4F58002F986C /* UDPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPService.swift; sourceTree = "<group>"; };
+		7C09E2C31D6D4F63002F986C /* UDPSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPSender.swift; sourceTree = "<group>"; };
+		7C09E2C71D6D4F96002F986C /* SharktopodaTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SharktopodaTest-Bridging-Header.h"; sourceTree = "<group>"; };
+		7C09E2C81D6D4F96002F986C /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		7C09E2C91D6D4F96002F986C /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +61,7 @@
 		7C09E28C1D6D3836002F986C = {
 			isa = PBXGroup;
 			children = (
+				7C09E2A71D6D3885002F986C /* notes.txt */,
 				7C09E2971D6D3836002F986C /* SharktopodaTest */,
 				7C09E2961D6D3836002F986C /* Products */,
 			);
@@ -52,13 +78,90 @@
 		7C09E2971D6D3836002F986C /* SharktopodaTest */ = {
 			isa = PBXGroup;
 			children = (
-				7C09E2981D6D3836002F986C /* AppDelegate.swift */,
-				7C09E29A1D6D3836002F986C /* ViewController.swift */,
+				7C09E2A91D6D4BF4002F986C /* Coordinator */,
+				7C09E2AF1D6D4C52002F986C /* Controller */,
+				7C09E2B51D6D4D04002F986C /* Model */,
+				7C09E2AC1D6D4C29002F986C /* Networking */,
+				7C09E2B21D6D4C9A002F986C /* Preferences & Defaults */,
 				7C09E29C1D6D3836002F986C /* Assets.xcassets */,
 				7C09E29E1D6D3836002F986C /* Main.storyboard */,
 				7C09E2A11D6D3836002F986C /* Info.plist */,
+				7C09E2C71D6D4F96002F986C /* SharktopodaTest-Bridging-Header.h */,
 			);
 			path = SharktopodaTest;
+			sourceTree = "<group>";
+		};
+		7C09E2A91D6D4BF4002F986C /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2981D6D3836002F986C /* AppDelegate.swift */,
+				7C09E2AA1D6D4C08002F986C /* ServerCoordinator.swift */,
+			);
+			name = Coordinator;
+			sourceTree = "<group>";
+		};
+		7C09E2AC1D6D4C29002F986C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */,
+				7C09E2AD1D6D4C41002F986C /* MessageHandler.swift */,
+				7C09E2C11D6D4F58002F986C /* UDPService.swift */,
+				7C09E2C31D6D4F63002F986C /* UDPSender.swift */,
+				7C09E2C51D6D4F79002F986C /* Third Party */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		7C09E2AF1D6D4C52002F986C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2B01D6D4C79002F986C /* MessageHandlerViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		7C09E2B21D6D4C9A002F986C /* Preferences & Defaults */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2B31D6D4CA5002F986C /* NSUserDefaults+ServerPreferences.swift */,
+			);
+			name = "Preferences & Defaults";
+			sourceTree = "<group>";
+		};
+		7C09E2B51D6D4D04002F986C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2B61D6D4D15002F986C /* SharkCommand.swift */,
+				7C09E2B81D6D4D2C002F986C /* SharkCommandInterpreter.swift */,
+				7C09E2BA1D6D4D35002F986C /* SharkResponse.swift */,
+				7C09E2BC1D6D4DF7002F986C /* Logging */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		7C09E2BC1D6D4DF7002F986C /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2BD1D6D4E6B002F986C /* Logging.swift */,
+			);
+			name = Logging;
+			sourceTree = "<group>";
+		};
+		7C09E2C51D6D4F79002F986C /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2C61D6D4F8C002F986C /* CocoaAsynchSocket */,
+			);
+			name = "Third Party";
+			sourceTree = "<group>";
+		};
+		7C09E2C61D6D4F8C002F986C /* CocoaAsynchSocket */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2C81D6D4F96002F986C /* GCDAsyncUdpSocket.h */,
+				7C09E2C91D6D4F96002F986C /* GCDAsyncUdpSocket.m */,
+			);
+			name = CocoaAsynchSocket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,8 +234,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C09E29B1D6D3836002F986C /* ViewController.swift in Sources */,
 				7C09E2991D6D3836002F986C /* AppDelegate.swift in Sources */,
+				7C09E2AE1D6D4C41002F986C /* MessageHandler.swift in Sources */,
+				7C09E2B41D6D4CA5002F986C /* NSUserDefaults+ServerPreferences.swift in Sources */,
+				7C09E2B91D6D4D2C002F986C /* SharkCommandInterpreter.swift in Sources */,
+				7C09E2BB1D6D4D35002F986C /* SharkResponse.swift in Sources */,
+				7C09E2AB1D6D4C08002F986C /* ServerCoordinator.swift in Sources */,
+				7C09E2B11D6D4C79002F986C /* MessageHandlerViewController.swift in Sources */,
+				7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */,
+				7C09E2C41D6D4F63002F986C /* UDPSender.swift in Sources */,
+				7C09E2BE1D6D4E6B002F986C /* Logging.swift in Sources */,
+				7C09E2B71D6D4D15002F986C /* SharkCommand.swift in Sources */,
+				7C09E2CA1D6D4F96002F986C /* GCDAsyncUdpSocket.m in Sources */,
+				7C09E2C01D6D4F43002F986C /* IPGeneral.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,11 +350,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SharktopodaTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.SharktopodaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SharktopodaTest/SharktopodaTest-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -248,11 +365,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SharktopodaTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.SharktopodaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SharktopodaTest/SharktopodaTest-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -275,6 +394,7 @@
 				7C09E2A61D6D3836002F986C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
