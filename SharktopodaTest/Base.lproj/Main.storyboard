@@ -435,7 +435,7 @@
         <!--Log-->
         <scene sceneID="MGi-c5-Guj">
             <objects>
-                <viewController title="Log" id="6ib-ra-NYR" customClass="LogViewController" customModule="UDPServerTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Log" id="6ib-ra-NYR" customClass="LogViewController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="hG8-57-clT">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
