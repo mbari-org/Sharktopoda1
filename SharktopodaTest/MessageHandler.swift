@@ -206,6 +206,10 @@ extension MessageHandler : Logging {
     
     func log(message:String, label:LogLabel) {
         
+        #if false
+            // to simultaneously log everything to the console as well, include this line
+        NSLog(message)  // TODO: Do I need this?
+        #endif
         log.log(message, label: label)
     }
 }
