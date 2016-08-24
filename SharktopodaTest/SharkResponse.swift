@@ -42,6 +42,8 @@ struct VerboseSharkResponse : SharkResponse {
     // an error if the command failed
     // may or may not be there if succeeded == false, depending on how it was created
     var error : NSError? = nil
+    // by default, a failure won't be sent to the client in a response,
+    // set this to true to allow a failure to be sent
     var allowSendingOnFailure = false
     
     // any other information that should be passed along

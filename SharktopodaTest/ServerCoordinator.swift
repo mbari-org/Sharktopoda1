@@ -18,7 +18,12 @@ import Cocoa
  */
 class ServerCoordinator: NSResponder {
 
-    let messageHandler = MessageHandler()
+    lazy var messageHandler : MessageHandler = {
+        $0.nextInterpreterConfigurator = self
+        return $0
+    } (MessageHandler())
+    
+    var videoCoordinator : SharkVideoCoordination?
     
     override init() {
         super.init()
@@ -65,4 +70,63 @@ class ServerCoordinator: NSResponder {
     }
 }
 
+extension ServerCoordinator : SharkCommandInterpreterConfigurator {
+    
+    func configureInterpreter(interpreter inInterpreter: SharkCommandInterpreter) {
 
+        inInterpreter.openCallback = { url, uuid, command, callback in
+            
+            var response : SharkResponse?
+            
+            do {
+                try self.videoCoordinator?.openVideoAtURL(url, usingUUID: NSUUID(UUIDString: uuid)!)
+                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            
+            callback(response!)
+        }
+
+        inInterpreter.playCallback = { uuid, rate, command, callback in
+            
+            var response : SharkResponse?
+            do {
+                try self.videoCoordinator?.playVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!, rate: rate)
+                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            callback(response!)
+        }
+        
+        inInterpreter.pauseCallback = { uuid, command, callback in
+            
+            var response : SharkResponse?
+            do {
+                try self.videoCoordinator?.pauseVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!)
+                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            callback(response!)
+        }
+        
+        inInterpreter.showCallback = { uuid, command, callback in
+            
+            var response : SharkResponse?
+            do {
+                try self.videoCoordinator?.focusWindowForVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!)
+                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            callback(response!)
+            
+        }
+    }
+}

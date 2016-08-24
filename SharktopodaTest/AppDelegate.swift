@@ -22,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // add the serverCoordinator to the responder chain so it can respond to menu items
         NSApp.nextResponder = serverCoordinator
         serverCoordinator?.nextResponder = videoCoordinator
+        serverCoordinator?.videoCoordinator = videoCoordinator
         
         // show the openURL prompt when we first load
 //        videoCoordinator.openURL(self)

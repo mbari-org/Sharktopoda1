@@ -261,6 +261,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     func pauseVideoWithUUID(uuid inUUID:NSUUID) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
         
+        // TODO: should this fail if the video is already paused?  I would think not, but think about it...
         pwc.playerViewController.pauseVideo(self)
     }
 

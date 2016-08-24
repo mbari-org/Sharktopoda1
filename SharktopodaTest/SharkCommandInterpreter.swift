@@ -14,6 +14,11 @@ import Foundation
  then redirects them to callbacks
  
  It acts as a big dispatch table, tying commands to implementations.
+ 
+ NOTE: if the interpreter doesn't have a callback set for a given command,
+        then it will simply be dropped.  
+        The caller may know about it, but no response will be sent.
+        This is another layer of security, ensuring that only commands we are expecting are responded to.
  */
 class SharkCommandInterpreter { // TODO: can this be a struct?
     
@@ -108,24 +113,24 @@ class SharkCommandInterpreter { // TODO: can this be a struct?
         getInfoForAllVideosCallback(command: command, then: callback)
     }
     
-    var playCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
+    var playCallback : (uuid:String, rate:Double, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _, _ in }
     func play(command:SharkCommand, then callback:(SharkResponse) -> ()) {
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
             return
         }
-        
-        playCallback(uuid: uuid, command:command, then:callback)
+        let rate = command.rate
+        playCallback(uuid: uuid, rate:rate, command:command, then:callback)
     }
     
-    var pauseCallback : (uuid:String, then:(SharkResponse) -> ()) -> () = { _, _ in }
+    var pauseCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
     func pause(command:SharkCommand, then callback:(SharkResponse) -> ()) {
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
             return
         }
         
-        pauseCallback(uuid: uuid, then:callback)
+        pauseCallback(uuid: uuid, command:command, then:callback)
     }
 
     var requestStatusCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }

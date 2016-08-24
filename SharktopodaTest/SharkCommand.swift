@@ -81,9 +81,10 @@ struct SharkCommand {
         return UInt16(port)
     }
 
-    var rate : Double? {
-        guard let port = data["rate"] as? String else { return nil }
-        return Double(port)
+    var rate : Double {
+        
+        let rateString = data["rate"] as? String ?? "1"
+        return Double(rateString)!
     }
     
     var timeStamp : UInt32? {
