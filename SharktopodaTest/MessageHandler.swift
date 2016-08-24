@@ -206,7 +206,6 @@ extension MessageHandler : Logging {
     
     func log(message:String, label:LogLabel) {
         
-        NSLog(message)  // TODO: Do I need this?
         log.log(message, label: label)
     }
 }
