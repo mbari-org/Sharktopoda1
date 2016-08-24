@@ -29,6 +29,8 @@
 		7C09E2D61D6D59C4002F986C /* SharkVideoCoordination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2D51D6D59C4002F986C /* SharkVideoCoordination.swift */; };
 		7C09E2DB1D6D5B1A002F986C /* PlayerWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2D91D6D5B1A002F986C /* PlayerWindowController.swift */; };
 		7C09E2DC1D6D5B1A002F986C /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DA1D6D5B1A002F986C /* PlayerViewController.swift */; };
+		7C09E2E01D6D5D02002F986C /* OpenURLPromptWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DE1D6D5D02002F986C /* OpenURLPromptWindowController.swift */; };
+		7C09E2E11D6D5D02002F986C /* OpenURLPromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,8 @@
 		7C09E2D51D6D59C4002F986C /* SharkVideoCoordination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharkVideoCoordination.swift; sourceTree = "<group>"; };
 		7C09E2D91D6D5B1A002F986C /* PlayerWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerWindowController.swift; sourceTree = "<group>"; };
 		7C09E2DA1D6D5B1A002F986C /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		7C09E2DE1D6D5D02002F986C /* OpenURLPromptWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLPromptWindowController.swift; sourceTree = "<group>"; };
+		7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLPromptViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				7C09E2D81D6D5AF2002F986C /* Video Player */,
+				7C09E2DD1D6D5CF6002F986C /* Open URL Prompt */,
 				7C09E2D71D6D5AD4002F986C /* Server Side */,
 			);
 			name = Controller;
@@ -215,6 +220,15 @@
 				7C09E2DA1D6D5B1A002F986C /* PlayerViewController.swift */,
 			);
 			name = "Video Player";
+			sourceTree = "<group>";
+		};
+		7C09E2DD1D6D5CF6002F986C /* Open URL Prompt */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2DE1D6D5D02002F986C /* OpenURLPromptWindowController.swift */,
+				7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */,
+			);
+			name = "Open URL Prompt";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,10 +317,12 @@
 				7C09E2C41D6D4F63002F986C /* UDPSender.swift in Sources */,
 				7C09E2D61D6D59C4002F986C /* SharkVideoCoordination.swift in Sources */,
 				7C09E2BE1D6D4E6B002F986C /* Logging.swift in Sources */,
+				7C09E2E11D6D5D02002F986C /* OpenURLPromptViewController.swift in Sources */,
 				7C09E2B71D6D4D15002F986C /* SharkCommand.swift in Sources */,
 				7C09E2CA1D6D4F96002F986C /* GCDAsyncUdpSocket.m in Sources */,
 				7C09E2C01D6D4F43002F986C /* IPGeneral.swift in Sources */,
 				7C09E2D21D6D5966002F986C /* VideoPlayerCoordinator.swift in Sources */,
+				7C09E2E01D6D5D02002F986C /* OpenURLPromptWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
