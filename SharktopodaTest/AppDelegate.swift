@@ -9,7 +9,7 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
 
     var serverCoordinator : ServerCoordinator?
     let videoCoordinator = VideoPlayerCoordinator()

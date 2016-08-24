@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class LogViewController: MessageHandlerViewController {
+final class LogViewController: MessageHandlerViewController {
 
     @IBOutlet var logView: NSTextView! {
         didSet {

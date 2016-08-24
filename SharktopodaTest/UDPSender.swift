@@ -12,7 +12,7 @@ import Foundation
  This is an object that can send messages via UDP
  It maintains a dictionary of messages sent and the times they were sent 
  */
-class UDPSender: NSObject {
+final class UDPSender: NSObject {
 
     private var q : dispatch_queue_t = dispatch_get_main_queue()
     

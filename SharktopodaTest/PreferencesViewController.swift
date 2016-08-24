@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class PreferencesViewController: MessageHandlerViewController {
+final class PreferencesViewController: MessageHandlerViewController {
 
     @IBOutlet weak var portField: NSTextField!
     @IBOutlet weak var startStopButton: NSButton!

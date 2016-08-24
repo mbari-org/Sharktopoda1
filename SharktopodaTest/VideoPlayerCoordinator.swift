@@ -12,7 +12,7 @@ import Cocoa
  Coorindates video playback through a group of window controllers.
  Basically, handles the video playback aspect of the app
  */
-class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
+final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     
     
     struct StoryboardIdentifiers {

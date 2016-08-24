@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class OpenURLPromptViewController: NSViewController {
+final class OpenURLPromptViewController: NSViewController {
 
     @IBOutlet weak var urlField: NSTextField!
 

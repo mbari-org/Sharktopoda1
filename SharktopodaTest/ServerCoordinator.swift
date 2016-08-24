@@ -16,7 +16,7 @@ import Cocoa
  It also is a responder that handles menu items and can validate them.
  It should be set as the Application's next responder to support this behavior
  */
-class ServerCoordinator: NSResponder {
+final class ServerCoordinator: NSResponder {
 
     lazy var messageHandler : MessageHandler = {
         $0.nextInterpreterConfigurator = self

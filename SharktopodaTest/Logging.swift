@@ -8,6 +8,8 @@
 
 import Cocoa
 
+//TODO: make a Logging Coordinator and move the Log window loading into it and out of the storyboard
+
 // MARK: Logging Levels
 
 enum LogLabel {
@@ -31,6 +33,7 @@ enum LogLabel {
 
 // MARK:- Logging Protocol
 
+// if you want to support logging to the UI, then adopt this protocol
 protocol Logging {
     func log(message:String, label:LogLabel)
 }
@@ -49,7 +52,8 @@ extension Logging {
 
 // MARK:- Model-Level Logging Implementation
 
-class Log : Logging {
+// if you want an object that logs as a parameter somewhere, then use this
+final class Log : Logging {
     
     private(set) var log = NSMutableAttributedString()
     

@@ -12,7 +12,7 @@ import AVKit
 import AVFoundation
 import MediaAccessibility
 
-class PlayerViewController: NSViewController {
+final class PlayerViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

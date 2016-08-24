@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class OpenURLPromptWindowController: NSWindowController {
+final class OpenURLPromptWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()

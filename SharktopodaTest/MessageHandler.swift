@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MessageHandler: NSObject {
+final class MessageHandler: NSObject {
     
     struct Notifications {
         static let DidStartListening = "MessageHandlerDidStartListening"

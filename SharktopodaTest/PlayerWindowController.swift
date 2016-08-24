@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class PlayerWindowController: NSWindowController {
+final class PlayerWindowController: NSWindowController {
 
     var playerViewController : PlayerViewController {
         return contentViewController as! PlayerViewController
