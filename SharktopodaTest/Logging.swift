@@ -21,10 +21,9 @@ enum LogLabel {
     
     var textColor : NSColor {
         switch self {
-        // TODO: some of these colors are a little harsh...
-        case .normal:   return NSColor.purpleColor()
-        case .start:    return NSColor.greenColor()
-        case .end:      return NSColor.orangeColor()
+        case .normal:   return NSColor(white: 0.2, alpha: 1.0)
+        case .start:    return NSColor(deviceHue: 120/360, saturation: 1, brightness: 0.75, alpha: 1)   // green, but not too bright
+        case .end:      return NSColor(deviceHue: 30/360, saturation: 1, brightness: 0.75, alpha: 1)  // orange, but not too bright
         case important: return NSColor.blueColor()
         case .error:    return NSColor.redColor()
         }
