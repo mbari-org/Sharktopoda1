@@ -22,7 +22,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                            <connections>
+                                                <segue destination="5tV-17-0Yw" kind="show" id="FaM-c8-Mas"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -352,6 +356,77 @@
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="CE5-Qk-Tcj">
+            <objects>
+                <windowController id="5tV-17-0Yw" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="LLH-j4-geO">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="285" height="37"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                    </window>
+                    <connections>
+                        <segue destination="inA-Kj-4Ib" kind="relationship" relationship="window.shadowedContentViewController" id="1xt-vI-R9e"/>
+                    </connections>
+                </windowController>
+                <customObject id="pCa-AU-cOi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-401.5" y="251.5"/>
+        </scene>
+        <!--Preferences-->
+        <scene sceneID="PDg-ly-0zj">
+            <objects>
+                <viewController title="Preferences" id="inA-Kj-4Ib" customClass="PreferencesViewController" customModule="UDPServerTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="h0I-4p-R9e">
+                        <rect key="frame" x="0.0" y="0.0" width="410" height="89"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fBQ-1f-C9I">
+                                <rect key="frame" x="246" y="40" width="49" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="on port" id="Dmq-Pn-ldp">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="7Ul-99-VV1">
+                                <rect key="frame" x="18" y="39" width="120" height="18"/>
+                                <buttonCell key="cell" type="check" title="Run UDP Server" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0J7-ry-Iwv">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HSy-pf-sxg">
+                                <rect key="frame" x="301" y="37" width="89" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="89" id="9Ca-0p-X0F"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="pMr-91-1YF">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="HSy-pf-sxg" secondAttribute="trailing" constant="20" id="HsF-ZQ-91c"/>
+                            <constraint firstItem="HSy-pf-sxg" firstAttribute="baseline" secondItem="7Ul-99-VV1" secondAttribute="baseline" id="Qbv-tF-GSs"/>
+                            <constraint firstItem="7Ul-99-VV1" firstAttribute="leading" secondItem="h0I-4p-R9e" secondAttribute="leading" constant="20" id="c6r-L1-Yn8"/>
+                            <constraint firstItem="7Ul-99-VV1" firstAttribute="top" secondItem="h0I-4p-R9e" secondAttribute="top" constant="34" id="gLy-Cp-QTA"/>
+                            <constraint firstItem="fBQ-1f-C9I" firstAttribute="baseline" secondItem="HSy-pf-sxg" secondAttribute="baseline" id="n9d-S9-L7f"/>
+                            <constraint firstItem="HSy-pf-sxg" firstAttribute="leading" secondItem="fBQ-1f-C9I" secondAttribute="trailing" constant="8" id="uTg-Vr-FrU"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="portField" destination="HSy-pf-sxg" id="bZ9-fU-Lrl"/>
+                        <outlet property="startStopButton" destination="7Ul-99-VV1" id="ggR-1c-IO0"/>
+                    </connections>
+                </viewController>
+                <customObject id="sBa-0R-HYy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-396" y="355"/>
         </scene>
     </scenes>
 </document>

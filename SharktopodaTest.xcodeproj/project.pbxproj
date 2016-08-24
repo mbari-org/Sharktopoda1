@@ -22,6 +22,7 @@
 		7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C11D6D4F58002F986C /* UDPService.swift */; };
 		7C09E2C41D6D4F63002F986C /* UDPSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C31D6D4F63002F986C /* UDPSender.swift */; };
 		7C09E2CA1D6D4F96002F986C /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C91D6D4F96002F986C /* GCDAsyncUdpSocket.m */; };
+		7C09E2CC1D6D5537002F986C /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2CB1D6D5537002F986C /* PreferencesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		7C09E2C71D6D4F96002F986C /* SharktopodaTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SharktopodaTest-Bridging-Header.h"; sourceTree = "<group>"; };
 		7C09E2C81D6D4F96002F986C /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		7C09E2C91D6D4F96002F986C /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		7C09E2CB1D6D5537002F986C /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				7C09E2B01D6D4C79002F986C /* MessageHandlerViewController.swift */,
+				7C09E2CB1D6D5537002F986C /* PreferencesViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				7C09E2B41D6D4CA5002F986C /* NSUserDefaults+ServerPreferences.swift in Sources */,
 				7C09E2B91D6D4D2C002F986C /* SharkCommandInterpreter.swift in Sources */,
 				7C09E2BB1D6D4D35002F986C /* SharkResponse.swift in Sources */,
+				7C09E2CC1D6D5537002F986C /* PreferencesViewController.swift in Sources */,
 				7C09E2AB1D6D4C08002F986C /* ServerCoordinator.swift in Sources */,
 				7C09E2B11D6D4C79002F986C /* MessageHandlerViewController.swift in Sources */,
 				7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */,
