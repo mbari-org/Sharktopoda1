@@ -69,11 +69,14 @@ class MessageHandler: NSObject {
             // but for now, all we do is log the fact that a connection was made,
             // as if the connection has been
             self.log("Connected to \(host):\(port)", label:.start)
+            
+            // in fact, we don't even callback here
+            // callback(nil)
         }
         
         inInterpreter.openCallback = { url, uuid, command, callback in
             
-            let response : SharkResponse?
+            let response : SharkResponse
             
             // for now, respond with a success for local urls and a failure for all others
             if url.scheme == "file" {
@@ -82,7 +85,7 @@ class MessageHandler: NSObject {
             else {
                 response = VerboseSharkResponse(failedCommand: command, error: NSError(domain: "MessageHandler", code: 888, userInfo: [NSLocalizedDescriptionKey:"We don't support non-file URLs"]), canSendAnyway:true)
             }
-            self.processResponse(response!)
+            callback(response)
         }
     }
     

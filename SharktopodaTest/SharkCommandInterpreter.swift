@@ -24,16 +24,30 @@ class SharkCommandInterpreter: NSObject {
         switch command.verb {
         case .connect:
             connect(command, then:callback)
+            
         case .open:
             open(command, then:callback)
         case .show:
             show(command, then:callback)
+            
+        case .getVideoInfo:
+            getVideoInfo(command, then:callback)
+        case .getAllVideosInfo:
+            getInfoForAllVideos(command, then:callback)
+            
+        case .requestStatus:
+            requestStatus(command, then:callback)
+            
         case .play:
             play(command, then:callback)
         case .pause:
             pause(command, then:callback)
             
-            // TODO: all other cases
+            // TODO: the following cases
+//        case getElapsedTime = "request elapsed time"
+//        case advanceToTime = "seek elapsed time"
+//        case framecapture
+//        case frameAdvance = "frame advance"
             
         default:
             let error = NSError(domain: "SharkCommandInterpreter", code: 10, userInfo: [NSLocalizedDescriptionKey: "\"\(command.verb)\" not yet implemented"])
@@ -76,6 +90,22 @@ class SharkCommandInterpreter: NSObject {
         showCallback(uuid: uuid, command:command, then:callback)
     }
 
+    var getVideoWithUUIDInfoCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
+    var getFrontmostVideoInfoCallback : (command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _ in }
+    func getVideoInfo(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+        if let uuid = command.uuid {
+            getVideoWithUUIDInfoCallback(uuid: uuid, command: command, then: callback)
+        }
+        else {
+            getFrontmostVideoInfoCallback(command: command, then: callback)
+        }
+    }
+    
+    var getInfoForAllVideosCallback : (command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _ in }
+    func getInfoForAllVideos(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+        getInfoForAllVideosCallback(command: command, then: callback)
+    }
+    
     var playCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
     func play(command:SharkCommand, then callback:(SharkResponse) -> ()) {
         guard let uuid = command.uuid else {
@@ -96,6 +126,16 @@ class SharkCommandInterpreter: NSObject {
         pauseCallback(uuid: uuid, then:callback)
     }
 
+    var requestStatusCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
+    func requestStatus(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+        
+        guard let uuid = command.uuid else {
+            callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
+            return
+        }
+        
+        requestStatusCallback(uuid: uuid, command:command, then:callback)
+    }
 
     // MARK:- Error Handling
     
@@ -104,7 +144,7 @@ class SharkCommandInterpreter: NSObject {
     }
     
     func callbackError(error:NSError, forCommand command:SharkCommand, callback:(SharkResponse) -> ()) {
-    let response = VerboseSharkResponse(failedCommand:command, error:error)
+        let response = VerboseSharkResponse(failedCommand:command, error:error)
         callback(response)
     }
     
