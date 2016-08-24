@@ -114,6 +114,7 @@ class PlayerViewController: NSViewController {
         }else if(videoStatus == AVPlayerItemStatus.Failed){
             let paybackError:NSError? = videoPlayer?.currentItem?.error;
             let asset = videoPlayer?.currentItem!.asset;
+            // TODO: report the error
             print("A video asset failed to load.\n\tAsset Description: \(assetString)\n\tAsset Readable: \(asset?.readable)\n\tAsset Playable: \(asset?.playable)\n\tAsset Has Protected Content: \(asset?.hasProtectedContent)\n\tFull error output:\n\(paybackError)");
             videoLoadFailed();
         }else if(videoStatus == AVPlayerItemStatus.Unknown){
@@ -138,6 +139,7 @@ class PlayerViewController: NSViewController {
     
     func videoLoadFailed(){
         
+        // TODO: close the window
         print("The video load failed! (See the console output)");
     }
 

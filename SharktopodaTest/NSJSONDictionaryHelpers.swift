@@ -26,7 +26,9 @@ func makeJSONSafe(dictionary:[String:AnyObject?]) -> [String:AnyObject] {
             if NSJSONSerialization.isValidJSONObject(array) {
                 out[key] = array
             }
-            out[key] = NSNull()
+            else {
+                out[key] = NSNull()
+            }
         }
         else if let dict = value as? NSDictionary {
             if  NSJSONSerialization.isValidJSONObject(dict) {

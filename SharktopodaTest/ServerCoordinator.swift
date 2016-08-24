@@ -128,6 +128,26 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             callback(response!)
         }
         
+        inInterpreter.getInfoForAllVideosCallback = { command, callback in
+            
+            var response : SharkResponse?
+            do {
+                guard let info = try self.videoCoordinator?.returnAllVideoInfo() else {
+                    let error = NSError(domain: "ServerCoordinator", code: 11, userInfo:
+                        [NSLocalizedDescriptionKey: "Unable to retrieve info for videos"])
+                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                    callback(response!)
+                    return
+                }
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["videos":info])
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            callback(response!)
+        }
+        
+        
 //        TODO:
 //        case .getVideoInfo:
 //        case .getAllVideosInfo:

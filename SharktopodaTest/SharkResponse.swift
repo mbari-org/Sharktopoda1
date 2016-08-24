@@ -79,6 +79,7 @@ struct VerboseSharkResponse : SharkResponse {
         out["status"] = success.rawValue
 
         for (key, value) in payload {
+            print("\(key): \(value)")
             out[key] = value
         }
 
@@ -89,12 +90,16 @@ struct VerboseSharkResponse : SharkResponse {
 
             out["error"] = error?.userInfo
         }
+        print("out: \(out)")
         
         return out
     }
     
     var jsonSafeDictionaryRepresentation : [String:JSONObject] {
-        return makeJSONSafe(dictionaryRepresentation)
+        
+        let json = makeJSONSafe(dictionaryRepresentation)
+        print("json: \(json)")
+        return json
     }
     
     var dataRepresentation : NSData? {
