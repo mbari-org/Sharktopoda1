@@ -74,31 +74,20 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
     
     func configureInterpreter(interpreter inInterpreter: SharkCommandInterpreter) {
 
-        inInterpreter.openCallback = { url, uuid, command, callback in
-            
-//            var response : SharkResponse?
+        inInterpreter.openCallback = { url, uuid, command in
             
             self.videoCoordinator?.openVideoAtURL(url, usingUUID: NSUUID(UUIDString: uuid)!) { success, error in
                 
                 if success {
-                    callback(VerboseSharkResponse(successfullyCompletedCommand: command))
+                    command.processResponse?(VerboseSharkResponse(successfullyCompletedCommand: command))
                 }
                 else {
-                    callback(VerboseSharkResponse(failedCommand: command, error: error!, canSendAnyway: true))
+                    command.processResponse?(VerboseSharkResponse(failedCommand: command, error: error!, canSendAnyway: true))
                 }
             }
-//            do {
-//                try self.videoCoordinator?.openVideoAtURL(url, usingUUID: NSUUID(UUIDString: uuid)!)
-//                response = VerboseSharkResponse(successfullyCompletedCommand: command)
-//            }
-//            catch let error as NSError {
-//                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-//            }
-            
-//            callback(response!)
         }
 
-        inInterpreter.playCallback = { uuid, rate, command, callback in
+        inInterpreter.playCallback = { uuid, rate, command in
             
             var response : SharkResponse?
             do {
@@ -108,10 +97,10 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
-            callback(response!)
+            command.processResponse?(response!)
         }
         
-        inInterpreter.pauseCallback = { uuid, command, callback in
+        inInterpreter.pauseCallback = { uuid, command in
             
             var response : SharkResponse?
             do {
@@ -121,10 +110,10 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
-            callback(response!)
+            command.processResponse?(response!)
         }
         
-        inInterpreter.showCallback = { uuid, command, callback in
+        inInterpreter.showCallback = { uuid, command in
             
             var response : SharkResponse?
             do {
@@ -134,10 +123,10 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
-            callback(response!)
+            command.processResponse?(response!)
         }
         
-        inInterpreter.getInfoForAllVideosCallback = { command, callback in
+        inInterpreter.getInfoForAllVideosCallback = { command in
             
             var response : SharkResponse?
             do {
@@ -145,7 +134,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                     let error = NSError(domain: "ServerCoordinator", code: 11, userInfo:
                         [NSLocalizedDescriptionKey: "Unable to retrieve info for videos"])
                     response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    callback(response!)
+                    command.processResponse?(response!)
                     return
                 }
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["videos":info])
@@ -153,10 +142,10 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
-            callback(response!)
+            command.processResponse?(response!)
         }
         
-        inInterpreter.getFrontmostVideoInfoCallback = { command, callback in
+        inInterpreter.getFrontmostVideoInfoCallback = { command in
             
             var response : SharkResponse?
             do {
@@ -164,7 +153,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                     let error = NSError(domain: "ServerCoordinator", code: 13, userInfo:
                         [NSLocalizedDescriptionKey: "Unable to retrieve info for frontmost video"])
                     response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    callback(response!)
+                    command.processResponse?(response!)
                     return
                 }
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: info)
@@ -172,10 +161,10 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
-            callback(response!)
+            command.processResponse?(response!)
         }
         
-        inInterpreter.getVideoStatusCallback = { uuid, command, callback in
+        inInterpreter.getVideoStatusCallback = { uuid, command in
             
             var response : SharkResponse?
             do {
@@ -183,7 +172,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                     let error = NSError(domain: "ServerCoordinator", code: 14, userInfo:
                         [NSLocalizedDescriptionKey: "Unable to retrieve playback status for frontmost video"])
                     response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    callback(response!)
+                    command.processResponse?(response!)
                     return
                 }
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "status":status.rawValue])
@@ -191,12 +180,12 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
-            callback(response!)
+            command.processResponse?(response!)
        }
         
 /*      The following is useful (we needed to be able to do this before we could do some other things), but not part of the spec
          
-        inInterpreter.getInfoForVideoWithUUIDCallback = { uuid, command, callback in
+        inInterpreter.getInfoForVideoWithUUIDCallback = { uuid, command in
             
             var response : SharkResponse?
             do {
@@ -204,7 +193,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                     let error = NSError(domain: "ServerCoordinator", code: 12, userInfo:
                         [NSLocalizedDescriptionKey: "Unable to retrieve info for video with uuid \(uuid)"])
                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    callback(response!)
+                    command.processResponse?(response!)
                     return
                 }
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: info)
@@ -213,7 +202,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
             }
             
-            callback(response!)
+            command.processResponse?(response!)
         }
  */
 

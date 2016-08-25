@@ -22,7 +22,7 @@ import Foundation
  */
 class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with just a little tweaking
     
-    func handle(command:SharkCommand, fromClient clientAddress:String, then callback:(SharkResponse) -> ()) {
+    func handle(command:SharkCommand, fromClient clientAddress:String) {
         
         // NOTE: the interpreter can callback sending an error,
         // but only the client class can callback sending success
@@ -30,25 +30,25 @@ class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with 
         
         switch command.verb {
         case .connect:
-            connect(command, then:callback)
+            connect(command)
             
         case .open:
-            open(command, then:callback)
+            open(command)
         case .show:
-            show(command, then:callback)
+            show(command)
             
         case .getVideoInfo:
-            getVideoInfo(command, then:callback)
+            getVideoInfo(command)
         case .getAllVideosInfo:
-            getInfoForAllVideos(command, then:callback)
+            getInfoForAllVideos(command)
             
         case .requestStatus:
-            getVideoStatus(command, then:callback)
+            getVideoStatus(command)
             
         case .play:
-            play(command, then:callback)
+            play(command)
         case .pause:
-            pause(command, then:callback)
+            pause(command)
             
             // TODO:6 the following cases
 //        case getElapsedTime = "request elapsed time"
@@ -58,90 +58,90 @@ class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with 
             
         default:
             let error = NSError(domain: "SharkCommandInterpreter", code: 10, userInfo: [NSLocalizedDescriptionKey: "\"\(command.verb)\" not yet implemented"])
-            callbackError(error, forCommand: command, callback: callback)
+            callbackError(error, forCommand: command)
         }
     }
     
     
-    var connectCallback : (port:UInt16, host:String?, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _, _ in }
-    func connect(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var connectCallback : (port:UInt16, host:String?) -> () = { _, _ in }
+    func connect(command:SharkCommand) {
         guard let port = command.port else {
-            callbackErrorForMissingParameter("port", forCommand: command, callback: callback)
+            callbackErrorForMissingParameter("port", forCommand: command)
             return
         }
         
-        connectCallback(port: port, host: command.host, command:command, then:callback)
+        connectCallback(port: port, host: command.host)
     }
     
-    var openCallback : (url:NSURL, uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _, _ in }
-    func open(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var openCallback : (url:NSURL, uuid:String, command:SharkCommand) -> () = { _, _, _ in }
+    func open(command:SharkCommand) {
         guard let url = command.url else {
-            callbackErrorForMissingParameter("url", forCommand: command, callback: callback)
+            callbackErrorForMissingParameter("url", forCommand: command)
             return
         }
         guard let uuid = command.uuid else {
-            callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
+            callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
         
-        openCallback(url: url, uuid: uuid, command:command, then:callback)
+        openCallback(url: url, uuid: uuid, command:command)
     }
     
-    var showCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
-    func show(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var showCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    func show(command:SharkCommand) {
         guard let uuid = command.uuid else {
-            callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
+            callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
         
-        showCallback(uuid: uuid, command:command, then:callback)
+        showCallback(uuid: uuid, command:command)
     }
 
-    var getInfoForVideoWithUUIDCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
-    var getFrontmostVideoInfoCallback : (command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _ in }
-    func getVideoInfo(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var getInfoForVideoWithUUIDCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    var getFrontmostVideoInfoCallback : (command:SharkCommand) -> () = { _ in }
+    func getVideoInfo(command:SharkCommand) {
         if let uuid = command.uuid {
-            getInfoForVideoWithUUIDCallback(uuid: uuid, command: command, then: callback)
+            getInfoForVideoWithUUIDCallback(uuid: uuid, command: command)
         }
         else {
-            getFrontmostVideoInfoCallback(command: command, then: callback)
+            getFrontmostVideoInfoCallback(command: command)
         }
     }
     
-    var getInfoForAllVideosCallback : (command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _ in }
-    func getInfoForAllVideos(command:SharkCommand, then callback:(SharkResponse) -> ()) {
-        getInfoForAllVideosCallback(command: command, then: callback)
+    var getInfoForAllVideosCallback : (command:SharkCommand) -> () = { _ in }
+    func getInfoForAllVideos(command:SharkCommand) {
+        getInfoForAllVideosCallback(command: command)
     }
     
-    var playCallback : (uuid:String, rate:Double, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _, _ in }
-    func play(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var playCallback : (uuid:String, rate:Double, command:SharkCommand) -> () = { _, _, _ in }
+    func play(command:SharkCommand) {
         guard let uuid = command.uuid else {
-            callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
+            callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
         let rate = command.rate
-        playCallback(uuid: uuid, rate:rate, command:command, then:callback)
+        playCallback(uuid: uuid, rate:rate, command:command)
     }
     
-    var pauseCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
-    func pause(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var pauseCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    func pause(command:SharkCommand) {
         guard let uuid = command.uuid else {
-            callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
+            callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
         
-        pauseCallback(uuid: uuid, command:command, then:callback)
+        pauseCallback(uuid: uuid, command:command)
     }
 
-    var getVideoStatusCallback : (uuid:String, command:SharkCommand, then:(SharkResponse) -> ()) -> () = { _, _, _ in }
-    func getVideoStatus(command:SharkCommand, then callback:(SharkResponse) -> ()) {
+    var getVideoStatusCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    func getVideoStatus(command:SharkCommand) {
         
         guard let uuid = command.uuid else {
-            callbackErrorForMissingParameter("uuid", forCommand: command, callback: callback)
+            callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
         
-        getVideoStatusCallback(uuid: uuid, command:command, then:callback)
+        getVideoStatusCallback(uuid: uuid, command:command)
     }
 
     // MARK:- Error Handling
@@ -150,14 +150,14 @@ class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with 
         return NSError(domain: "SharkCommandInterpreter", code: 11, userInfo: [NSLocalizedDescriptionKey: "command \"\(command.verb)\" has no value \"\(parameter)\""])
     }
     
-    func callbackError(error:NSError, forCommand command:SharkCommand, callback:(SharkResponse) -> ()) {
+    func callbackError(error:NSError, forCommand command:SharkCommand) {
         let response = VerboseSharkResponse(failedCommand:command, error:error)
-        callback(response)
+        command.processResponse?(response)
     }
     
-    func callbackErrorForMissingParameter(parameter:String, forCommand command:SharkCommand, callback:(SharkResponse) -> ()) {
+    func callbackErrorForMissingParameter(parameter:String, forCommand command:SharkCommand) {
         let error = missingParameterErrorForCommand(command, parameter: parameter)
-        callbackError(error, forCommand: command, callback: callback)
+        callbackError(error, forCommand: command)
     }
 }
 

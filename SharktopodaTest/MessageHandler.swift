@@ -90,17 +90,16 @@ final class MessageHandler: NSObject {
     
     private func handleJSON(json:JSONObject, sentFrom address:String) {
         
-        // TODO 0: SharkCommand can carry the callback in its payload,
         // thus simplifying A LOT of function definitions and callsites 
         // where the callback just gets passed around
-        guard let command = SharkCommand(json: json, sentFrom:address) else {
+        guard let command = SharkCommand(json: json, sentFrom:address, processResponse:processResponse) else {
             self.log("not a command: \(json)", label:.error)
             return
         }
         
         self.log("got a command: \(command)", label:.important)
         
-        interpreter.handle(command, fromClient: address, then:processResponse)
+        interpreter.handle(command, fromClient: address)
     }
     
     private func hostForResponse(response:VerboseSharkResponse) -> String? {
@@ -165,7 +164,7 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
         // these two implementations are summy implementations,
         // a subclass will override them and develop something much more interesting
         
-        inInterpreter.connectCallback = { port, host, command, callback in
+        inInterpreter.connectCallback = { port, host in
             
             // NOTE: per the spec, this is only used for
             // "additional out-of-band messages to (outside of the UDP command -> response messages)"
@@ -183,7 +182,7 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
             // callback(nil)
         }
         
-        inInterpreter.openCallback = { url, uuid, command, callback in
+        inInterpreter.openCallback = { url, uuid, command in
             
             let response : SharkResponse
             
@@ -194,7 +193,7 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
             else {
                 response = VerboseSharkResponse(failedCommand: command, error: NSError(domain: "MessageHandler", code: 888, userInfo: [NSLocalizedDescriptionKey:"We don't support non-file URLs"]), canSendAnyway:true)
             }
-            callback(response)
+            command.processResponse?(response)
         }
         
         // if we have a next configurator in the chain, then give it a chance at configuring the interpreter

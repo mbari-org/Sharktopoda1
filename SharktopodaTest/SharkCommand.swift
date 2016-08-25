@@ -20,6 +20,7 @@ struct SharkCommand {
     let data : [String:JSONObject]
     let address : String
     
+    let processResponse : ((SharkResponse)->())?
     
     // MARK:- CommandVerb
 
@@ -121,7 +122,7 @@ struct SharkCommand {
 
 extension SharkCommand {
     
-    init?(json:JSONObject, sentFrom address:String) {
+    init?(json:JSONObject, sentFrom address:String, processResponse callback:((SharkResponse)->())?=nil) {
         guard var commandDictionary = json as? [String:JSONObject] else { return nil }      // make sure it's a JSON dictionary
         guard let commandVerb = commandDictionary["command"] as? String else { return nil } // that has a command entry
         guard let command = CommandVerb(rawValue: commandVerb) else { return nil }          // that is a known command entry
@@ -141,6 +142,8 @@ extension SharkCommand {
         self.data = commandDictionary
         
         self.address = address
+        
+        self.processResponse = callback
     }
 }
 
