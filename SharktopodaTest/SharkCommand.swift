@@ -35,7 +35,7 @@ struct SharkCommand {
         case getElapsedTime = "request elapsed time"
         case requestStatus = "request status"
         case advanceToTime = "seek elapsed time"
-        case framecapture
+        case frameCapture
         case frameAdvance = "frame advance"
         
         var requiredParameters : [String] {
@@ -44,14 +44,14 @@ struct SharkCommand {
                 return ["port"]
             case .open:
                 return ["url","uuid"]
-            case .show:
+            case .show, .play, .pause, .getElapsedTime, .requestStatus, .frameAdvance:
                 return ["uuid"]
-                
-            // TODO:1 fill out the rest of these
-                // or at least the ones I currently support
-                
-            default:
+            case .getVideoInfo, .getAllVideosInfo:
                 return []
+            case .advanceToTime:
+                return ["uuid", "elapsed_time_millis"]
+            case .frameCapture:
+                return ["uuid", "image_location", "image_reference_uuid"]
             }
         }
     }

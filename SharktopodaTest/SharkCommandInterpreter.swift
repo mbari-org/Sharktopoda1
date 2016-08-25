@@ -22,7 +22,7 @@ import Foundation
  */
 class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with just a little tweaking
     
-    func handle(command:SharkCommand, fromClient clientAddress:String) {
+    func handle(command:SharkCommand) {
         
         // NOTE: the interpreter can callback sending an error,
         // but only the client class can callback sending success

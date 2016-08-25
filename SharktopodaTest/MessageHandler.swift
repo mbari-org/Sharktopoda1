@@ -99,7 +99,7 @@ final class MessageHandler: NSObject {
         
         self.log("got a command: \(command)", label:.important)
         
-        interpreter.handle(command, fromClient: address)
+        interpreter.handle(command)
     }
     
     private func hostForResponse(response:VerboseSharkResponse) -> String? {
