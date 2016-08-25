@@ -46,7 +46,7 @@ struct SharkCommand {
             case .show:
                 return ["uuid"]
                 
-            // TODO: fill out the rest of these
+            // TODO:1 fill out the rest of these
                 // or at least the ones I currently support
                 
             default:
@@ -68,7 +68,7 @@ struct SharkCommand {
         return NSURL(string: url)
     }
     
-    var uuid : String? {    // TODO: switch to NSUUID, it makes for cleaner calling
+    var uuid : String? {    // TODO:3 switch to NSUUID, it makes for cleaner calling
         return data["uuid"] as? String
     }
 
@@ -107,7 +107,7 @@ struct SharkCommand {
         return NSURL(string: url)
     }
 
-    var imageReferenceUUID : String? {    // TODO: switch to NSUUID
+    var imageReferenceUUID : String? {    // TODO:4 switch to NSUUID
         return data["image_reference_uuid"] as? String
     }
     

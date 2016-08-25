@@ -90,6 +90,9 @@ final class MessageHandler: NSObject {
     
     private func handleJSON(json:JSONObject, sentFrom address:String) {
         
+        // TODO 0: SharkCommand can carry the callback in its payload,
+        // thus simplifying A LOT of function definitions and callsites 
+        // where the callback just gets passed around
         guard let command = SharkCommand(json: json, sentFrom:address) else {
             self.log("not a command: \(json)", label:.error)
             return

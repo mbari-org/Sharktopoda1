@@ -186,7 +186,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                     callback(response!)
                     return
                 }
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["status":status.rawValue])
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "status":status.rawValue])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)

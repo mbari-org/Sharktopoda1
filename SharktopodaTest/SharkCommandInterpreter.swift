@@ -20,7 +20,7 @@ import Foundation
         The caller may know about it, but no response will be sent.
         This is another layer of security, ensuring that only commands we are expecting are responded to.
  */
-class SharkCommandInterpreter { // TODO: can this be a struct? I think so with just a little tweaking
+class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with just a little tweaking
     
     func handle(command:SharkCommand, fromClient clientAddress:String, then callback:(SharkResponse) -> ()) {
         
@@ -50,7 +50,7 @@ class SharkCommandInterpreter { // TODO: can this be a struct? I think so with j
         case .pause:
             pause(command, then:callback)
             
-            // TODO: the following cases
+            // TODO:6 the following cases
 //        case getElapsedTime = "request elapsed time"
 //        case advanceToTime = "seek elapsed time"
 //        case framecapture
