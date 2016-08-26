@@ -252,10 +252,11 @@ final class PlayerViewController: NSViewController {
     func advanceToTimeInMilliseconds(milliseconds:UInt) throws {
         let time = CMTime.timeWithMilliseconds(milliseconds)
         
+        // TODO: calculate the frame duration for the asset and use that for tolerances 
+        // to get a more performant seek
         videoPlayer!.seekToTime(time, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
         
-        // TODO: it would be nice to ave this, but AVPlayer seems to want to return the time BEFORE the seek
-        // so come back to it later
+        // TODO: it would be nice to have this, but AVPlayer seems to want to return the time BEFORE the seek when I do it this way
 //        let actualTime = videoPlayer!.currentTime()
 //        return actualTime.milliseconds
     }

@@ -1,7 +1,4 @@
 
-TODO: setup github project, invite Brian to it
-TODO: setup Slack conversation, invite Brian to it
-
 TODO: add reachability support: the server gets confused after I turn off Link Conditioner
 
 //// notes.txt as bid submission 8/23/2016:
