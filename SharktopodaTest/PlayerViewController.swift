@@ -14,7 +14,7 @@ import MediaAccessibility
 
 final class PlayerViewController: NSViewController {
 
-    // TODO: somewhere the video player is being held onto when the window closes.  FInd it. 
+    // TODO:3 somewhere the video player is being held onto when the window closes.  FInd it. 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,7 @@ final class PlayerViewController: NSViewController {
         super.viewWillAppear()
         
         if nil == videoPlayer {
-            // TODO: see if we can keep the window hidden until the status has changed to something we know will work...
+            // TODO:2 see if we can keep the window hidden until the status has changed to something we know will work...
             // could be a better experience than blitting the window...
             openVideo()
         }
@@ -83,6 +83,11 @@ final class PlayerViewController: NSViewController {
     
     var videoLoadCompletionCallback : ((success:Bool, error:NSError?) -> ())?
     
+    private var timeouttimer : NSTimer?
+    struct Timeout {
+        static let AllotedTimeForVideoLoad = NSTimeInterval(5)
+    }
+
     private func openVideo() {
         
         guard let url = url else { return }
@@ -99,10 +104,13 @@ final class PlayerViewController: NSViewController {
         videoPlayer?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil);
         videoPlayer?.currentItem?.addObserver(self, forKeyPath: "presentationSize", options: NSKeyValueObservingOptions(), context: nil);
 
-        // TODO: what about a reasonable timeout
+        timeouttimer = NSTimer.scheduledTimerWithTimeInterval(Timeout.AllotedTimeForVideoLoad, target: self, selector: #selector(videoLoadTimedOut(_:)), userInfo: nil, repeats: false)
     }
     
     func processVideoPlayerStatus() {
+        
+        timeouttimer?.invalidate()
+        timeouttimer = nil
         
         //Verify we can read info about the asset currently loading
         if(videoPlayer?.currentItem == nil || videoPlayer?.currentItem?.status == nil){
@@ -168,6 +176,12 @@ final class PlayerViewController: NSViewController {
         videoLoadCompletionCallback = nil   // clear it to be safe
     }
 
+    func videoLoadTimedOut(sender:NSTimer) {
+        let desc = "Video at \(videoURL!) failed to load in the time alloted"
+        debugPrint(desc)
+        videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: 3, userInfo: [NSLocalizedDescriptionKey:desc])));
+    }
+    
     var videoPlaybackRate : Double {
         return Double(videoPlayer?.rate ?? 0)
     }
