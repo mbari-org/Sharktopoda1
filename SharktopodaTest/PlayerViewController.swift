@@ -119,7 +119,7 @@ final class PlayerViewController: NSViewController {
     
     private var timeouttimer : NSTimer?
     struct Timeout {
-        static let AllotedTimeForVideoLoad = NSTimeInterval(5)
+        static let AllotedTimeForVideoLoad = NSTimeInterval(20)
     }
 
     func openVideo() {
