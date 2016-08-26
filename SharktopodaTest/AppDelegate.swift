@@ -28,7 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         videoCoordinator = VideoPlayerCoordinator()
         videoCoordinator.storyboard = storyboard
 
-        serverCoordinator = ServerCoordinator()
+        serverCoordinator = ServerCoordinator(videoCoordinator:videoCoordinator)
         serverCoordinator?.videoCoordinator = videoCoordinator
     
         loggingCoordinator = LoggingCoordinator()

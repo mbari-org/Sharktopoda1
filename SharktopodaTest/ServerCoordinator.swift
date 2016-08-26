@@ -23,9 +23,12 @@ final class ServerCoordinator: NSResponder {
         return $0
     } (MessageHandler())
     
-    var videoCoordinator : SharkVideoCoordination?
+    // TODO: this shouldn't be an optional
+    var videoCoordinator : SharkVideoCoordination
     
-    override init() {
+    init(videoCoordinator:SharkVideoCoordination) {
+        
+        self.videoCoordinator = videoCoordinator
         super.init()
 
         // listen for any server view controllers to be loaded
@@ -76,7 +79,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
 
         inInterpreter.openCallback = { url, uuid, command in
             
-            self.videoCoordinator?.openVideoAtURL(url, usingUUID:uuid) { success, error in
+            self.videoCoordinator.openVideoAtURL(url, usingUUID:uuid) { success, error in
                 
                 if success {
                     command.processResponse?(VerboseSharkResponse(successfullyCompletedCommand: command))
@@ -91,7 +94,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                try self.videoCoordinator?.playVideoWithUUID(uuid:uuid, rate: rate)
+                try self.videoCoordinator.playVideoWithUUID(uuid:uuid, rate: rate)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
@@ -104,7 +107,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                try self.videoCoordinator?.pauseVideoWithUUID(uuid:uuid)
+                try self.videoCoordinator.pauseVideoWithUUID(uuid:uuid)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
@@ -117,7 +120,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                try self.videoCoordinator?.focusWindowForVideoWithUUID(uuid:uuid)
+                try self.videoCoordinator.focusWindowForVideoWithUUID(uuid:uuid)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
@@ -130,13 +133,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                guard let info = try self.videoCoordinator?.returnAllVideoInfo() else {
-                    let error = NSError(domain: "ServerCoordinator", code: 11, userInfo:
-                        [NSLocalizedDescriptionKey: "Unable to retrieve info for videos"])
-                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    command.processResponse?(response!)
-                    return
-                }
+                let info = try self.videoCoordinator.returnAllVideoInfo()
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["videos":info])
             }
             catch let error as NSError {
@@ -149,13 +146,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                guard let info = try self.videoCoordinator?.returnInfoForFrontmostVideo() else {
-                    let error = NSError(domain: "ServerCoordinator", code: 13, userInfo:
-                        [NSLocalizedDescriptionKey: "Unable to retrieve info for frontmost video"])
-                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    command.processResponse?(response!)
-                    return
-                }
+                let info = try self.videoCoordinator.returnInfoForFrontmostVideo()
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: info)
            }
             catch let error as NSError {
@@ -168,13 +159,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                guard let status = try self.videoCoordinator?.requestPlaybackStatusForVideoWithUUID(uuid:uuid) else {
-                    let error = NSError(domain: "ServerCoordinator", code: 14, userInfo:
-                        [NSLocalizedDescriptionKey: "Unable to retrieve playback status for video with uuid \(uuid)"])
-                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    command.processResponse?(response!)
-                    return
-                }
+                let status = try self.videoCoordinator.requestPlaybackStatusForVideoWithUUID(uuid:uuid)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "status":status.rawValue])
             }
             catch let error as NSError {
@@ -210,13 +195,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                guard let elapsedTime = try self.videoCoordinator?.requestElapsedTimeForVideoWithUUID(uuid: uuid) else {
-                    let error = NSError(domain: "ServerCoordinator", code: 15, userInfo:
-                        [NSLocalizedDescriptionKey : "Unable to retrieve elapsed time for video with uuid \(uuid)"])
-                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    command.processResponse?(response!)
-                    return
-                }
+                let elapsedTime = try self.videoCoordinator.requestElapsedTimeForVideoWithUUID(uuid: uuid)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":elapsedTime])
             }
             catch let error as NSError {
