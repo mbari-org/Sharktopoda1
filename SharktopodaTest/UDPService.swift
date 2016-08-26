@@ -18,7 +18,7 @@ final class UDPService: NSObject {
     private(set) var running = false
     private(set) var port : PortNumber?
 
-    // TODO:6 try a background queue
+    // TODO:7 try a background queue
     private var q : dispatch_queue_t = dispatch_get_main_queue()
     
     private lazy var udpSocket : GCDAsyncUdpSocket = {

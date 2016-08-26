@@ -17,8 +17,6 @@ final class PlayerViewController: NSViewController {
     // TODO:10 move the references to the window and window controller out of this class
     // it should be encapsulated instead and use a delegate for these things
     
-    // TODO:3 somewhere the video player is being held onto when the window closes.  FInd it. 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -75,6 +73,10 @@ final class PlayerViewController: NSViewController {
     }
     
     override func viewWillDisappear() {
+
+        // to be safe,
+        // pause the video if it's playing
+        videoPlayer?.pause()
         
         // to be safe, remove observers here, in case they weren't removed before
         stopObservingAll()
