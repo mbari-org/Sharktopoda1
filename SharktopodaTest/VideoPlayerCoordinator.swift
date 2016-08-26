@@ -21,7 +21,7 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
         static let TestingPanelWindowController = "TestingPanelWindowController"
     }
     
-    var storyboard : NSStoryboard! //= {
+    var storyboard : NSStoryboard!
     
     lazy var openURLPromptWindowController : NSWindowController = {
         return self.storyboard.instantiateControllerWithIdentifier(StoryboardIdentifiers.OpenURLWindowController) as! NSWindowController
