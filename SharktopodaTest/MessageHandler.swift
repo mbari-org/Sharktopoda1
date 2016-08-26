@@ -12,6 +12,7 @@ final class MessageHandler: NSObject {
     
     struct Notifications {
         static let DidStartListening = "MessageHandlerDidStartListening"
+        static let DidFailToStartListening = "MessageHandlerDidFailToStartListening"
         static let DidStopListening = "MessageHandlerDidStopListening"
     }
     
@@ -25,6 +26,7 @@ final class MessageHandler: NSObject {
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidStopListening, object: self)
         }
         $0.didReceiveMessage = { message, address, _ in
+            // we don't do anything with non-json messages
             self.log("invalid message from \(address): \(message)", label:.error)
         }
         $0.didReceiveJSON = { json, address, _ in
@@ -69,9 +71,10 @@ final class MessageHandler: NSObject {
         do {
             try server.startListening(onPort: portToTry)
         }
-        catch {
-            // TODO: some common POSIX errors (e.g. 13:Permission Denied, should be handled more elegantly)
+        catch let error as NSError {
             self.log("Error starting server on port \(portToTry): \(error)", label: .error)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFailToStartListening, object: self, userInfo: ["error":error, "port":NSNumber(unsignedShort: portToTry)])
         }
     }
     

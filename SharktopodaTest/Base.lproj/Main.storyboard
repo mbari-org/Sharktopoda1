@@ -419,18 +419,29 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="R21-ow-FBb">
+                                <rect key="frame" x="362" y="15" width="30" height="14"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="error" id="mSy-kQ-Okd">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" red="0.50196081400000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="HSy-pf-sxg" secondAttribute="trailing" constant="20" id="HsF-ZQ-91c"/>
                             <constraint firstItem="HSy-pf-sxg" firstAttribute="baseline" secondItem="7Ul-99-VV1" secondAttribute="baseline" id="Qbv-tF-GSs"/>
+                            <constraint firstItem="R21-ow-FBb" firstAttribute="trailing" secondItem="HSy-pf-sxg" secondAttribute="trailing" id="WR4-7D-SaV"/>
                             <constraint firstItem="7Ul-99-VV1" firstAttribute="leading" secondItem="h0I-4p-R9e" secondAttribute="leading" constant="20" id="c6r-L1-Yn8"/>
                             <constraint firstItem="7Ul-99-VV1" firstAttribute="top" secondItem="h0I-4p-R9e" secondAttribute="top" constant="34" id="gLy-Cp-QTA"/>
                             <constraint firstItem="fBQ-1f-C9I" firstAttribute="baseline" secondItem="HSy-pf-sxg" secondAttribute="baseline" id="n9d-S9-L7f"/>
                             <constraint firstItem="HSy-pf-sxg" firstAttribute="leading" secondItem="fBQ-1f-C9I" secondAttribute="trailing" constant="8" id="uTg-Vr-FrU"/>
+                            <constraint firstItem="R21-ow-FBb" firstAttribute="top" secondItem="HSy-pf-sxg" secondAttribute="bottom" constant="8" id="zEG-xW-CCI"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="portField" destination="HSy-pf-sxg" id="bZ9-fU-Lrl"/>
+                        <outlet property="errorLabel" destination="R21-ow-FBb" id="jeP-Tw-COc"/>
+                        <outlet property="portField" destination="HSy-pf-sxg" id="0Et-wg-A3k"/>
                         <outlet property="startStopButton" destination="7Ul-99-VV1" id="ggR-1c-IO0"/>
                     </connections>
                 </viewController>

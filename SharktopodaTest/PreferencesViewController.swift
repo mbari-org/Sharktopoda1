@@ -12,6 +12,7 @@ final class PreferencesViewController: MessageHandlerViewController {
 
     @IBOutlet weak var portField: NSTextField!
     @IBOutlet weak var startStopButton: NSButton!
+    @IBOutlet weak var errorLabel: NSTextField!
 
     private var preferredServerPort : UInt16 {
         
@@ -42,12 +43,21 @@ final class PreferencesViewController: MessageHandlerViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         updateUI()
-        
+        errorLabel.stringValue = ""
+        startStopButton.intValue = messageHandler!.server.running ? 1 : 0
+
+        let port = messageHandler!.server.running ? (messageHandler!.server.port ?? 0) : NSUserDefaults.standardUserDefaults().preferredServerPort
+        portField.stringValue = "\(port)"
+        portField.becomeFirstResponder()
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messageHandlerDidStart(_:)),
                                                          name: MessageHandler.Notifications.DidStartListening,
                                                          object: messageHandler)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messageHandlerDidStop(_:)),
                                                          name: MessageHandler.Notifications.DidStopListening,
+                                                         object: messageHandler)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messageHandlerDidFailToStart(_:)),
+                                                         name: MessageHandler.Notifications.DidFailToStartListening,
                                                          object: messageHandler)
     }
     
@@ -61,15 +71,7 @@ final class PreferencesViewController: MessageHandlerViewController {
     
     func updateUI() {
 
-        guard let server = messageHandler?.server else { return }
-
-        let port = server.running ? (server.port ?? 0) : NSUserDefaults.standardUserDefaults().preferredServerPort
-
-        portField.stringValue = "\(port)"
-        portField.enabled = !server.running
-        portField.becomeFirstResponder()
-
-        startStopButton.intValue = server.running ? 1 : 0
+        portField.enabled = !messageHandler!.server.running
     }
 
     // MARK:- Actions
@@ -98,9 +100,21 @@ final class PreferencesViewController: MessageHandlerViewController {
 
     func messageHandlerDidStart(notification:NSNotification) {
         updateUI()
+        errorLabel.stringValue = ""
+        startStopButton.intValue = messageHandler!.server.running ? 1 : 0
     }
     func messageHandlerDidStop(notification:NSNotification) {
         updateUI()
+        errorLabel.stringValue = ""
+        startStopButton.intValue = messageHandler!.server.running ? 1 : 0
+        portField.becomeFirstResponder()
     }
+    
+    func messageHandlerDidFailToStart(notification:NSNotification) {
+        guard let error = notification.userInfo?["error"] as? NSError else { return }
+        errorLabel.stringValue = error.userInfo[NSLocalizedDescriptionKey] as? String ?? ""
+        startStopButton.intValue = messageHandler!.server.running ? 1 : 0
+        portField.becomeFirstResponder()
+   }
 
 }
