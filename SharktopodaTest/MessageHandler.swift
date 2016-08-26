@@ -59,9 +59,13 @@ final class MessageHandler: NSObject {
     
     // MARK:- Toggling Server
     
-    func startServerOnPort(port:PortNumber) {
+    func startServer(onPort inport:PortNumber) {
         
-        let portToTry = port
+        if let port = server.port {
+            if inport == port { return }
+        }
+        
+        let portToTry = inport
         do {
             try server.startListening(onPort: portToTry)
         }
@@ -81,7 +85,7 @@ final class MessageHandler: NSObject {
             stopServer()
         }
         else {
-            startServerOnPort(port)
+            startServer(onPort:port)
         }
     }
 
