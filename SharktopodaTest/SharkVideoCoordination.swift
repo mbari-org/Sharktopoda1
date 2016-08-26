@@ -60,6 +60,11 @@ protocol SharkVideoCoordination {
     ////
     func requestPlaybackStatusForVideoWithUUID(uuid inUUID:NSUUID) throws -> SharkVideoPlaybackStatus
 
+    ////    Request elapsed time
+    ////
+    ////    Return the elapsed time (from the start) of the video as milliseconds.
+    func requestElapsedTimeForVideoWithUUID(uuid inUUID:NSUUID) throws -> UInt 
+
     
 /*      The following are yet to be implemented:
      

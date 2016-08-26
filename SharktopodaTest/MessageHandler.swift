@@ -131,7 +131,7 @@ final class MessageHandler: NSObject {
         if response.succeeded || response.allowSendingOnFailure {
             sendResponse(response)
         }
-        else if let error = response.error {
+        if let error = response.error { // yes, we log EVEN IF allowSendingOnFailure is true
             log(error)
         }
         else {

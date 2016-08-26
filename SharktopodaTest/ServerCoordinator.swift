@@ -170,7 +170,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             do {
                 guard let status = try self.videoCoordinator?.requestPlaybackStatusForVideoWithUUID(uuid:uuid) else {
                     let error = NSError(domain: "ServerCoordinator", code: 14, userInfo:
-                        [NSLocalizedDescriptionKey: "Unable to retrieve playback status for frontmost video"])
+                        [NSLocalizedDescriptionKey: "Unable to retrieve playback status for video with uuid \(uuid)"])
                     response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
                     command.processResponse?(response!)
                     return
@@ -205,6 +205,25 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             command.processResponse?(response!)
         }
  */
+        
+        inInterpreter.getElapsedTimeCallback = { uuid, command in
+            
+            var response : SharkResponse?
+            do {
+                guard let elapsedTime = try self.videoCoordinator?.requestElapsedTimeForVideoWithUUID(uuid: uuid) else {
+                    let error = NSError(domain: "ServerCoordinator", code: 15, userInfo:
+                        [NSLocalizedDescriptionKey : "Unable to retrieve elapsed time for video with uuid \(uuid)"])
+                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                    command.processResponse?(response!)
+                    return
+                }
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":elapsedTime])
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            command.processResponse?(response!)
+        }
 
     }
 }

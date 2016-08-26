@@ -32,6 +32,7 @@
 		7C09E2DC1D6D5B1A002F986C /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DA1D6D5B1A002F986C /* PlayerViewController.swift */; };
 		7C09E2E01D6D5D02002F986C /* OpenURLPromptWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DE1D6D5D02002F986C /* OpenURLPromptWindowController.swift */; };
 		7C09E2E11D6D5D02002F986C /* OpenURLPromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */; };
+		7C09E96D1D708CA000EC50FA /* CMTime+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */; };
 		7CAD50461D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		7C09E2DA1D6D5B1A002F986C /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		7C09E2DE1D6D5D02002F986C /* OpenURLPromptWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLPromptWindowController.swift; sourceTree = "<group>"; };
 		7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLPromptViewController.swift; sourceTree = "<group>"; };
+		7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMTime+Convenience.swift"; sourceTree = "<group>"; };
 		7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSJSONDictionaryHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +162,7 @@
 				7C09E2B81D6D4D2C002F986C /* SharkCommandInterpreter.swift */,
 				7C09E2BA1D6D4D35002F986C /* SharkResponse.swift */,
 				7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */,
+				7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */,
 				7C09E2BC1D6D4DF7002F986C /* Logging */,
 			);
 			name = Model;
@@ -309,6 +312,7 @@
 			files = (
 				7C09E2991D6D3836002F986C /* AppDelegate.swift in Sources */,
 				7CAD50461D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift in Sources */,
+				7C09E96D1D708CA000EC50FA /* CMTime+Convenience.swift in Sources */,
 				7C09E2AE1D6D4C41002F986C /* MessageHandler.swift in Sources */,
 				7C09E2B41D6D4CA5002F986C /* NSUserDefaults+ServerPreferences.swift in Sources */,
 				7C09E2B91D6D4D2C002F986C /* SharkCommandInterpreter.swift in Sources */,

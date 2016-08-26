@@ -254,6 +254,13 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         }
     }
     
+    func requestElapsedTimeForVideoWithUUID(uuid inUUID:NSUUID) throws -> UInt  {
+        
+        let pwc = try playerWindowControllerForUUID(inUUID)
+        
+        return pwc.playerViewController.videoElpasedTimeInMilliseconds
+    }
+
     // MARK:- SharkVideoCoordination:Control
     
     func focusWindowForVideoWithUUID(uuid inUUID:NSUUID) throws {

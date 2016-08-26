@@ -213,6 +213,12 @@ final class PlayerViewController: NSViewController {
         return Double(videoPlayer?.rate ?? 0)
     }
     
+    var videoElpasedTimeInMilliseconds : UInt {
+        guard let videoPlayer = videoPlayer else { return 0 }
+        
+        return videoPlayer.currentTime().milliseconds
+    }
+    
     // MARK:- Actions
     
     @IBAction func playVideo(sender:AnyObject) {
