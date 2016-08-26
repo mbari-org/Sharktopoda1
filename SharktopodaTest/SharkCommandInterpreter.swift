@@ -51,7 +51,6 @@ class SharkCommandInterpreter {
             pause(command)
             
             // TODO: the following cases
-            // TODO:4
         case .getElapsedTime:
             getElapsedTime(command)
             // TODO:5

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreMedia
 
 typealias JSONObject = AnyObject
 
@@ -106,20 +107,23 @@ struct SharkCommand {
 
     var rate : Double {
         
-        if let out = data["rate"] as? Double {
-            return out
+        switch data["rate"] {
+        case (let d) where d is Double:
+            return d as! Double
+        case (let s) where s is String:
+            return Double(s as! String) ?? 1
+        default:return 1
         }
-        let rateString = data["rate"] as? String ?? "1"
-        return Double(rateString)!
     }
     
-    var timeStamp : UInt32? {
+    var elapsedTime : CMTime? {
  
-        if let out = data["elapsed_time_millis"] as? UInt32 {
-            return out
+        if let out = data["elapsed_time_millis"] as? UInt {
+            return CMTime.timeWithMilliseconds(out)
         }
         guard let port = data["elapsed_time_millis"] as? String else { return nil }
-        return UInt32(port)
+        guard let portInt = UInt(port) else { return nil }
+        return CMTime.timeWithMilliseconds(portInt)
     }
     
     var imageLocation : NSURL? {

@@ -11,6 +11,13 @@ import CoreMedia
 
 extension CMTime {
     
+    // TODO: I'd love to have this as an init rather than a factory method, much swiftier
+    static func timeWithMilliseconds(milliseconds:UInt) -> CMTime {
+        let seconds = Double(milliseconds)/1000
+        let out = CMTime(seconds:seconds, preferredTimescale:1000)
+        return out
+    }
+    
     var milliseconds : UInt {
         return UInt(seconds * 1000)
     }
