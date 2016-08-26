@@ -34,6 +34,8 @@
 		7C09E2E11D6D5D02002F986C /* OpenURLPromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */; };
 		7C09E96D1D708CA000EC50FA /* CMTime+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */; };
 		7CAD50461D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */; };
+		7CDBB32A1D70FE5200D1CF5A /* trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB3271D70FE5200D1CF5A /* trap.swift */; };
+		7CDBB32B1D70FE5200D1CF5A /* WBTry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB3291D70FE5200D1CF5A /* WBTry.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +71,10 @@
 		7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLPromptViewController.swift; sourceTree = "<group>"; };
 		7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMTime+Convenience.swift"; sourceTree = "<group>"; };
 		7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSJSONDictionaryHelpers.swift; sourceTree = "<group>"; };
+		7CDBB3251D70F8F200D1CF5A /* SharktopodaTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SharktopodaTest.entitlements; sourceTree = "<group>"; };
+		7CDBB3271D70FE5200D1CF5A /* trap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trap.swift; sourceTree = "<group>"; };
+		7CDBB3281D70FE5200D1CF5A /* WBTry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTry.h; sourceTree = "<group>"; };
+		7CDBB3291D70FE5200D1CF5A /* WBTry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTry.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +108,7 @@
 		7C09E2971D6D3836002F986C /* SharktopodaTest */ = {
 			isa = PBXGroup;
 			children = (
+				7CDBB3251D70F8F200D1CF5A /* SharktopodaTest.entitlements */,
 				7C09E2A91D6D4BF4002F986C /* Coordinator */,
 				7C09E2AF1D6D4C52002F986C /* Controller */,
 				7C09E2B51D6D4D04002F986C /* Model */,
@@ -179,6 +186,7 @@
 		7C09E2C51D6D4F79002F986C /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				7CDBB3261D70FE3A00D1CF5A /* Weebly_Try */,
 				7C09E2C61D6D4F8C002F986C /* CocoaAsynchSocket */,
 			);
 			name = "Third Party";
@@ -240,6 +248,16 @@
 			name = "Open URL Prompt";
 			sourceTree = "<group>";
 		};
+		7CDBB3261D70FE3A00D1CF5A /* Weebly_Try */ = {
+			isa = PBXGroup;
+			children = (
+				7CDBB3271D70FE5200D1CF5A /* trap.swift */,
+				7CDBB3281D70FE5200D1CF5A /* WBTry.h */,
+				7CDBB3291D70FE5200D1CF5A /* WBTry.m */,
+			);
+			name = Weebly_Try;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -272,6 +290,11 @@
 				TargetAttributes = {
 					7C09E2941D6D3836002F986C = {
 						CreatedOnToolsVersion = 7.3;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -322,6 +345,8 @@
 				7C09E2CC1D6D5537002F986C /* PreferencesViewController.swift in Sources */,
 				7C09E2CE1D6D5675002F986C /* LogViewController.swift in Sources */,
 				7C09E2DC1D6D5B1A002F986C /* PlayerViewController.swift in Sources */,
+				7CDBB32B1D70FE5200D1CF5A /* WBTry.m in Sources */,
+				7CDBB32A1D70FE5200D1CF5A /* trap.swift in Sources */,
 				7C09E2AB1D6D4C08002F986C /* ServerCoordinator.swift in Sources */,
 				7C09E2B11D6D4C79002F986C /* MessageHandlerViewController.swift in Sources */,
 				7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */,
@@ -439,6 +464,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SharktopodaTest/SharktopodaTest.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SharktopodaTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -454,6 +480,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SharktopodaTest/SharktopodaTest.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SharktopodaTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

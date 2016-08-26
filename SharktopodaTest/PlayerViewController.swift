@@ -57,8 +57,17 @@ final class PlayerViewController: NSViewController {
         keysObserved.insert(key)
     }
     func stopObserving(key:String) {
-        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: key)
-        keysObserved.remove(key)
+        if keysObserved.contains(key) {
+            do {
+                try trap {
+                    self.videoPlayer?.currentItem?.removeObserver(self, forKeyPath: key)
+                    self.keysObserved.remove(key)
+                }
+            }
+            catch let error as NSError {
+                print("error removing observer for keypath \(key): \(error.localizedDescription)")
+            }
+        }
     }
     func stopObservingAll() {
         for this in keysObserved {
