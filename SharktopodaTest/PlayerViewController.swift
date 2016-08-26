@@ -14,6 +14,8 @@ import MediaAccessibility
 
 final class PlayerViewController: NSViewController {
 
+    // TODO: somewhere the video player is being held onto when the window closes.  FInd it. 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

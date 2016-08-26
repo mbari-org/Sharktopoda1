@@ -8,8 +8,6 @@
 
 import Cocoa
 
-//TODO:2 make a Logging Coordinator and move the Log window loading into it and out of the storyboard
-
 // MARK: Logging Levels
 
 enum LogLabel {

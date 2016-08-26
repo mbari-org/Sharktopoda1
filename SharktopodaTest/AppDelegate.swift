@@ -11,18 +11,33 @@ import Cocoa
 @NSApplicationMain
 final class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var serverCoordinator : ServerCoordinator?
-    let videoCoordinator = VideoPlayerCoordinator()
+    var serverCoordinator : ServerCoordinator!
+    var videoCoordinator : VideoPlayerCoordinator!
+    var loggingCoordinator : LoggingCoordinator!
 
+    struct StoryboardIdentifiers {
+        static let StoryboardName = "Main"
+    }
+    
+    lazy var storyboard = {
+        return NSStoryboard(name: StoryboardIdentifiers.StoryboardName, bundle: nil)
+    }()
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
 
+        videoCoordinator = VideoPlayerCoordinator()
+        videoCoordinator.storyboard = storyboard
+
         serverCoordinator = ServerCoordinator()
-    
-        // add the serverCoordinator to the responder chain so it can respond to menu items
-        NSApp.nextResponder = serverCoordinator
-        serverCoordinator?.nextResponder = videoCoordinator
         serverCoordinator?.videoCoordinator = videoCoordinator
+    
+        loggingCoordinator = LoggingCoordinator()
+        loggingCoordinator.storyboard = storyboard
+        
+        // add our coordinators to the responder chain so they can respond to 
+        NSApp.nextResponder = serverCoordinator
+        serverCoordinator.nextResponder = videoCoordinator
+        videoCoordinator.nextResponder = loggingCoordinator
         
         // show the openURL prompt when we first load
 //        videoCoordinator.openURL(self)

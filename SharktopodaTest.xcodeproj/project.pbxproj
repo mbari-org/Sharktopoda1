@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C086B461D6FB4D20034648C /* LoggingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C086B451D6FB4D20034648C /* LoggingCoordinator.swift */; };
 		7C09E2991D6D3836002F986C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2981D6D3836002F986C /* AppDelegate.swift */; };
 		7C09E29D1D6D3836002F986C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C09E29C1D6D3836002F986C /* Assets.xcassets */; };
 		7C09E2A01D6D3836002F986C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C09E29E1D6D3836002F986C /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C086B451D6FB4D20034648C /* LoggingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingCoordinator.swift; sourceTree = "<group>"; };
 		7C09E2951D6D3836002F986C /* SharktopodaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharktopodaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C09E2981D6D3836002F986C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C09E29C1D6D3836002F986C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				7C09E2D51D6D59C4002F986C /* SharkVideoCoordination.swift */,
 				7C09E2D11D6D5966002F986C /* VideoPlayerCoordinator.swift */,
 				7C09E2D31D6D5988002F986C /* VideoURLPlaybackRequester.swift */,
+				7C086B451D6FB4D20034648C /* LoggingCoordinator.swift */,
 			);
 			name = "GUI Side";
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				7C09E2AB1D6D4C08002F986C /* ServerCoordinator.swift in Sources */,
 				7C09E2B11D6D4C79002F986C /* MessageHandlerViewController.swift in Sources */,
 				7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */,
+				7C086B461D6FB4D20034648C /* LoggingCoordinator.swift in Sources */,
 				7C09E2C41D6D4F63002F986C /* UDPSender.swift in Sources */,
 				7C09E2D61D6D59C4002F986C /* SharkVideoCoordination.swift in Sources */,
 				7C09E2BE1D6D4E6B002F986C /* Logging.swift in Sources */,

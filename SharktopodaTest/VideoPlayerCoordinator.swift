@@ -16,15 +16,12 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     
     
     struct StoryboardIdentifiers {
-        static let StoryboardName = "Main"
         static let OpenURLWindowController = "OpenURLWindowController"
         static let VideoPlayerWindowController = "VideoPlayerWindowController"
         static let TestingPanelWindowController = "TestingPanelWindowController"
     }
     
-    lazy var storyboard = {
-        return NSStoryboard(name: StoryboardIdentifiers.StoryboardName, bundle: nil)
-    }()
+    var storyboard : NSStoryboard! //= {
     
     lazy var openURLPromptWindowController : NSWindowController = {
         return self.storyboard.instantiateControllerWithIdentifier(StoryboardIdentifiers.OpenURLWindowController) as! NSWindowController
