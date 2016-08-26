@@ -14,6 +14,9 @@ import MediaAccessibility
 
 final class PlayerViewController: NSViewController {
 
+    // TODO:10 move the references to the window and window controller out of this class
+    // it should be encapsulated instead and use a delegate for these things
+    
     // TODO:3 somewhere the video player is being held onto when the window closes.  FInd it. 
     
     override func viewDidLoad() {
@@ -67,11 +70,8 @@ final class PlayerViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        if nil == videoPlayer {
-            // TODO:2 see if we can keep the window hidden until the status has changed to something we know will work...
-            // could be a better experience than blitting the window...
-            openVideo()
-        }
+        // if it hasn't been opened already, then open it now...
+        openVideo()
     }
     
     override func viewWillDisappear() {
@@ -95,6 +95,7 @@ final class PlayerViewController: NSViewController {
             processVideoPlayerStatus()
         }
         else if (keyPath == "presentationSize") {
+            view.window?.windowController?.showWindow(self)
             updateWindowForMediaSize()
         }
     }
@@ -109,9 +110,10 @@ final class PlayerViewController: NSViewController {
         static let AllotedTimeForVideoLoad = NSTimeInterval(5)
     }
 
-    private func openVideo() {
+    func openVideo() {
         
         guard let url = url else { return }
+        guard nil == videoPlayer else { return }
         
         videoPlayer = AVPlayer(URL: url)
         playerView.player = videoPlayer
@@ -124,8 +126,6 @@ final class PlayerViewController: NSViewController {
         
         observeKey("status")
         observeKey("presentationSize")
-//        videoPlayer?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil);
-//        videoPlayer?.currentItem?.addObserver(self, forKeyPath: "presentationSize", options: NSKeyValueObservingOptions(), context: nil);
 
         timeouttimer = NSTimer.scheduledTimerWithTimeInterval(Timeout.AllotedTimeForVideoLoad, target: self, selector: #selector(videoLoadTimedOut(_:)), userInfo: nil, repeats: false)
     }
@@ -170,7 +170,6 @@ final class PlayerViewController: NSViewController {
         
         //De-register for infomation about the item because it is now either ready or failed to load
         stopObserving("status")
-//        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: "status");
     }
     
 
@@ -198,6 +197,8 @@ final class PlayerViewController: NSViewController {
         // notify the callback that loading failed and pass along the error
         videoLoadCompletionCallback?(success: false, error: error)
         videoLoadCompletionCallback = nil   // clear it to be safe
+        
+        stopObservingAll()
     }
 
     func videoLoadTimedOut(sender:NSTimer) {
@@ -249,7 +250,6 @@ final class PlayerViewController: NSViewController {
         view.window?.center()
         
         stopObserving("presentationSize")
-//        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: "presentationSize");
     }
 
 }

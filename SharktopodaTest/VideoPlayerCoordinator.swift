@@ -200,7 +200,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         let playerVC = playerWC.playerViewController
         playerVC.videoLoadCompletionCallback = callback
         
-        playerWC.showWindow(self)
+        playerWC.showVideo()
         
         videoPlayerWindowControllers[uuid] = playerWC
     }

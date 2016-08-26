@@ -1,3 +1,11 @@
+
+TODO: setup github project, invite Brian to it
+TODO: setup Slack conversation, invite Brian to it
+
+TODO: add reachability support: the server gets confused after I turn off Link Conditioner
+
+//// notes.txt as bid submission 8/23/2016:
+
 This is the beginnings of an implementation of Sharktopoda as it's described at https://github.com/underwatervideo/Sharktopoda/blob/master/REQUIREMENTS.md
 
 It should be enough to show you my approach to coding and architecture and my coding style.
@@ -38,5 +46,4 @@ There's also a test app that includes a test panel to see how the networking com
 If you have any further questions, feel free to contact me via freelancer or at jaywardell@mac.com
 
 Whether you accept my bid or not, I want to thank you for an interesting challenge. I hope to work with you on this some more.
-
 

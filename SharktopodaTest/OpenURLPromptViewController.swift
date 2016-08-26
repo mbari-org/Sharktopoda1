@@ -36,6 +36,8 @@ final class OpenURLPromptViewController: NSViewController {
     @IBAction func openUserSelectedURL(sender:NSButton) {
         
         requestPlayback()
+        
+        NSApp.sendAction(#selector(NSWindow.performClose(_:)), to: nil, from: self)
     }
 }
 
