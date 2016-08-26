@@ -20,7 +20,7 @@ import Foundation
         The caller may know about it, but no response will be sent.
         This is another layer of security, ensuring that only commands we are expecting are responded to.
  */
-class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with just a little tweaking
+struct SharkCommandInterpreter { 
     
     func handle(command:SharkCommand) {
         
