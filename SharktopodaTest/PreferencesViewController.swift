@@ -23,6 +23,17 @@ final class PreferencesViewController: MessageHandlerViewController {
 
         startStopButton.target = self
         startStopButton.action = #selector(startStopButtonPressed(_:))
+
+        class RestrictiveNumberFormatter : NSNumberFormatter {
+            override func isPartialStringValid(partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<NSString?>, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>) -> Bool {
+                guard !partialString.isEmpty else { return true }
+                
+                guard let out = Int(partialString) else { return false }
+                
+                return out <= Int(PortNumber.max)
+            }
+        }
+        portField.formatter = RestrictiveNumberFormatter()
     }
     
     override func viewWillAppear() {
