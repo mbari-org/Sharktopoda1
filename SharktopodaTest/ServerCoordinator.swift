@@ -23,7 +23,6 @@ final class ServerCoordinator: NSResponder {
         return $0
     } (MessageHandler())
     
-    // TODO: this shouldn't be an optional
     var videoCoordinator : SharkVideoCoordination
     
     init(videoCoordinator:SharkVideoCoordination) {
@@ -210,6 +209,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             do {
                 try self.videoCoordinator.advanceToTimeInMilliseconds(time, forVideoWithUUID: uuid)
                 // TODO: perhaps we should get the ACTUAL time and return that?
+                // see notes in PLayerVideoController...
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":time])
             }
             catch let error as NSError {

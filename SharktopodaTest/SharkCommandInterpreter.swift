@@ -51,12 +51,11 @@ class SharkCommandInterpreter {
         case .pause:
             pause(command)
             
-            // TODO: the following cases
         case .getElapsedTime:
             getElapsedTime(command)
-            // TODO:5
         case .advanceToTime:
             advanceToTime(command)
+            // TODO: the following cases
             // TODO:6
 //        case framecapture // see https://developer.apple.com/library/mac/documentation/AVFoundation/Reference/AVAssetImageGenerator_Class/#//apple_ref/occ/instm/AVAssetImageGenerator/generateCGImagesAsynchronouslyForTimes:completionHandler:
 //        case frameAdvance = "frame advance"
