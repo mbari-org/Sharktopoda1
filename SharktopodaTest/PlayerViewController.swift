@@ -10,6 +10,7 @@
 import Cocoa
 import AVKit
 import AVFoundation
+import CoreMedia
 import MediaAccessibility
 
 final class PlayerViewController: NSViewController {
@@ -248,6 +249,16 @@ final class PlayerViewController: NSViewController {
         }
     }
 
+    func advanceToTimeInMilliseconds(milliseconds:UInt) throws {
+        let time = CMTime.timeWithMilliseconds(milliseconds)
+        
+        videoPlayer!.seekToTime(time, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+        
+        // TODO: it would be nice to ave this, but AVPlayer seems to want to return the time BEFORE the seek
+        // so come back to it later
+//        let actualTime = videoPlayer!.currentTime()
+//        return actualTime.milliseconds
+    }
 
     
     // MARK:- UI Updating

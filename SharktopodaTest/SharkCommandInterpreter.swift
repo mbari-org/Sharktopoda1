@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreMedia
 
 /*
  Interprets commands that are sent from the client app,
@@ -54,7 +55,8 @@ class SharkCommandInterpreter {
         case .getElapsedTime:
             getElapsedTime(command)
             // TODO:5
-//        case advanceToTime = "seek elapsed time"
+        case .advanceToTime:
+            advanceToTime(command)
             // TODO:6
 //        case framecapture // see https://developer.apple.com/library/mac/documentation/AVFoundation/Reference/AVAssetImageGenerator_Class/#//apple_ref/occ/instm/AVAssetImageGenerator/generateCGImagesAsynchronouslyForTimes:completionHandler:
 //        case frameAdvance = "frame advance"
@@ -142,6 +144,17 @@ class SharkCommandInterpreter {
         guard let uuid = uuidFromCommand(command) else { return }
 
         getElapsedTimeCallback(uuid: uuid.UUID!, command: command)
+    }
+    
+    var advanceToTimeCallback : (uuid:NSUUID, time:UInt, command:SharkCommand) -> () = { _, _, _ in }
+    func advanceToTime(command:SharkCommand) {
+        guard let uuid = uuidFromCommand(command) else { return }
+        guard let time = command.elapsedTime else {
+            callbackErrorForMissingParameter("elapsed_time_millis", forCommand: command)
+            return
+        }
+        
+        advanceToTimeCallback(uuid: uuid.UUID!, time: time, command: command)
     }
     
     // MARK:- Convenience

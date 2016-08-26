@@ -203,6 +203,21 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             }
             command.processResponse?(response!)
         }
+        
+        inInterpreter.advanceToTimeCallback = { uuid, time, command in
+            
+            var response : SharkResponse?
+            do {
+                try self.videoCoordinator.advanceToTimeInMilliseconds(time, forVideoWithUUID: uuid)
+                // TODO: perhaps we should get the ACTUAL time and return that?
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":time])
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+            }
+            command.processResponse?(response!)
+
+        }
 
     }
 }

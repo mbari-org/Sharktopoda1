@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreMedia
 
 ////    playing is when the video is playing at a rate of 1.0
 ////    shuttling forward is when the video is playing with a positive rate that is not equal to 1.0
@@ -65,7 +66,12 @@ protocol SharkVideoCoordination {
     ////    Return the elapsed time (from the start) of the video as milliseconds.
     func requestElapsedTimeForVideoWithUUID(uuid inUUID:NSUUID) throws -> UInt 
 
-    
+    ////    Seek Elapsed Time
+    ////
+    ////    Seek to the provided elapsed time (which will be in milliseconds)
+    //      returns the actual time advanced to after the advance was done
+    func advanceToTimeInMilliseconds(time: UInt, forVideoWithUUID inUUID: NSUUID) throws
+
 /*      The following are yet to be implemented:
      
     ////    Return the elapsed time (from the start) of the video as milliseconds.

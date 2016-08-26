@@ -116,14 +116,23 @@ struct SharkCommand {
         }
     }
     
-    var elapsedTime : CMTime? {
+    var elapsedTime : UInt? {
  
-        if let out = data["elapsed_time_millis"] as? UInt {
-            return CMTime.timeWithMilliseconds(out)
+        switch data["elapsed_time_millis"] {
+        case (let u) where u is UInt:
+            return u as? UInt
+        case (let s) where s is String:
+            return UInt(s as! String)
+        default:
+            return nil
         }
-        guard let port = data["elapsed_time_millis"] as? String else { return nil }
-        guard let portInt = UInt(port) else { return nil }
-        return CMTime.timeWithMilliseconds(portInt)
+        
+//        if let out = data["elapsed_time_millis"] as? UInt {
+//            return CMTime.timeWithMilliseconds(out)
+//        }
+//        guard let port = data["elapsed_time_millis"] as? String else { return nil }
+//        guard let portInt = UInt(port) else { return nil }
+//        return CMTime.timeWithMilliseconds(portInt)
     }
     
     var imageLocation : NSURL? {
