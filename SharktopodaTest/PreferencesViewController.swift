@@ -24,6 +24,9 @@ final class PreferencesViewController: MessageHandlerViewController {
         startStopButton.target = self
         startStopButton.action = #selector(startStopButtonPressed(_:))
 
+        portField.target = self
+        portField.action = #selector(takePortNumberFrom(_:))
+        
         class RestrictiveNumberFormatter : NSNumberFormatter {
             override func isPartialStringValid(partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<NSString?>, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>) -> Bool {
                 guard !partialString.isEmpty else { return true }
@@ -71,7 +74,7 @@ final class PreferencesViewController: MessageHandlerViewController {
 
     // MARK:- Actions
 
-    func startStopButtonPressed(sender:NSButton) {
+    @IBAction func startStopButtonPressed(sender:NSButton) {
         
         NSUserDefaults.standardUserDefaults().preferredServerPort = preferredServerPort
         
@@ -79,6 +82,17 @@ final class PreferencesViewController: MessageHandlerViewController {
         
         NSUserDefaults.standardUserDefaults().startServerOnStartup = sender.integerValue != 0
     }
+    
+    @IBAction func takePortNumberFrom(sender:AnyObject) {
+        
+        guard let sender = sender as? NSControl else { return }
+        
+        let newPort = PortNumber(sender.intValue)
+        guard newPort <= PortNumber.max else { return }
+        
+        messageHandler?.startServer(onPort: newPort)
+    }
+
     
     // MARK:- Notifications
 
