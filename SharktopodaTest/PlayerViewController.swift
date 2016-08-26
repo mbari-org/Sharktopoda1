@@ -49,6 +49,20 @@ final class PlayerViewController: NSViewController {
         return representedObject as? NSURL
     }
     
+    private var keysObserved = Set<String>()
+    func observeKey(key:String) {
+        videoPlayer?.currentItem?.addObserver(self, forKeyPath: key, options: NSKeyValueObservingOptions(), context: nil);
+        keysObserved.insert(key)
+    }
+    func stopObserving(key:String) {
+        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: key)
+        keysObserved.remove(key)
+    }
+    func stopObservingAll() {
+        for this in keysObserved {
+            videoPlayer?.currentItem?.removeObserver(self, forKeyPath: this)
+        }
+    }
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -60,6 +74,13 @@ final class PlayerViewController: NSViewController {
         }
     }
     
+    override func viewWillDisappear() {
+        
+        // to be safe, remove observers here, in case they weren't removed before
+        stopObservingAll()
+    }
+    
+    // TODO: I probably want to encapsulae this in its own model class
     var videoPlayer:AVPlayer?
     
     // MARK:- KVO
@@ -101,8 +122,10 @@ final class PlayerViewController: NSViewController {
         playerView.hidden = true
         spinner?.startAnimation(self)
         
-        videoPlayer?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil);
-        videoPlayer?.currentItem?.addObserver(self, forKeyPath: "presentationSize", options: NSKeyValueObservingOptions(), context: nil);
+        observeKey("status")
+        observeKey("presentationSize")
+//        videoPlayer?.currentItem?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(), context: nil);
+//        videoPlayer?.currentItem?.addObserver(self, forKeyPath: "presentationSize", options: NSKeyValueObservingOptions(), context: nil);
 
         timeouttimer = NSTimer.scheduledTimerWithTimeInterval(Timeout.AllotedTimeForVideoLoad, target: self, selector: #selector(videoLoadTimedOut(_:)), userInfo: nil, repeats: false)
     }
@@ -146,7 +169,8 @@ final class PlayerViewController: NSViewController {
         }
         
         //De-register for infomation about the item because it is now either ready or failed to load
-        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: "status");
+        stopObserving("status")
+//        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: "status");
     }
     
 
@@ -224,7 +248,8 @@ final class PlayerViewController: NSViewController {
         view.window?.setContentSize(playerView.player!.currentItem!.presentationSize)
         view.window?.center()
         
-        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: "presentationSize");
+        stopObserving("presentationSize")
+//        videoPlayer?.currentItem?.removeObserver(self, forKeyPath: "presentationSize");
     }
 
 }

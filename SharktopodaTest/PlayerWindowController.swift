@@ -38,5 +38,4 @@ final class PlayerWindowController: NSWindowController {
 
         super.showWindow(sender)
     }
-    
 }
