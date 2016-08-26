@@ -32,5 +32,6 @@ class LoggingCoordinator: NSResponder {
         if !(logViewWindowController.window?.visible ?? false) {
             logViewWindowController.showWindow(sender)
         }
+        logViewWindowController.window?.makeKeyAndOrderFront(sender)
     }
 }
