@@ -76,7 +76,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
 
         inInterpreter.openCallback = { url, uuid, command in
             
-            self.videoCoordinator?.openVideoAtURL(url, usingUUID: NSUUID(UUIDString: uuid)!) { success, error in
+            self.videoCoordinator?.openVideoAtURL(url, usingUUID:uuid) { success, error in
                 
                 if success {
                     command.processResponse?(VerboseSharkResponse(successfullyCompletedCommand: command))
@@ -91,7 +91,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                try self.videoCoordinator?.playVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!, rate: rate)
+                try self.videoCoordinator?.playVideoWithUUID(uuid:uuid, rate: rate)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
@@ -104,7 +104,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                try self.videoCoordinator?.pauseVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!)
+                try self.videoCoordinator?.pauseVideoWithUUID(uuid:uuid)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
@@ -117,7 +117,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                try self.videoCoordinator?.focusWindowForVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!)
+                try self.videoCoordinator?.focusWindowForVideoWithUUID(uuid:uuid)
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
@@ -168,7 +168,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                guard let status = try self.videoCoordinator?.requestPlaybackStatusForVideoWithUUID(uuid: NSUUID(UUIDString: uuid)!) else {
+                guard let status = try self.videoCoordinator?.requestPlaybackStatusForVideoWithUUID(uuid:uuid) else {
                     let error = NSError(domain: "ServerCoordinator", code: 14, userInfo:
                         [NSLocalizedDescriptionKey: "Unable to retrieve playback status for frontmost video"])
                     response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
@@ -189,7 +189,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             
             var response : SharkResponse?
             do {
-                guard let info = try self.videoCoordinator?.returnInfoForVideoWithUUID(NSUUID(UUIDString: uuid)!) else {
+                guard let info = try self.videoCoordinator?.returnInfoForVideoWithUUID(uuid) else {
                     let error = NSError(domain: "ServerCoordinator", code: 12, userInfo:
                         [NSLocalizedDescriptionKey: "Unable to retrieve info for video with uuid \(uuid)"])
                    response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)

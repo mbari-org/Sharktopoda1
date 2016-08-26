@@ -10,6 +10,7 @@ import Foundation
 
 typealias JSONObject = AnyObject
 
+
 /*
  Encapsulates the data sent as a command from the client.
  Mainly, we use this to make sure that only valid commands are accepted
@@ -69,8 +70,26 @@ struct SharkCommand {
         return NSURL(string: url)
     }
     
-    var uuid : String? {    // TODO:3 switch to NSUUID, it makes for cleaner calling
-        return data["uuid"] as? String
+    // an object that is meant to be a UUID
+    // it may be one, or it may be some other string
+    struct UUID : CustomStringConvertible {
+        var object : AnyObject
+        var UUID : NSUUID? {
+            guard let s = object as? String else { return nil }
+            return NSUUID(UUIDString: s)
+        }
+        var isValidUUID : Bool {
+            return nil != UUID
+        }
+        var description: String {
+            if let string = object as? CustomStringConvertible { return string.description }
+            return "SharkCommand.UUID"
+        }
+    }
+    
+    var uuid : UUID? {
+        guard let uuid = data["uuid"] else { return nil }
+        return UUID(object: uuid)
     }
 
     var host : String? {
@@ -108,8 +127,9 @@ struct SharkCommand {
         return NSURL(string: url)
     }
 
-    var imageReferenceUUID : String? {    // TODO:4 switch to NSUUID
-        return data["image_reference_uuid"] as? String
+    var imageReferenceUUID : UUID? {
+        guard let uuid = data["image_reference_uuid"] else { return nil }
+        return UUID(object: uuid)
     }
     
     var wantsVerboseResponse : Bool {

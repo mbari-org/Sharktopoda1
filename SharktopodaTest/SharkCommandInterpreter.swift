@@ -73,7 +73,7 @@ class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with 
         connectCallback(port: port, host: command.host)
     }
     
-    var openCallback : (url:NSURL, uuid:String, command:SharkCommand) -> () = { _, _, _ in }
+    var openCallback : (url:NSURL, uuid:NSUUID, command:SharkCommand) -> () = { _, _, _ in }
     func open(command:SharkCommand) {
         guard let url = command.url else {
             callbackErrorForMissingParameter("url", forCommand: command)
@@ -83,25 +83,37 @@ class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with 
             callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
-        
-        openCallback(url: url, uuid: uuid, command:command)
+        guard uuid.isValidUUID else {
+            callbackErrorForMalformedUUID(uuid, forCommand: command)
+            return
+        }
+       
+        openCallback(url: url, uuid: uuid.UUID!, command:command)
     }
     
-    var showCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    var showCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
     func show(command:SharkCommand) {
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
-        
-        showCallback(uuid: uuid, command:command)
+        guard uuid.isValidUUID else {
+            callbackErrorForMalformedUUID(uuid, forCommand: command)
+            return
+        }
+
+        showCallback(uuid: uuid.UUID!, command:command)
     }
 
-    var getInfoForVideoWithUUIDCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    var getInfoForVideoWithUUIDCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
     var getFrontmostVideoInfoCallback : (command:SharkCommand) -> () = { _ in }
     func getVideoInfo(command:SharkCommand) {
         if let uuid = command.uuid {
-            getInfoForVideoWithUUIDCallback(uuid: uuid, command: command)
+            guard uuid.isValidUUID else {
+                callbackErrorForMalformedUUID(uuid, forCommand: command)
+                return
+            }
+            getInfoForVideoWithUUIDCallback(uuid: uuid.UUID!, command: command)
         }
         else {
             getFrontmostVideoInfoCallback(command: command)
@@ -113,35 +125,47 @@ class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with 
         getInfoForAllVideosCallback(command: command)
     }
     
-    var playCallback : (uuid:String, rate:Double, command:SharkCommand) -> () = { _, _, _ in }
+    var playCallback : (uuid:NSUUID, rate:Double, command:SharkCommand) -> () = { _, _, _ in }
     func play(command:SharkCommand) {
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
+        guard uuid.isValidUUID else {
+            callbackErrorForMalformedUUID(uuid, forCommand: command)
+            return
+        }
         let rate = command.rate
-        playCallback(uuid: uuid, rate:rate, command:command)
+        playCallback(uuid: uuid.UUID!, rate:rate, command:command)
     }
     
-    var pauseCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    var pauseCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
     func pause(command:SharkCommand) {
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
-        
-        pauseCallback(uuid: uuid, command:command)
+        guard uuid.isValidUUID else {
+            callbackErrorForMalformedUUID(uuid, forCommand: command)
+            return
+        }
+
+        pauseCallback(uuid: uuid.UUID!, command:command)
     }
 
-    var getVideoStatusCallback : (uuid:String, command:SharkCommand) -> () = { _, _ in }
+    var getVideoStatusCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
     func getVideoStatus(command:SharkCommand) {
         
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command)
             return
         }
-        
-        getVideoStatusCallback(uuid: uuid, command:command)
+        guard uuid.isValidUUID else {
+            callbackErrorForMalformedUUID(uuid, forCommand: command)
+            return
+        }
+
+        getVideoStatusCallback(uuid: uuid.UUID!, command:command)
     }
 
     // MARK:- Error Handling
@@ -158,6 +182,12 @@ class SharkCommandInterpreter { // TODO:5 can this be a struct? I think so with 
     func callbackErrorForMissingParameter(parameter:String, forCommand command:SharkCommand) {
         let error = missingParameterErrorForCommand(command, parameter: parameter)
         callbackError(error, forCommand: command)
+    }
+    
+    func callbackErrorForMalformedUUID(uuid:SharkCommand.UUID, forCommand command:SharkCommand) {
+        let error = NSError(domain: "SharkCommandInterpreter", code: 12, userInfo: [NSLocalizedDescriptionKey : "\(uuid) is not a valid UUID"])
+        let response = VerboseSharkResponse(failedCommand:command, error:error, canSendAnyway:true)
+        command.processResponse?(response)
     }
 }
 
