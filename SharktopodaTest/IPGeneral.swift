@@ -15,7 +15,7 @@ struct NetworkingDefaults {
     struct Ports {
         // the port on which messages are sent back from the server
         // if we were using the connect as a handshake, then we would not use this
-        static let returnPort : UInt16 = 3000
+//        static let returnPort : UInt16 = 3000
     }
 
 }

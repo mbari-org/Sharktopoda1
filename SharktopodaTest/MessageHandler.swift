@@ -33,27 +33,32 @@ final class MessageHandler: NSObject {
             self.log("Received JSON from \(address): \(json)")
             self.handleJSON(json, sentFrom:address)
         }
+        $0.didSendResponse = {
+            self.log("Response Sent")
+        }
+        $0.failedToSendResponse = { error in
+            self.log(error)
+        }
         return $0
     }(UDPService())
     
-
-    lazy var sender : UDPSender = {
-        $0.didSend = { message, address, port, timeSent in
-            self.log("message sent to \(address):\(port) at \(timeSent): \(message)")
-        }
-        $0.failedToSend = { message, address, port, timeSent, error in
-            self.log("failed to send message to \(address):\(port) at \(timeSent): \(message)\n\nerror:\(error)", label:.error)
-        }
-        return $0
-    }(UDPSender())
-
+    
+//    lazy var sender : UDPSender = {
+//        $0.didSend = { message, address, port, timeSent in
+//            self.log("message sent to \(address):\(port) at \(timeSent): \(message)")
+//        }
+//        $0.failedToSend = { message, address, port, timeSent, error in
+//            self.log("failed to send message to \(address):\(port) at \(timeSent): \(message)\n\nerror:\(error)", label:.error)
+//        }
+//        return $0
+//    }(UDPSender())
+    
     lazy var interpreter : SharkCommandInterpreter = {
         
         // this class gets the first shot at configuring the interpreter
         self.configureInterpreter(interpreter: $0)
         return $0
     }(SharkCommandInterpreter())
-
     let log = Log()
     
     var nextInterpreterConfigurator : SharkCommandInterpreterConfigurator?
@@ -61,17 +66,14 @@ final class MessageHandler: NSObject {
     
     // MARK:- Toggling Server
     
-    func startServer(onPort inport:PortNumber) {
+    func startServerOnPort(port:PortNumber) {
         
-        if let port = server.port {
-            if inport == port { return }
-        }
-        
-        let portToTry = inport
+        let portToTry = port
         do {
             try server.startListening(onPort: portToTry)
         }
         catch let error as NSError {
+            // TODO: some common POSIX errors (e.g. 13:Permission Denied, should be handled more elegantly)
             self.log("Error starting server on port \(portToTry): \(error)", label: .error)
             
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFailToStartListening, object: self, userInfo: ["error":error, "port":NSNumber(unsignedShort: portToTry)])
@@ -88,17 +90,15 @@ final class MessageHandler: NSObject {
             stopServer()
         }
         else {
-            startServer(onPort:port)
+            startServerOnPort(port)
         }
     }
-
+    
     
     // MARK:- Handling Commands from the client
     
     private func handleJSON(json:JSONObject, sentFrom address:String) {
         
-        // thus simplifying A LOT of function definitions and callsites 
-        // where the callback just gets passed around
         guard let command = SharkCommand(json: json, sentFrom:address, processResponse:processResponse) else {
             self.log("not a command: \(json)", label:.error)
             return
@@ -114,24 +114,28 @@ final class MessageHandler: NSObject {
         // - check a lookup table for host names associated with the address
         return response.command.host
     }
-
-    private func portForResponse(response:VerboseSharkResponse) -> UInt16? {
-        // If we were using the connect message as a handshake, then we'd want to:
-        // - check a lookup table for port numbers associated with the host
-        
-        // instead, we just return the default return port
-        return NetworkingDefaults.Ports.returnPort
-    }
-
+    
+//    private func portForResponse(response:VerboseSharkResponse) -> UInt16? {
+//        // If we were using the connect message as a handshake, then we'd want to:
+//        // - check a lookup table for port numbers associated with the host
+//        
+//        // instead, we just return the default return port
+//        return NetworkingDefaults.Ports.returnPort
+//    }
+    
     private func processResponse(response:SharkResponse) {
         
+        
         // has to be a verbose response, or else we can't send it
+        // TODO: only send response when appropriate
         let response = response as! VerboseSharkResponse
+//        sendResponse(response)
+//        return
         
         if response.succeeded || response.allowSendingOnFailure {
             sendResponse(response)
         }
-        if let error = response.error { // yes, we log EVEN IF allowSendingOnFailure is true
+        else if let error = response.error {
             log(error)
         }
         else {
@@ -141,22 +145,27 @@ final class MessageHandler: NSObject {
     
     private func sendResponse(response:VerboseSharkResponse) {
         
+        
         guard let data = response.dataRepresentation else {
             log("Malformed response: \(response)", label:.error)
             return
         }
-        guard let host = hostForResponse(response) else {
-            log("No known host to send response \(response)", label:.error)
-            return
-        }
-        guard let port = portForResponse(response) else {
-            log("No known port for response \(response)", label:.error)
-            return
-        }
-        
-        sender.sendData(data, to: host, onPort: port)
-    }
+//        guard let host = hostForResponse(response) else {
+//            log("No known host to send response \(response)", label:.error)
+//            return
+//        }
+//        guard let port = portForResponse(response) else {
+//            log("No known port for response \(response)", label:.error)
+//            return
+//        }
 
+        log("Sending Response \(response)")
+        
+        server.sendResponse(data)
+        
+        //        sender.sendData(data, to: host, onPort: port)
+    }
+    
     // If we were using the connect message as a handshake, then we'd want to:
     // - all commands except connect must follow a previous connect: call
     // - connections time out after a reasonable time
@@ -211,13 +220,14 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
 // MARK:- Logging
 
 
+
 extension MessageHandler : Logging {
     
     func log(message:String, label:LogLabel) {
         
         #if false
             // to simultaneously log everything to the console as well, include this line
-        NSLog(message)  
+            NSLog(message)
         #endif
         log.log(message, label: label)
     }
