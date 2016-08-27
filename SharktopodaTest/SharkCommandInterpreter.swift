@@ -43,7 +43,7 @@ class SharkCommandInterpreter {
         case .getAllVideosInfo:
             getInfoForAllVideos(command)
             
-        case .requestStatus:
+        case .getStatus:
             getVideoStatus(command)
             
         case .play:

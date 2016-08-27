@@ -35,7 +35,7 @@ struct SharkCommand {
         case play
         case pause
         case getElapsedTime = "request elapsed time"
-        case requestStatus = "request status"
+        case getStatus = "request status"
         case advanceToTime = "seek elapsed time"
         case frameCapture
         case frameAdvance = "frame advance"
@@ -46,7 +46,7 @@ struct SharkCommand {
                 return ["port"]
             case .open:
                 return ["url","uuid"]
-            case .show, .play, .pause, .getElapsedTime, .requestStatus, .frameAdvance:
+            case .show, .play, .pause, .getElapsedTime, .getStatus, .frameAdvance:
                 return ["uuid"]
             case .getVideoInfo, .getAllVideosInfo:
                 return []
@@ -56,7 +56,28 @@ struct SharkCommand {
                 return ["uuid", "image_location", "image_reference_uuid"]
             }
         }
+
+        // TODO: verify that these are the only commands that return responses
+        var sendResponseToCaller : Bool {
+            switch self {
+            case .open, .getVideoInfo, .getAllVideosInfo, .getElapsedTime, .getStatus:
+                return true
+            default:
+                return false
+            }
+        }
+        
+        // TODO: rename this
+        var sendResponseToSeparateClient : Bool {
+            switch self {
+            case .frameCapture:
+                return true
+            default:
+                return false
+            }
+        }
     }
+    
     
     // MARK:- Variables
 
