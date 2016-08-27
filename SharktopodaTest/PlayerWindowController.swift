@@ -11,6 +11,7 @@ import Cocoa
 protocol PlayerWindowControllerDelegate {
     
     func playerWindowWillClose(notification: NSNotification)
+    func playerWindowDidAppear(notification: NSNotification)
     func playerWindowDidBecomeMain(notification: NSNotification)
 }
 
@@ -56,10 +57,9 @@ final class PlayerWindowController: NSWindowController {
     
     override func showWindow(sender: AnyObject?) {
         
-        window?.setContentSize(NSSize(width: 377, height: 34))
-        window?.center()
-
         super.showWindow(sender)
+
+        delegate?.playerWindowDidAppear(NSNotification(name: "PlayerWindowController.didAppear", object: self.window))
     }
     
     // MARK:- KVO
@@ -93,7 +93,7 @@ extension PlayerWindowController : NSWindowDelegate {
         delegate?.playerWindowWillClose(notification)
     }
     
-    func windowDidBecomeKey(notification: NSNotification) {
+    func windowDidBecomeMain(notification: NSNotification) {
         delegate?.playerWindowDidBecomeMain(notification)
     }
 }

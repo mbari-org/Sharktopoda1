@@ -98,16 +98,16 @@ class SharkCommandInterpreter {
     var getInfoForVideoWithUUIDCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
     var getFrontmostVideoInfoCallback : (command:SharkCommand) -> () = { _ in }
     func getVideoInfo(command:SharkCommand) {
-        if let uuid = command.uuid {
-            guard uuid.isValidUUID else {
-                callbackErrorForMalformedUUID(uuid, forCommand: command)
-                return
-            }
-            getInfoForVideoWithUUIDCallback(uuid: uuid.UUID!, command: command)
-        }
-        else {
+//        if let uuid = command.uuid {
+//            guard uuid.isValidUUID else {
+//                callbackErrorForMalformedUUID(uuid, forCommand: command)
+//                return
+//            }
+//            getInfoForVideoWithUUIDCallback(uuid: uuid.UUID!, command: command)
+//        }
+//        else {
             getFrontmostVideoInfoCallback(command: command)
-        }
+//        }
     }
     
     var getInfoForAllVideosCallback : (command:SharkCommand) -> () = { _ in }

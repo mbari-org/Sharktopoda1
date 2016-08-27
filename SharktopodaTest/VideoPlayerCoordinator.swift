@@ -211,7 +211,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     func returnInfoForVideoWithUUID(uuid:NSUUID) throws -> [String:AnyObject] {
         
         let info = try infoForVideoWithUUID(uuid)
-        return ["url":info.url, "uuid":info.uuid.UUIDString]
+        return ["url":info.url.absoluteString, "uuid":info.uuid.ITUString]
     }
     
     func returnInfoForFrontmostVideo() throws -> [String : AnyObject] {
@@ -305,6 +305,13 @@ extension VideoPlayerCoordinator : PlayerWindowControllerDelegate {
         // don't manage the player anymore
         // also, release it so that playback will end...
         videoPlayerWindowControllers.removeValueForKey(playerWC.uuid!)
+    }
+    
+    func playerWindowDidAppear(notification: NSNotification) {
+        let window = notification.object as! NSWindow
+        let playerWC = window.windowController as! PlayerWindowController
+
+        frontmostPlayerWindowController = playerWC
     }
     
     func playerWindowDidBecomeMain(notification: NSNotification) {
