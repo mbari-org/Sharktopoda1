@@ -79,7 +79,11 @@ struct VerboseSharkResponse : SharkResponse {
         out["status"] = success.rawValue
 
         for (key, value) in payload {
-            out[key] = value
+            var dictValue = value
+            if let uuid = value as? NSUUID {
+                dictValue = uuid.ITUString
+            }
+            out[key] = dictValue
         }
 
         // if the client asked for a verbose response,

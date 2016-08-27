@@ -21,4 +21,6 @@ extension CMTime {
     var milliseconds : UInt {
         return UInt(seconds * 1000)
     }
+    
+    // TODO: an easy way to get HALF the time expressed
 }
