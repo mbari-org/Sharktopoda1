@@ -52,7 +52,7 @@ final class ServerCoordinator: NSResponder {
     
     @IBAction func startServer(sender:AnyObject) {
         
-        messageHandler.startServer(onPort:NSUserDefaults.standardUserDefaults().preferredServerPort)
+        messageHandler.startServerOnPort(NSUserDefaults.standardUserDefaults().preferredServerPort)
     }
     
     @IBAction func stopServer(sender:AnyObject) {

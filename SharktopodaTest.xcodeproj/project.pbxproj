@@ -21,7 +21,6 @@
 		7C09E2BE1D6D4E6B002F986C /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2BD1D6D4E6B002F986C /* Logging.swift */; };
 		7C09E2C01D6D4F43002F986C /* IPGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */; };
 		7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C11D6D4F58002F986C /* UDPService.swift */; };
-		7C09E2C41D6D4F63002F986C /* UDPSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C31D6D4F63002F986C /* UDPSender.swift */; };
 		7C09E2CA1D6D4F96002F986C /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2C91D6D4F96002F986C /* GCDAsyncUdpSocket.m */; };
 		7C09E2CC1D6D5537002F986C /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2CB1D6D5537002F986C /* PreferencesViewController.swift */; };
 		7C09E2CE1D6D5675002F986C /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2CD1D6D5675002F986C /* LogViewController.swift */; };
@@ -56,7 +55,6 @@
 		7C09E2BD1D6D4E6B002F986C /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPGeneral.swift; sourceTree = "<group>"; };
 		7C09E2C11D6D4F58002F986C /* UDPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPService.swift; sourceTree = "<group>"; };
-		7C09E2C31D6D4F63002F986C /* UDPSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPSender.swift; sourceTree = "<group>"; };
 		7C09E2C71D6D4F96002F986C /* SharktopodaTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SharktopodaTest-Bridging-Header.h"; sourceTree = "<group>"; };
 		7C09E2C81D6D4F96002F986C /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		7C09E2C91D6D4F96002F986C /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 				7C09E2AD1D6D4C41002F986C /* MessageHandler.swift */,
 				7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */,
 				7C09E2C11D6D4F58002F986C /* UDPService.swift */,
-				7C09E2C31D6D4F63002F986C /* UDPSender.swift */,
 				7C09E2C51D6D4F79002F986C /* Third Party */,
 			);
 			name = Networking;
@@ -351,7 +348,6 @@
 				7C09E2B11D6D4C79002F986C /* MessageHandlerViewController.swift in Sources */,
 				7C09E2C21D6D4F58002F986C /* UDPService.swift in Sources */,
 				7C086B461D6FB4D20034648C /* LoggingCoordinator.swift in Sources */,
-				7C09E2C41D6D4F63002F986C /* UDPSender.swift in Sources */,
 				7C09E2D61D6D59C4002F986C /* SharkVideoCoordination.swift in Sources */,
 				7C09E2BE1D6D4E6B002F986C /* Logging.swift in Sources */,
 				7C09E2E11D6D5D02002F986C /* OpenURLPromptViewController.swift in Sources */,

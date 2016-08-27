@@ -92,7 +92,7 @@ final class PreferencesViewController: MessageHandlerViewController {
         let newPort = PortNumber(sender.intValue)
         guard newPort <= PortNumber.max else { return }
         
-        messageHandler?.startServer(onPort: newPort)
+        messageHandler?.startServerOnPort(newPort)
     }
 
     

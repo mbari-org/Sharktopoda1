@@ -10,14 +10,14 @@ import Foundation
 
 
 /*
- This is a simple UDP service that accepts messages on one port at a time, 
+ This is a simple UDP service that accepts messages on one port at a time,
  and sends them to a callback.
  */
 final class UDPService: NSObject {
     
     private(set) var running = false
     private(set) var port : PortNumber?
-
+    
     // TODO:7 try a background queue
     private var q : dispatch_queue_t = dispatch_get_main_queue()
     
@@ -30,6 +30,13 @@ final class UDPService: NSObject {
     var didStopListening : (service:UDPService) -> () = {_ in }
     var didReceiveJSON : (json:AnyObject, from:String, service:UDPService) -> () = {_ in }
     var didReceiveMessage : (message:String, from:String, service:UDPService) -> () = {_ in }   // less preferred, but we can accept any UTF8 message
+    var didSendResponse : () -> () = {}
+    var failedToSendResponse : (error:NSError) -> () = { _ in }
+    
+    var responseTag = 0
+    
+    // TODO: This is very fragile, but it should work for testing...
+    var lastClientAddress : NSData?
 }
 
 // MARK:- Listening
@@ -57,6 +64,18 @@ extension UDPService {
     }
 }
 
+// MARK:- Reponding
+
+extension UDPService {
+    
+    func sendResponse(data:NSData) {
+        
+        print("\(#function) \(GCDAsyncUdpSocket.hostFromAddress(lastClientAddress!))")
+        udpSocket.sendData(data, toAddress: lastClientAddress!, withTimeout: 20, tag: responseTag)
+        responseTag += 1
+    }
+}
+
 // MARK:- GCDAsyncUdpSocketDelegate
 
 extension UDPService : GCDAsyncUdpSocketDelegate {
@@ -71,6 +90,8 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
         
         guard let address = GCDAsyncUdpSocket.hostFromAddress(inAddress) else { return }
         
+        lastClientAddress = inAddress
+        
         do {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue:0))
             didReceiveJSON(json: json, from: address, service:self)
@@ -82,5 +103,17 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
                 didReceiveMessage(message: message, from: address, service:self)
             }
         }
+    }
+    
+    // TODO: make callbacks for these
+    func udpSocket(sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
+        print("\(#function) \(tag)")
+        didSendResponse()
+    }
+    
+    func udpSocket(sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {
+        print("\(#function) \(tag) error:\(error)")
+        let error = error ?? NSError(domain: "UDPService", code: 100, userInfo: [NSLocalizedDescriptionKey: "Unknown Error"])
+        failedToSendResponse(error: error)
     }
 }
