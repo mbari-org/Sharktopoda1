@@ -211,7 +211,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     func returnInfoForVideoWithUUID(uuid:NSUUID) throws -> [String:AnyObject] {
         
         let info = try infoForVideoWithUUID(uuid)
-        return ["url":info.url.absoluteString, "uuid":info.uuid.ITUString]
+        return ["url":info.url, "uuid":info.uuid]
     }
     
     func returnInfoForFrontmostVideo() throws -> [String : AnyObject] {
