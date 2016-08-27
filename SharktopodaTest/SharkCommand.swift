@@ -58,7 +58,7 @@ struct SharkCommand {
         }
 
         // TODO: verify that these are the only commands that return responses
-        var sendResponseToCaller : Bool {
+        var sendsResponseToCaller : Bool {
             switch self {
             case .open, .getVideoInfo, .getAllVideosInfo, .getElapsedTime, .getStatus:
                 return true
@@ -68,7 +68,7 @@ struct SharkCommand {
         }
         
         // TODO: rename this
-        var sendResponseToSeparateClient : Bool {
+        var sendsResponseToRemoteServer : Bool {
             switch self {
             case .frameCapture:
                 return true
