@@ -262,8 +262,6 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
 
     func advanceToTimeInMilliseconds(time: UInt, forVideoWithUUID inUUID: NSUUID) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
-
-        print("\(#function) \(inUUID) \(time)")
         
         try pwc.playerViewController.advanceToTimeInMilliseconds(time)
     }

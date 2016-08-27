@@ -51,14 +51,11 @@ final class PlayerWindowController: NSWindowController {
         }
         
         window?.delegate = self
-        print("window.delegate: \(window?.delegate)")
     }
     
     
     override func showWindow(sender: AnyObject?) {
         
-        print("window.delegate: \(window?.delegate)")
-
         window?.setContentSize(NSSize(width: 377, height: 34))
         window?.center()
 

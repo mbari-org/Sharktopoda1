@@ -70,7 +70,6 @@ extension UDPService {
     
     func sendResponse(data:NSData) {
         
-        print("\(#function) \(GCDAsyncUdpSocket.hostFromAddress(lastClientAddress!))")
         udpSocket.sendData(data, toAddress: lastClientAddress!, withTimeout: 20, tag: responseTag)
         responseTag += 1
     }
@@ -107,12 +106,10 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
     
     // TODO: make callbacks for these
     func udpSocket(sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
-        print("\(#function) \(tag)")
         didSendResponse()
     }
     
     func udpSocket(sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {
-        print("\(#function) \(tag) error:\(error)")
         let error = error ?? NSError(domain: "UDPService", code: 100, userInfo: [NSLocalizedDescriptionKey: "Unknown Error"])
         failedToSendResponse(error: error)
     }
