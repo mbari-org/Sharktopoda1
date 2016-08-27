@@ -258,12 +258,11 @@ final class PlayerViewController: NSViewController {
     func advanceToTimeInMilliseconds(milliseconds:UInt) throws {
         let time = CMTime.timeWithMilliseconds(milliseconds)
         
-        // TODO: calculate the frame duration for the asset and use that for tolerances 
-        // to get a more performant seek
-        videoPlayer!.seekToTime(time, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+
+        // we give AVPlayer a little leeway in the interest of performance
+        // we let it jump to the frame nearest to milliseconds
+        let minFrameDuration = videoPlayer!.currentItem!.asset.tracks.first!.minFrameDuration
         
-        // TODO: it would be nice to have this, but AVPlayer seems to want to return the time BEFORE the seek when I do it this way
-//        let actualTime = videoPlayer!.currentTime()
-//        return actualTime.milliseconds
+        videoPlayer!.seekToTime(time, toleranceBefore: minFrameDuration, toleranceAfter: minFrameDuration)
     }
 }
