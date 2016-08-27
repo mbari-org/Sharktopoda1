@@ -104,7 +104,7 @@ final class PlayerViewController: NSViewController {
         }
         else if (keyPath == "presentationSize") {
             readyToShowVideo()
-            mediaSizeChanged(newSize: playerView.player!.currentItem!.presentationSize)
+            mediaSizeChanged(newSize: videoPlayer!.currentItem!.presentationSize)
             stopObserving("presentationSize")
         }
     }
@@ -125,7 +125,7 @@ final class PlayerViewController: NSViewController {
         guard nil == videoPlayer else { return }
         
         videoPlayer = AVPlayer(URL: url)
-        playerView.player = videoPlayer
+//        playerView.player = videoPlayer
         
         videoPlayer?.allowsExternalPlayback = false
 
@@ -186,6 +186,7 @@ final class PlayerViewController: NSViewController {
 
         spinner?.stopAnimation(self)
         playerView.hidden = false
+        playerView.player = videoPlayer
         
         // apparently, this must be set here, after the video is ready, or it will turn on anyway
         videoPlayer?.allowsExternalPlayback = false
