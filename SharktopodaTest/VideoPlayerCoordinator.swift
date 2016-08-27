@@ -195,7 +195,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         let playerWC = self.storyboard.instantiateControllerWithIdentifier("VideoPlayerWindowController") as! PlayerWindowController
         playerWC.uuid = uuid
         playerWC.videoURL = url
-        playerWC.window?.delegate = self
+        playerWC.delegate = self
         
         let playerVC = playerWC.playerViewController
         playerVC.videoLoadCompletionCallback = callback
@@ -298,9 +298,9 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     }
 }
 
-extension VideoPlayerCoordinator : NSWindowDelegate {
+extension VideoPlayerCoordinator : PlayerWindowControllerDelegate {
     
-    func windowWillClose(notification: NSNotification) {
+    func playerWindowWillClose(notification: NSNotification) {
         let window = notification.object as! NSWindow
         let playerWC = window.windowController as! PlayerWindowController
         
@@ -309,7 +309,7 @@ extension VideoPlayerCoordinator : NSWindowDelegate {
         videoPlayerWindowControllers.removeValueForKey(playerWC.uuid!)
     }
     
-    func windowDidBecomeMain(notification: NSNotification) {
+    func playerWindowDidBecomeMain(notification: NSNotification) {
         let window = notification.object as! NSWindow
         let playerWC = window.windowController as! PlayerWindowController
         

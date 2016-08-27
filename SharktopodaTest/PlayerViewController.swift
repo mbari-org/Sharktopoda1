@@ -14,14 +14,10 @@ import CoreMedia
 import MediaAccessibility
 
 final class PlayerViewController: NSViewController {
-
-    // TODO:10 move the references to the window and window controller out of this class
-    // it should be encapsulated instead and use a delegate for these things
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
+    var readyToShowVideo : () -> () = {}
+    var mediaSizeChanged : (newSize:CGSize) -> () = { _ in }
+    var failedToLoad : () -> () = {}
     
     var videoURL : NSURL? {
         get {
@@ -34,7 +30,7 @@ final class PlayerViewController: NSViewController {
     
     override var representedObject: AnyObject? {
         didSet {
-            view.window?.title = url?.lastPathComponent ?? "Movie"
+            self.title = url?.lastPathComponent ?? "Movie"
         }
     }
 
@@ -107,8 +103,9 @@ final class PlayerViewController: NSViewController {
             processVideoPlayerStatus()
         }
         else if (keyPath == "presentationSize") {
-            view.window?.windowController?.showWindow(self)
-            updateWindowForMediaSize()
+            readyToShowVideo()
+            mediaSizeChanged(newSize: playerView.player!.currentItem!.presentationSize)
+            stopObserving("presentationSize")
         }
     }
 
@@ -200,9 +197,8 @@ final class PlayerViewController: NSViewController {
     
     func videoLoadFailed(withError error:NSError){
         
-        // There's no video to show, so close the window
-        // if it's appropriate, the calling method has handled user notification
-        view.window?.windowController?.close()
+        // There's no video to show
+        failedToLoad()
         
         print("The video load failed! (See the console output)");
         
@@ -269,16 +265,4 @@ final class PlayerViewController: NSViewController {
 //        let actualTime = videoPlayer!.currentTime()
 //        return actualTime.milliseconds
     }
-
-    
-    // MARK:- UI Updating
-    
-    func updateWindowForMediaSize() {
-        
-        view.window?.setContentSize(playerView.player!.currentItem!.presentationSize)
-        view.window?.center()
-        
-        stopObserving("presentationSize")
-    }
-
 }
