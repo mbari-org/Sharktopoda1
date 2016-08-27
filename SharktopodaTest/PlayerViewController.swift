@@ -261,7 +261,7 @@ final class PlayerViewController: NSViewController {
 
         // we give AVPlayer a little leeway in the interest of performance
         // we let it jump to the frame nearest to milliseconds
-        let minFrameDuration = videoPlayer!.currentItem!.asset.tracks.first!.minFrameDuration
+        let minFrameDuration = videoPlayer!.currentItem!.asset.tracks.first!.minFrameDuration.halftime
         
         videoPlayer!.seekToTime(time, toleranceBefore: minFrameDuration, toleranceAfter: minFrameDuration)
     }

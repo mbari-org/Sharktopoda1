@@ -22,5 +22,7 @@ extension CMTime {
         return UInt(seconds * 1000)
     }
     
-    // TODO: an easy way to get HALF the time expressed
+    var halftime : CMTime {
+        return CMTimeMultiplyByRatio(self, 1, 2)
+    }
 }
