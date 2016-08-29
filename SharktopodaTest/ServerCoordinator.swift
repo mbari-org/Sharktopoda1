@@ -223,7 +223,19 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
          
             do {
                 // TODO: we will need to pass a callback here...
-                try self.videoCoordinator.captureCurrentFrameForVideWithUUID(uuid:uuid, andSaveTo:imageLocation, referenceUUID:referenceUUID)
+                try self.videoCoordinator.captureCurrentFrameForVideWithUUID(uuid:uuid, andSaveTo:imageLocation, referenceUUID:referenceUUID) { success, error, requestedTime, actualTime in
+
+                    var response : SharkResponse?
+                    if success {
+                        let payload = ["actualTime":actualTime!, "requestedTime":requestedTime!]
+                        response = (VerboseSharkResponse(successfullyCompletedCommand: command, payload:payload))
+                    }
+                    else {
+                        response = (VerboseSharkResponse(failedCommand: command, error: error!, canSendAnyway: true))
+                    }
+                    
+                    command.processResponse?(response!)
+                }
             }
             catch let error as NSError {
                 let response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)

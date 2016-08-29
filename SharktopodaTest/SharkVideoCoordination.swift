@@ -78,7 +78,8 @@ protocol SharkVideoCoordination {
     ////    Sharktopoda should immediately grab the current frame from the video along with the elapsed time of that frame. The image should be saved (in a separate non-blocking thread. I think this is the default in AVFoundation). This action should not interfere with video playback.
     ////    When the image has been written to disk it should respond via the remote UDP port specified in the connect command with:
     ////    The status field should be "failed" if Sharktopus is unable to capture and write the image to disk.
-    func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID) throws
+    func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID,
+                                                 then callback:(success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()) throws
 
     /*      The following are yet to be implemented: 
     ////    Advance the video one frame for the given video The UDP/JSON command is

@@ -35,6 +35,11 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     // the frontmost video player window controller, for when a client asks for info about the frontmost video
     var frontmostPlayerWindowController : PlayerWindowController?
     
+    // a dictionary matching UUIDs to callbacks, for when we're told to capture frames
+    typealias frameCaptureCallback = (success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()
+    var frameCaptureCallbacks = [NSUUID:(frameCaptureCallback)]()
+
+    
     // MARK:- Actions
     
     // shows the openURL window
@@ -199,11 +204,14 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         
         let playerVC = playerWC.playerViewController
         playerVC.videoLoadCompletionCallback = callback
+        playerVC.frameGrabbingCallback = receivedFrameGrabbingOutcome
         
         playerWC.showVideo()
         
         videoPlayerWindowControllers[uuid] = playerWC
     }
+    
+    
     
     // MARK:- SharkVideoCoordination:Video Info
     
@@ -268,12 +276,35 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     
     // TODO 1: this will need to take a callback, perhaps of a special enum type
     //and pass it on to the playerViewController
-    func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID) throws {
+    func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID,
+                                                 then callback:(success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
 
+        frameCaptureCallbacks[referenceUUID] = callback
         pwc.playerViewController.grabFrameAndSaveItTo(saveLocation, destinationUUID: referenceUUID)
     }
     
+    func receivedFrameGrabbingOutcome(outcome:PlayerViewController.FrameGrabbingOutcome) {
+        print("outcome: \(outcome)")
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            switch outcome {
+            case .failure (let error, let requestedTime, let destinationUUID):
+                if let callback = self.frameCaptureCallbacks.removeValueForKey(destinationUUID) {
+                    callback(success: false, error: error, requestedTimeInMilliseconds:requestedTime, actualTimeInMilliseconds:nil)
+                }
+                
+                
+            case .success(let requestedTime, let destinationUUID, let actualTime):
+                if let callback = self.frameCaptureCallbacks.removeValueForKey(destinationUUID) {
+                    callback(success:true, error:nil, requestedTimeInMilliseconds:requestedTime, actualTimeInMilliseconds:actualTime)
+                }
+                break
+            }
+        }
+    }
+
     // MARK:- SharkVideoCoordination:Control
     
     func focusWindowForVideoWithUUID(uuid inUUID:NSUUID) throws {

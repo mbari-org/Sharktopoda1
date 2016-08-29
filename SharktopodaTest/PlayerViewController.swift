@@ -265,9 +265,13 @@ final class PlayerViewController: NSViewController {
         videoPlayer!.seekToTime(time, toleranceBefore: tolerance, toleranceAfter: tolerance)
     }
     
-    enum FrameCaptureResult {
-        case success (requestedTime:CMTime, destinationUUID:NSUUID, actualTime:CMTime)
-        case failure (requestedTime:CMTime, destinationUUID:NSUUID)
+    
+    // TODO:0 callback variable here
+    var frameGrabbingCallback : (outcome:FrameGrabbingOutcome) -> () = { _ in }
+    
+    enum FrameGrabbingOutcome {
+        case success (requestedTimeInMilliseconds:UInt, destinationUUID:NSUUID, actualTimeInMilliseconds:UInt)
+        case failure (error:NSError, requestedTimeInMilliseconds:UInt, destinationUUID:NSUUID)
     }
     
     lazy var frameGrabber : VideoFrameGrabber = {
@@ -275,9 +279,15 @@ final class PlayerViewController: NSViewController {
             print("grabbed frame at \(actualTime.milliseconds) and saved it to \(destinationURL)")
             print("requested time: \(requestedTime)")
             print("destination UUID: \(destinationUUID)")
+            
+            let outcome = FrameGrabbingOutcome.success(requestedTimeInMilliseconds: requestedTime.milliseconds, destinationUUID: destinationUUID, actualTimeInMilliseconds: actualTime.milliseconds)
+            self.frameGrabbingCallback(outcome:outcome)
         }
-        $0.failureCallback = { requestedTime, error, uuid in
-            print("failed to grab frame at \(requestedTime): error: \(error) for video with \(uuid)")
+        $0.failureCallback = { requestedTime, error, destinationUUID in
+            print("failed to grab frame at \(requestedTime): error: \(error) for video with \(destinationUUID)")
+            
+            let outcome = FrameGrabbingOutcome.failure(error:error, requestedTimeInMilliseconds:requestedTime.milliseconds, destinationUUID:destinationUUID)
+            self.frameGrabbingCallback(outcome:outcome)
         }
         return $0
     }(VideoFrameGrabber(asset: self.videoPlayer!.currentItem!.asset))
