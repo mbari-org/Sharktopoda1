@@ -20,7 +20,7 @@ final class UDPService: NSObject {
     private(set) var running = false
     private(set) var port : PortNumber?
     
-    // TODO:7 try a background queue
+    // TODO:1 try a background queue
     private var q : dispatch_queue_t = dispatch_get_main_queue()
     
     private lazy var udpSocket : GCDAsyncUdpSocket = {
@@ -71,6 +71,7 @@ extension UDPService {
         
         guard let client = client as? UDPClientAddress else { return }
         
+        print("\(#function) \(responseTag)")
         udpSocket.sendData(data, toAddress: client.address, withTimeout: 20, tag: responseTag)
         responseTag += 1
     }
@@ -119,6 +120,7 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
     
     func udpSocket(sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
         didSendResponse()
+        print("\(#function) \(tag)")
     }
     
     func udpSocket(sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {

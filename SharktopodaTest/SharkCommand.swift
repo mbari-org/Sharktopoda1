@@ -29,6 +29,7 @@ struct SharkCommand {
     enum CommandVerb : String {
         case connect
         case open
+        case close
         case show
         case getVideoInfo = "request video information"
         case getAllVideosInfo = "request all information"
@@ -46,6 +47,8 @@ struct SharkCommand {
                 return ["port"]
             case .open:
                 return ["url","uuid"]
+            case .close:
+                return ["uuid"]
             case .show, .play, .pause, .getElapsedTime, .getStatus, .frameAdvance:
                 return ["uuid"]
             case .getVideoInfo, .getAllVideosInfo:

@@ -30,6 +30,7 @@ class VideoFrameGrabber: NSObject {
         frameInfo[time.value] = (saveLocation, uuid)
         
         let times = [NSValue(CMTime:time)]
+        // TODO: accept previous frame, never later frame
         imageGenerator.requestedTimeToleranceBefore = asset.minSeekTolerance ?? kCMTimeZero
         imageGenerator.requestedTimeToleranceAfter = asset.minSeekTolerance ?? kCMTimeZero
         

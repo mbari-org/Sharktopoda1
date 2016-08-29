@@ -127,22 +127,31 @@ final class MessageHandler: NSObject {
         // has to be a verbose response, or else we can't send it
         let response = response as! VerboseSharkResponse
         
-        if response.succeeded || response.allowSendingOnFailure {
-            
-            if response.commandVerb.sendsResponseToClient {
-                sendResponse(response)
-            }
-            else if response.commandVerb.sendsResponseToRemoteServer {
-                // TODO: send response to the remote UDP port instead
-                sendResponse(response)
-            }
+        // TODO: clean this up
+        if response.commandVerb.sendsResponseToClient {
+            sendResponse(response)
         }
-        else if let error = response.error {
-            log(error)
+        else if response.commandVerb.sendsResponseToRemoteServer {
+            // TODO:2 send response to the remote UDP port instead
+            sendResponse(response)
         }
-        else {
-            log("Unknown error in response: \(response)")
-        }
+        
+//        if response.succeeded || response.allowSendingOnFailure {
+//            
+//            if response.commandVerb.sendsResponseToClient {
+//                sendResponse(response)
+//            }
+//            else if response.commandVerb.sendsResponseToRemoteServer {
+//                // TODO:2 send response to the remote UDP port instead
+//                sendResponse(response)
+//            }
+//        }
+//        else if let error = response.error {
+//            log(error)
+//        }
+//        else {
+//            log("Unknown error in response: \(response)")
+//        }
     }
     
     private func sendResponse(response:VerboseSharkResponse) {
