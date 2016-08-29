@@ -96,7 +96,7 @@ final class MessageHandler: NSObject {
     
     // MARK:- Handling Commands from the client
     
-    private func handleJSON(json:JSONObject, sentFrom address:String) {
+    private func handleJSON(json:JSONObject, sentFrom address:UDPClient) {
         
         guard let command = SharkCommand(json: json, sentFrom:address, processResponse:processResponse) else {
             self.log("not a command: \(json)", label:.error)
@@ -160,7 +160,7 @@ final class MessageHandler: NSObject {
 
         log("Sending Response \(response)")
         
-        server.sendResponse(data)
+        server.sendResponse(data, toClient:response.command.address)
         
         //        sender.sendData(data, to: host, onPort: port)
     }

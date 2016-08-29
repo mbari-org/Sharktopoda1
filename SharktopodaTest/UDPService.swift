@@ -8,6 +8,8 @@
 
 import Foundation
 
+// a wrapper protocol for interacting with client code
+protocol UDPClient {}
 
 /*
  This is a simple UDP service that accepts messages on one port at a time,
@@ -28,17 +30,12 @@ final class UDPService: NSObject {
     // callbacks
     var didStartListening : (service:UDPService) -> () = {_ in }
     var didStopListening : (service:UDPService) -> () = {_ in }
-    var didReceiveJSON : (json:AnyObject, from:String, service:UDPService) -> () = {_ in }
-    var didReceiveMessage : (message:String, from:String, service:UDPService) -> () = {_ in }   // less preferred, but we can accept any UTF8 message
+    var didReceiveJSON : (json:AnyObject, from:UDPClient, service:UDPService) -> () = {_ in }
+    var didReceiveMessage : (message:String, from:UDPClient, service:UDPService) -> () = {_ in }   // less preferred, but we can accept any UTF8 message
     var didSendResponse : () -> () = {}
     var failedToSendResponse : (error:NSError) -> () = { _ in }
     
     var responseTag = 0
-    
-    // TODO: This is very fragile, but it should work for testing...
-    // instead, encapsulate the string and data into one object that's sent to the message callbacks
-    // and have sendResponse become sendResponse( : to:Address) and take that address object
-    var lastClientAddress : NSData?
 }
 
 // MARK:- Listening
@@ -70,9 +67,11 @@ extension UDPService {
 
 extension UDPService {
     
-    func sendResponse(data:NSData) {
+    func sendResponse(data:NSData, toClient client:UDPClient) {
         
-        udpSocket.sendData(data, toAddress: lastClientAddress!, withTimeout: 20, tag: responseTag)
+        guard let client = client as? UDPClientAddress else { return }
+        
+        udpSocket.sendData(data, toAddress: client.address, withTimeout: 20, tag: responseTag)
         responseTag += 1
     }
 }
@@ -87,11 +86,23 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
         didStopListening(service:self)
     }
     
-    func udpSocket(sock: GCDAsyncUdpSocket, didReceiveData data: NSData, fromAddress inAddress: NSData, withFilterContext filterContext: AnyObject?) {
+    private struct UDPClientAddress : UDPClient, CustomStringConvertible {
+        let address : NSData
+        var description : String {
+            return GCDAsyncUdpSocket.hostFromAddress(address)!
+        }
         
-        guard let address = GCDAsyncUdpSocket.hostFromAddress(inAddress) else { return }
+        init?(addressData:NSData) {
+            guard let _ = GCDAsyncUdpSocket.hostFromAddress(addressData) else { return nil }
+            self.address = addressData
+        }
+    }
+    
+    func udpSocket(sock: GCDAsyncUdpSocket, didReceiveData data: NSData,
+                   fromAddress inAddress: NSData,
+                               withFilterContext filterContext: AnyObject?) {
         
-        lastClientAddress = inAddress
+        guard let address = UDPClientAddress(addressData: inAddress) else { return }
         
         do {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue:0))

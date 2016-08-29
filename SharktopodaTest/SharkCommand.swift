@@ -20,7 +20,7 @@ struct SharkCommand {
     
     let verb : CommandVerb
     let data : [String:JSONObject]
-    let address : String
+    let address : UDPClient
     
     let processResponse : ((SharkResponse)->())?
     
@@ -114,7 +114,7 @@ struct SharkCommand {
     }
 
     var host : String? {
-        return data["host"] as? String ?? address
+        return data["host"] as? String
     }
 
     var port : UInt16? {
@@ -146,13 +146,6 @@ struct SharkCommand {
         default:
             return nil
         }
-        
-//        if let out = data["elapsed_time_millis"] as? UInt {
-//            return CMTime.timeWithMilliseconds(out)
-//        }
-//        guard let port = data["elapsed_time_millis"] as? String else { return nil }
-//        guard let portInt = UInt(port) else { return nil }
-//        return CMTime.timeWithMilliseconds(portInt)
     }
     
     var imageLocation : NSURL? {
@@ -175,7 +168,7 @@ struct SharkCommand {
 
 extension SharkCommand {
     
-    init?(json:JSONObject, sentFrom address:String, processResponse callback:((SharkResponse)->())?=nil) {
+    init?(json:JSONObject, sentFrom address:UDPClient, processResponse callback:((SharkResponse)->())?=nil) {
         guard var commandDictionary = json as? [String:JSONObject] else { return nil }      // make sure it's a JSON dictionary
         guard let commandVerb = commandDictionary["command"] as? String else { return nil } // that has a command entry
         guard let command = CommandVerb(rawValue: commandVerb) else { return nil }          // that is a known command entry
@@ -186,6 +179,7 @@ extension SharkCommand {
         // as it is, leaving this out allows calling code 
         // to respond to this situation and report to the client if it wants,
         // which is more user-friendly
+        //
         // make sure we have all necessary parameters
         //        for thisParameter in command.requiredParameters {
         //            if nil == commandDictionary[thisParameter] {
