@@ -35,6 +35,8 @@ class SharkCommandInterpreter {
             
         case .open:
             open(command)
+        case .close:
+            close(command)
         case .show:
             show(command)
             
@@ -86,6 +88,13 @@ class SharkCommandInterpreter {
         guard let uuid = uuidFromCommand(command) else { return }
         
         openCallback(url: url, uuid: uuid.UUID!, command:command)
+    }
+    
+    var closeCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
+    func close(command:SharkCommand) {
+        guard let uuid = uuidFromCommand(command) else { return }
+        
+        closeCallback(uuid: uuid.UUID!, command:command)
     }
     
     var showCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }

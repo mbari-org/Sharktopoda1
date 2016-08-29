@@ -310,6 +310,13 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         pwc.window?.makeKeyAndOrderFront(self)
     }
     
+    func closeWindowForVideoWithUUID(uuid inUUID:NSUUID) throws {
+        let pwc = try playerWindowControllerForUUID(inUUID)
+
+        pwc.close()
+    }
+
+    
     func playVideoWithUUID(uuid inUUID:NSUUID, rate:Double) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
         

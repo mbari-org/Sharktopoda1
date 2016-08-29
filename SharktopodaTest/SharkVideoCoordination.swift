@@ -36,6 +36,8 @@ protocol SharkVideoCoordination {
     // because they can be called by the ServerCoordinator
     // which will want to handle all errors the same way
 
+    func closeWindowForVideoWithUUID(uuid inUUID:NSUUID) throws
+    
     ////    Request Video Information for a Specific Window
     // (sperated into two methods for 2 slightly different use cases)
     func returnInfoForVideoWithUUID(uuid:NSUUID) throws -> [String:AnyObject]
