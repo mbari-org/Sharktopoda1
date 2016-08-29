@@ -218,6 +218,19 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             command.processResponse?(response!)
 
         }
+        
+        inInterpreter.captureCurrentFrameCallback = { uuid, imageLocation, referenceUUID, command in
+         
+            do {
+                // TODO: we will need to pass a callback here...
+                try self.videoCoordinator.captureCurrentFrameForVideWithUUID(uuid:uuid, andSaveTo:imageLocation, referenceUUID:referenceUUID)
+            }
+            catch let error as NSError {
+                let response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                command.processResponse?(response)
+                
+            }
 
+        }
     }
 }

@@ -56,8 +56,9 @@ class SharkCommandInterpreter {
         case .advanceToTime:
             advanceToTime(command)
             // TODO: the following cases
+        case .framecapture:
+            captureCurrentFrame(command)
             // TODO:6
-//        case framecapture // see https://developer.apple.com/library/mac/documentation/AVFoundation/Reference/AVAssetImageGenerator_Class/#//apple_ref/occ/instm/AVAssetImageGenerator/generateCGImagesAsynchronouslyForTimes:completionHandler:
 //        case frameAdvance = "frame advance"
             
         default:
@@ -154,6 +155,20 @@ class SharkCommandInterpreter {
         }
         
         advanceToTimeCallback(uuid: uuid.UUID!, time: time, command: command)
+    }
+    
+    var captureCurrentFrameCallback : (uuid:NSUUID, imageLocation:NSURL, imageReferenceUUID:NSUUID, command:SharkCommand) -> () = { _, _, _, _ in }
+    func captureCurrentFrame(command:SharkCommand) {
+        guard let uuid = uuidFromCommand(command) else { return }
+        guard let imageLocation = command.imageLocation else {
+            callbackErrorForMissingParameter("image_location", forCommand: command)
+            return
+        }
+        guard let imageReferenceUUID = command.imageReferenceUUID else {
+            callbackErrorForMissingParameter("image_reference_uuid", forCommand: command)
+            return
+        }
+        captureCurrentFrameCallback(uuid:uuid.UUID!, imageLocation:imageLocation, imageReferenceUUID:imageReferenceUUID.UUID!, command:command)
     }
     
     // MARK:- Convenience

@@ -266,6 +266,13 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         try pwc.playerViewController.advanceToTimeInMilliseconds(time)
     }
     
+    // TODO: this will need to take a callback, perhaps of a special enum type
+    func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID) throws {
+        let pwc = try playerWindowControllerForUUID(inUUID)
+
+        pwc.playerViewController.grabFrameAndSaveItTo(saveLocation, destinationUUID: referenceUUID)
+    }
+    
     // MARK:- SharkVideoCoordination:Control
     
     func focusWindowForVideoWithUUID(uuid inUUID:NSUUID) throws {
@@ -295,6 +302,8 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         case bizarreInconsistency = 99
     }
 }
+
+// MARK:-
 
 extension VideoPlayerCoordinator : PlayerWindowControllerDelegate {
     

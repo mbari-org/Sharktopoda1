@@ -125,7 +125,6 @@ final class PlayerViewController: NSViewController {
         guard nil == videoPlayer else { return }
         
         videoPlayer = AVPlayer(URL: url)
-//        playerView.player = videoPlayer
         
         videoPlayer?.allowsExternalPlayback = false
 
@@ -213,7 +212,7 @@ final class PlayerViewController: NSViewController {
     func videoLoadTimedOut(sender:NSTimer) {
         let desc = "Video at \(videoURL!) failed to load in the time alloted"
         debugPrint(desc)
-        videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: 3, userInfo: [NSLocalizedDescriptionKey:desc])));
+        videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: 4, userInfo: [NSLocalizedDescriptionKey:desc])));
     }
     
     var videoPlaybackRate : Double {
@@ -238,6 +237,8 @@ final class PlayerViewController: NSViewController {
         videoPlayer?.pause()
     }
 
+    // MARK:- External Methods
+
     func playVideoAtRate(rate:Double = 1) {
         
         let vPlayer = videoPlayer!  // If this is being called before there's a player, then there's something wrong...
@@ -257,12 +258,28 @@ final class PlayerViewController: NSViewController {
 
     func advanceToTimeInMilliseconds(milliseconds:UInt) throws {
         let time = CMTime.timeWithMilliseconds(milliseconds)
-        
 
         // we give AVPlayer a little leeway in the interest of performance
-        // we let it jump to the frame nearest to milliseconds
-        let minFrameDuration = videoPlayer!.currentItem!.asset.tracks.first!.minFrameDuration.halftime
+        // we let it jump to the frame nearest to the value passed in
+        let tolerance = videoPlayer?.currentItem?.asset.minSeekTolerance ?? kCMTimeZero
+        videoPlayer!.seekToTime(time, toleranceBefore: tolerance, toleranceAfter: tolerance)
+    }
+    
+    lazy var frameGrabber : VideoFrameGrabber = {
+        $0.successCallback = { requestedTime, actualTime, destinationURL, destinationUUID in
+            print("grabbed frame at \(actualTime.milliseconds) and saved it to \(destinationURL)")
+            print("requested time: \(requestedTime)")
+            print("destination UUID: \(destinationUUID)")
+        }
+        $0.failureCallback = { requestedTime, error in
+            print("failed to grab frame at \(requestedTime): error: \(error)")
+        }
+        return $0
+    }(VideoFrameGrabber(asset: self.videoPlayer!.currentItem!.asset))
+    
+    func grabFrameAndSaveItTo(destination:NSURL, destinationUUID:NSUUID) {
         
-        videoPlayer!.seekToTime(time, toleranceBefore: minFrameDuration, toleranceAfter: minFrameDuration)
+        let timeToGrab = videoPlayer!.currentTime()
+        frameGrabber.grabImageAtTime(timeToGrab, savingToLocation: destination, associatedWithUUID: destinationUUID)
     }
 }

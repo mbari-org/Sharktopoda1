@@ -26,6 +26,8 @@ struct SharkCommand {
     
     // MARK:- CommandVerb
 
+    // TODO: response to play and pause should include uuid
+    
     enum CommandVerb : String {
         case connect
         case open
@@ -37,7 +39,7 @@ struct SharkCommand {
         case getElapsedTime = "request elapsed time"
         case getStatus = "request status"
         case advanceToTime = "seek elapsed time"
-        case frameCapture
+        case framecapture
         case frameAdvance = "frame advance"
         
         var requiredParameters : [String] {
@@ -52,7 +54,7 @@ struct SharkCommand {
                 return []
             case .advanceToTime:
                 return ["uuid", "elapsed_time_millis"]
-            case .frameCapture:
+            case .framecapture:
                 return ["uuid", "image_location", "image_reference_uuid"]
             }
         }
@@ -60,7 +62,7 @@ struct SharkCommand {
         // TODO: verify that these are the only commands that return responses
         var sendsResponseToCaller : Bool {
             switch self {
-            case .open, .getVideoInfo, .getAllVideosInfo, .getElapsedTime, .getStatus:
+            case .open, .getVideoInfo, .getAllVideosInfo, .getElapsedTime, .getStatus, .play, .pause:
                 return true
             default:
                 return false
@@ -70,7 +72,7 @@ struct SharkCommand {
         // TODO: rename this
         var sendsResponseToRemoteServer : Bool {
             switch self {
-            case .frameCapture:
+            case .framecapture:
                 return true
             default:
                 return false

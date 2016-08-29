@@ -72,21 +72,15 @@ protocol SharkVideoCoordination {
     //      returns the actual time advanced to after the advance was done
     func advanceToTimeInMilliseconds(time: UInt, forVideoWithUUID inUUID: NSUUID) throws
 
-/*      The following are yet to be implemented:
-     
-    ////    Return the elapsed time (from the start) of the video as milliseconds.
-    func requestElapsedTimeInMillisecondsForVideoWithUUID(uuid inUUID:NSUUID) throws -> UInt64
-    
-    ////    Seek to the provided elapsed time (which will be in milliseconds)
-    func seekToElapsedTimeInMilliseconds(time:UInt64, inVideoWithUUID inUUID:NSUUID) throws
     
     ////    Framecapture
     ////
     ////    Sharktopoda should immediately grab the current frame from the video along with the elapsed time of that frame. The image should be saved (in a separate non-blocking thread. I think this is the default in AVFoundation). This action should not interfere with video playback.
     ////    When the image has been written to disk it should respond via the remote UDP port specified in the connect command with:
     ////    The status field should be "failed" if Sharktopus is unable to capture and write the image to disk.
-    func captureCurrentFrameOfVideoWithUUID(uuid inUUID:NSUUID, toLocationOnDisk:String, taggedWithUUID:NSUUID) throws -> [String:AnyObject]
-    
+    func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID) throws
+
+    /*      The following are yet to be implemented: 
     ////    Advance the video one frame for the given video The UDP/JSON command is
     // we'll just make it a generic frame count to advance
     func advanceVideoWithUUID(uuid inUUID:NSUUID, byFrameCount:Int)
