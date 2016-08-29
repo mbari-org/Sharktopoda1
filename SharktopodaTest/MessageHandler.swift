@@ -132,7 +132,14 @@ final class MessageHandler: NSObject {
 //        return
         
         if response.succeeded || response.allowSendingOnFailure {
-            sendResponse(response)
+            
+            if response.commandVerb.sendsResponseToClient {
+                sendResponse(response)
+            }
+            else if response.commandVerb.sendsResponseToRemoteServer {
+                // TODO: send response to the remote UDP port instead
+                sendResponse(response)
+            }
         }
         else if let error = response.error {
             log(error)
