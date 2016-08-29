@@ -30,9 +30,9 @@ class VideoFrameGrabber: NSObject {
         frameInfo[time.value] = (saveLocation, uuid)
         
         let times = [NSValue(CMTime:time)]
-        // TODO: accept previous frame, never later frame
-        imageGenerator.requestedTimeToleranceBefore = asset.minSeekTolerance ?? kCMTimeZero
-        imageGenerator.requestedTimeToleranceAfter = asset.minSeekTolerance ?? kCMTimeZero
+        // always take the previous fram to the time passed in (or the frame exactly at the time passed in...)
+        imageGenerator.requestedTimeToleranceBefore = asset.frameDuration ?? kCMTimeZero
+        imageGenerator.requestedTimeToleranceAfter = kCMTimeZero
         
         imageGenerator.generateCGImagesAsynchronouslyForTimes(times, completionHandler: completion)
     }
