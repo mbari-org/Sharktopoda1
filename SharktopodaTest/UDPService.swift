@@ -71,7 +71,6 @@ extension UDPService {
         
         guard let client = client as? UDPClientAddress else { return }
         
-        print("\(#function) \(responseTag)")
         udpSocket.sendData(data, toAddress: client.address, withTimeout: 20, tag: responseTag)
         responseTag += 1
     }
@@ -120,7 +119,6 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
     
     func udpSocket(sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
         didSendResponse()
-        print("\(#function) \(tag)")
     }
     
     func udpSocket(sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {

@@ -61,7 +61,7 @@ final class PlayerViewController: NSViewController {
                 }
             }
             catch let error as NSError {
-                print("error removing observer for keypath \(key): \(error.localizedDescription)")
+                debugPrint("error removing observer for keypath \(key): \(error.localizedDescription)")
             }
         }
     }
