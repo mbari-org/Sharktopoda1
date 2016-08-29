@@ -55,10 +55,9 @@ class SharkCommandInterpreter {
             getElapsedTime(command)
         case .advanceToTime:
             advanceToTime(command)
-            // TODO: the following cases
         case .framecapture:
             captureCurrentFrame(command)
-            // TODO:6
+            // TODO:11
 //        case frameAdvance = "frame advance"
             
         default:

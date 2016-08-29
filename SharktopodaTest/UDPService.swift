@@ -36,6 +36,8 @@ final class UDPService: NSObject {
     var responseTag = 0
     
     // TODO: This is very fragile, but it should work for testing...
+    // instead, encapsulate the string and data into one object that's sent to the message callbacks
+    // and have sendResponse become sendResponse( : to:Address) and take that address object
     var lastClientAddress : NSData?
 }
 

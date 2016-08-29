@@ -265,14 +265,19 @@ final class PlayerViewController: NSViewController {
         videoPlayer!.seekToTime(time, toleranceBefore: tolerance, toleranceAfter: tolerance)
     }
     
+    enum FrameCaptureResult {
+        case success (requestedTime:CMTime, destinationUUID:NSUUID, actualTime:CMTime)
+        case failure (requestedTime:CMTime, destinationUUID:NSUUID)
+    }
+    
     lazy var frameGrabber : VideoFrameGrabber = {
         $0.successCallback = { requestedTime, actualTime, destinationURL, destinationUUID in
             print("grabbed frame at \(actualTime.milliseconds) and saved it to \(destinationURL)")
             print("requested time: \(requestedTime)")
             print("destination UUID: \(destinationUUID)")
         }
-        $0.failureCallback = { requestedTime, error in
-            print("failed to grab frame at \(requestedTime): error: \(error)")
+        $0.failureCallback = { requestedTime, error, uuid in
+            print("failed to grab frame at \(requestedTime): error: \(error) for video with \(uuid)")
         }
         return $0
     }(VideoFrameGrabber(asset: self.videoPlayer!.currentItem!.asset))

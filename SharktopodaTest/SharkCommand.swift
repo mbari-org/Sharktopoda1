@@ -25,8 +25,6 @@ struct SharkCommand {
     let processResponse : ((SharkResponse)->())?
     
     // MARK:- CommandVerb
-
-    // TODO: response to play and pause should include uuid
     
     enum CommandVerb : String {
         case connect

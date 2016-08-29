@@ -21,7 +21,7 @@ class VideoFrameGrabber: NSObject {
     }
     
     var successCallback : (requestedTime:CMTime, actualTime:CMTime, destinationURL:NSURL, destinationUUID:NSUUID)->() = { _, _, _, _ in }
-    var failureCallback : (requestedTime:CMTime, error:NSError) -> () = { _ in }
+    var failureCallback : (requestedTime:CMTime, error:NSError, destinationUUID:NSUUID) -> () = { _ in }
     
     private var frameInfo = [CMTimeValue:(NSURL, NSUUID)]()
     
@@ -38,14 +38,19 @@ class VideoFrameGrabber: NSObject {
     
     private func completion(requestedTime:CMTime, image:CGImage?, actualTime:CMTime, result:AVAssetImageGeneratorResult, error:NSError?) {
         
+        var responseError = error
+        
         switch result {
-        case .Failed:
-            failureCallback(requestedTime:requestedTime, error: error!)
         case .Succeeded:
             gotImage(image!, atTime: actualTime, requestedTime: requestedTime)
         case .Cancelled:
-            let error = NSError(domain: "VideoFrameGrabber", code: 1, userInfo: [NSLocalizedDescriptionKey:"Frame Grabbing was cancelled before this frame could be grabbed (time:\(requestedTime)"])
-            failureCallback(requestedTime: requestedTime, error: error)
+            responseError = NSError(domain: "VideoFrameGrabber", code: 1, userInfo: [NSLocalizedDescriptionKey:"Frame Grabbing was cancelled before this frame could be grabbed (time:\(requestedTime)"])
+//            let (_, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
+//            failureCallback(requestedTime:requestedTime, error: error, destinationUUID:uuid)
+            fallthrough
+        case .Failed:
+            let (_, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
+            failureCallback(requestedTime:requestedTime, error: responseError!, destinationUUID:uuid)
         }
     }
     
@@ -78,7 +83,7 @@ class VideoFrameGrabber: NSObject {
             guard let destination = CGImageDestinationCreateWithURL(saveLocation, type, 1, nil) else {
                 let error = NSError(domain: "VideoFrameGrabber", code: 2, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to create destination for saving image to \(saveLocation)"])
-                self.failureCallback(requestedTime: requestedTime, error: error)
+                self.failureCallback(requestedTime: requestedTime, error: error, destinationUUID:uuid)
                 return
             }
             
@@ -89,7 +94,7 @@ class VideoFrameGrabber: NSObject {
             guard CGImageDestinationFinalize(destination) else {
                 let error = NSError(domain: "VideoFrameGrabber", code: 3, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to write image to \(saveLocation)"])
-                self.failureCallback(requestedTime: requestedTime, error: error)
+                self.failureCallback(requestedTime: requestedTime, error: error, destinationUUID:uuid)
                 return
             }
             // note: no need for CFRelease, swift handles memory management, YAY!!!
