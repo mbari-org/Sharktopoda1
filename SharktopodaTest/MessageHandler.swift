@@ -124,12 +124,8 @@ final class MessageHandler: NSObject {
     
     private func processResponse(response:SharkResponse) {
         
-        
         // has to be a verbose response, or else we can't send it
-        // TODO: only send response when appropriate for the given command
         let response = response as! VerboseSharkResponse
-//        sendResponse(response)
-//        return
         
         if response.succeeded || response.allowSendingOnFailure {
             
