@@ -106,7 +106,6 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
         }
     }
     
-    // TODO: make callbacks for these
     func udpSocket(sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
         didSendResponse()
     }

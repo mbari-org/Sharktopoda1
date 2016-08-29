@@ -73,7 +73,6 @@ final class MessageHandler: NSObject {
             try server.startListening(onPort: portToTry)
         }
         catch let error as NSError {
-            // TODO: some common POSIX errors (e.g. 13:Permission Denied, should be handled more elegantly)
             self.log("Error starting server on port \(portToTry): \(error)", label: .error)
             
             NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFailToStartListening, object: self, userInfo: ["error":error, "port":NSNumber(unsignedShort: portToTry)])
@@ -127,7 +126,7 @@ final class MessageHandler: NSObject {
         
         
         // has to be a verbose response, or else we can't send it
-        // TODO: only send response when appropriate
+        // TODO: only send response when appropriate for the given command
         let response = response as! VerboseSharkResponse
 //        sendResponse(response)
 //        return

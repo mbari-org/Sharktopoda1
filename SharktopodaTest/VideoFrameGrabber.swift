@@ -45,8 +45,6 @@ class VideoFrameGrabber: NSObject {
             gotImage(image!, atTime: actualTime, requestedTime: requestedTime)
         case .Cancelled:
             responseError = NSError(domain: "VideoFrameGrabber", code: 1, userInfo: [NSLocalizedDescriptionKey:"Frame Grabbing was cancelled before this frame could be grabbed (time:\(requestedTime)"])
-//            let (_, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
-//            failureCallback(requestedTime:requestedTime, error: error, destinationUUID:uuid)
             fallthrough
         case .Failed:
             let (_, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
@@ -60,7 +58,6 @@ class VideoFrameGrabber: NSObject {
     }(NSOperationQueue())
 
     private func gotImage(image:CGImage, atTime actualTime:CMTime, requestedTime:CMTime) {
-        print("\(#function) \(actualTime.milliseconds) (requested:\(requestedTime.milliseconds))")
         
         let (saveLocation, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
         
@@ -89,8 +86,9 @@ class VideoFrameGrabber: NSObject {
             
             // go for lossless compression to save on time
             let properties = [String(kCGImageDestinationLossyCompressionQuality):1] as NSDictionary
-            CGImageDestinationAddImage(destination, image, properties)
             
+            // save the file
+            CGImageDestinationAddImage(destination, image, properties)
             guard CGImageDestinationFinalize(destination) else {
                 let error = NSError(domain: "VideoFrameGrabber", code: 3, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to write image to \(saveLocation)"])

@@ -274,8 +274,6 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         try pwc.playerViewController.advanceToTimeInMilliseconds(time)
     }
     
-    // TODO 1: this will need to take a callback, perhaps of a special enum type
-    //and pass it on to the playerViewController
     func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID,
                                                  then callback:(success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
@@ -285,7 +283,6 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     }
     
     func receivedFrameGrabbingOutcome(outcome:PlayerViewController.FrameGrabbingOutcome) {
-        print("outcome: \(outcome)")
         
         dispatch_async(dispatch_get_main_queue()) {
             

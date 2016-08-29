@@ -58,7 +58,7 @@ struct SharkCommand {
         }
 
         // TODO: verify that these are the only commands that return responses
-        var sendsResponseToCaller : Bool {
+        var sendsResponseToClient : Bool {
             switch self {
             case .open, .getVideoInfo, .getAllVideosInfo, .getElapsedTime, .getStatus, .play, .pause:
                 return true
@@ -67,7 +67,6 @@ struct SharkCommand {
             }
         }
         
-        // TODO: rename this
         var sendsResponseToRemoteServer : Bool {
             switch self {
             case .framecapture:
@@ -180,16 +179,21 @@ extension SharkCommand {
         guard var commandDictionary = json as? [String:JSONObject] else { return nil }      // make sure it's a JSON dictionary
         guard let commandVerb = commandDictionary["command"] as? String else { return nil } // that has a command entry
         guard let command = CommandVerb(rawValue: commandVerb) else { return nil }          // that is a known command entry
-        
+
+        // NOTE: If this app were exposed to outside networks, 
+        // it would make sense to include the following code 
+        // to prevent ANY action if we received a malformed command.
+        // as it is, leaving this out allows calling code 
+        // to respond to this situation and report to the client if it wants,
+        // which is more user-friendly
         // make sure we have all necessary parameters
-        // TODO: bring this back for more security
         //        for thisParameter in command.requiredParameters {
         //            if nil == commandDictionary[thisParameter] {
         //                return nil
         //            }
         //        }
         
-        // TODO: for more security, make sure that every key in the command is a known required or optional parameter
+        // NOTE: for even more security, you could make sure that every key in the command is a known required or optional parameter
         
         self.verb = command
         commandDictionary.removeValueForKey("command")

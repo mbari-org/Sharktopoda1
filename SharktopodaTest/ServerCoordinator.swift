@@ -222,12 +222,14 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
         inInterpreter.captureCurrentFrameCallback = { uuid, imageLocation, referenceUUID, command in
          
             do {
-                // TODO: we will need to pass a callback here...
                 try self.videoCoordinator.captureCurrentFrameForVideWithUUID(uuid:uuid, andSaveTo:imageLocation, referenceUUID:referenceUUID) { success, error, requestedTime, actualTime in
 
                     var response : SharkResponse?
                     if success {
-                        let payload = ["actualTime":actualTime!, "requestedTime":requestedTime!]
+                        let payload = ["elapsed_time_millis":actualTime!,
+                                       "requested_time_millis":requestedTime!,
+                                       "image_reference_uuid":referenceUUID,
+                                       "image_location":imageLocation]
                         response = (VerboseSharkResponse(successfullyCompletedCommand: command, payload:payload))
                     }
                     else {

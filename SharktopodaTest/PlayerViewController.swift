@@ -266,7 +266,6 @@ final class PlayerViewController: NSViewController {
     }
     
     
-    // TODO:0 callback variable here
     var frameGrabbingCallback : (outcome:FrameGrabbingOutcome) -> () = { _ in }
     
     enum FrameGrabbingOutcome {
@@ -276,16 +275,10 @@ final class PlayerViewController: NSViewController {
     
     lazy var frameGrabber : VideoFrameGrabber = {
         $0.successCallback = { requestedTime, actualTime, destinationURL, destinationUUID in
-            print("grabbed frame at \(actualTime.milliseconds) and saved it to \(destinationURL)")
-            print("requested time: \(requestedTime)")
-            print("destination UUID: \(destinationUUID)")
-            
             let outcome = FrameGrabbingOutcome.success(requestedTimeInMilliseconds: requestedTime.milliseconds, destinationUUID: destinationUUID, actualTimeInMilliseconds: actualTime.milliseconds)
             self.frameGrabbingCallback(outcome:outcome)
         }
-        $0.failureCallback = { requestedTime, error, destinationUUID in
-            print("failed to grab frame at \(requestedTime): error: \(error) for video with \(destinationUUID)")
-            
+        $0.failureCallback = { requestedTime, error, destinationUUID in            
             let outcome = FrameGrabbingOutcome.failure(error:error, requestedTimeInMilliseconds:requestedTime.milliseconds, destinationUUID:destinationUUID)
             self.frameGrabbingCallback(outcome:outcome)
         }
