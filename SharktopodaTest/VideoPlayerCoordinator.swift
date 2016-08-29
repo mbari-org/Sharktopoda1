@@ -193,6 +193,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         switch validateURL(url) {
         case .error(let error):
             callback(success: false, error: error)
+            return
         default:
             break
         }
