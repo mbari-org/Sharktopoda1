@@ -94,7 +94,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 try self.videoCoordinator.playVideoWithUUID(uuid:uuid, rate: rate)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
@@ -107,7 +107,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 try self.videoCoordinator.pauseVideoWithUUID(uuid:uuid)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)

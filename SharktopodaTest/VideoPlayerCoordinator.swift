@@ -267,6 +267,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     }
     
     // TODO: this will need to take a callback, perhaps of a special enum type
+    //and pass it on to the playerViewController
     func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
 
