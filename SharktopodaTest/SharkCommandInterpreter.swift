@@ -67,7 +67,6 @@ class SharkCommandInterpreter {
             advanceToTime(command)
         case .framecapture:
             captureCurrentFrame(command)
-            // TODO:11
         case .frameAdvance:
             frameAdvance(command)
             

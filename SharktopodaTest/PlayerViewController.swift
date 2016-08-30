@@ -96,7 +96,6 @@ final class PlayerViewController: NSViewController {
         stopObservingAll()
     }
     
-    // TODO:9 I probably want to encapsulae this in its own model class
     var videoPlayer:AVPlayer?
     
     // MARK:- KVO

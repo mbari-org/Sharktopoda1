@@ -177,6 +177,7 @@
 				7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */,
 				7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */,
 				7C059A0B1D7237ED00606270 /* NSUUID+ITUConformance.swift */,
+				7C059A0D1D725A2900606270 /* VideoFrameGrabber.swift */,
 				7C09E2BC1D6D4DF7002F986C /* Logging */,
 			);
 			name = Model;
@@ -242,7 +243,6 @@
 			children = (
 				7C09E2D91D6D5B1A002F986C /* PlayerWindowController.swift */,
 				7C09E2DA1D6D5B1A002F986C /* PlayerViewController.swift */,
-				7C059A0D1D725A2900606270 /* VideoFrameGrabber.swift */,
 				7C059A0F1D725ABD00606270 /* AVAsset+Timing.swift */,
 			);
 			name = "Video Player";

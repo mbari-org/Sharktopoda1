@@ -198,8 +198,6 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 try self.videoCoordinator.advanceToTimeInMilliseconds(time, forVideoWithUUID: uuid)
-                // TODO:10 perhaps we should get the ACTUAL time after the comand is called and return that?
-                // see notes in PLayerVideoController...
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":time])
             }
             catch let error as NSError {
