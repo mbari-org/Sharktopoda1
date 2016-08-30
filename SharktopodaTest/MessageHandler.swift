@@ -62,7 +62,28 @@ final class MessageHandler: NSObject {
         self.configureInterpreter(interpreter: $0)
         return $0
     }(SharkCommandInterpreter())
-    let log = Log()
+    
+    lazy var log : Log = {
+        
+        do {
+            // write the log file to /Library/Logs/Sharktopoda and have one log file for each time Sharktopoda starts up
+            let library = try NSFileManager.defaultManager().URLForDirectory(.LibraryDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
+            let logs = library.URLByAppendingPathComponent("Logs")
+            let sharktopoda = logs.URLByAppendingPathComponent("Sharktopoda")
+            
+            let now = NSDate()
+            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+            let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: now)
+            let logname = "\(components.year)_\(components.month)_\(components.day) \(components.hour)_\(components.minute)_\(components.second).txt"
+            let log = sharktopoda.URLByAppendingPathComponent(logname)
+            $0.savePath = log
+        }
+        catch let error as NSError {
+            print("error creating url for logging: \(error)")
+        }
+        return $0
+    }(Log())
+//    let log = Log()
     
     var nextInterpreterConfigurator : SharkCommandInterpreterConfigurator?
     
@@ -141,7 +162,6 @@ final class MessageHandler: NSObject {
     }
 
     private func sendResponseToRemoteServer(response:VerboseSharkResponse) {
-        print("\(#function) \(response)")
         
         guard let data = response.dataRepresentation else {
             log("Malformed response: \(response)", label:.error)

@@ -54,10 +54,21 @@ final class Log : Logging {
     
     private(set) var log = NSMutableAttributedString()
     
+    var savePath : NSURL?
+    private var saveTimer : NSTimer?
+    
     // TODO: add an option to save after a delay in NSTimeInterval
-    func log(message: String, label: LogLabel) {
+    func log(message: String, label: LogLabel, andWriteToFileAfterDelay writeDelay:NSTimeInterval) {
         log.log(message, label: label)
         notify()
+        
+        // if there was a timer set up to save, then cancel it
+        saveTimer?.invalidate()
+        saveTimer = NSTimer.scheduledTimerWithTimeInterval(writeDelay, target: self, selector: #selector(writeLogToDisk(_:)), userInfo: nil, repeats: false)
+    }
+    
+    func log(message: String, label: LogLabel) {
+        log(message, label: label, andWriteToFileAfterDelay: 1)
     }
     
     struct Notifications {
@@ -74,6 +85,20 @@ final class Log : Logging {
     
     func removeListener(listener:AnyObject) {
         NSNotificationCenter.defaultCenter().removeObserver(listener)
+    }
+    
+    @objc func writeLogToDisk(_:NSTimer) {
+        guard let savePath = savePath else { return }
+        guard let saveDirectory = savePath.URLByDeletingLastPathComponent else { return }
+        
+        do {
+            try NSFileManager.defaultManager().createDirectoryAtURL(saveDirectory, withIntermediateDirectories: true, attributes: nil)
+            try log.string.writeToURL(savePath, atomically: true, encoding: NSUTF8StringEncoding)
+            print("wrote log to \(savePath)")
+        }
+        catch let error as NSError {
+            print("error writing log to \(savePath): \(error.localizedDescription)")
+        }
     }
 }
 
