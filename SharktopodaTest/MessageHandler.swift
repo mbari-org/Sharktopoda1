@@ -122,6 +122,9 @@ final class MessageHandler: NSObject {
             // TODO:2 send response to the remote UDP port instead
             sendResponse(response)
         }
+        else {
+            log.log("Did not send response \(response)", label: response.succeeded ? .important : .error)
+        }
     }
     
     private func sendResponse(response:VerboseSharkResponse) {
@@ -154,6 +157,9 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
         // a subclass will override them and develop something much more interesting
         
         inInterpreter.connectCallback = { port, host in
+            
+            // TODO: we need to set up a UDPSender here based on the address we're given
+            
             
             // NOTE: per the spec, this is only used for
             // "additional out-of-band messages to (outside of the UDP command -> response messages)"

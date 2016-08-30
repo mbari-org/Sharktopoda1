@@ -10,6 +10,7 @@
 		7C059A0C1D7237ED00606270 /* NSUUID+ITUConformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C059A0B1D7237ED00606270 /* NSUUID+ITUConformance.swift */; };
 		7C059A0E1D725A2900606270 /* VideoFrameGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C059A0D1D725A2900606270 /* VideoFrameGrabber.swift */; };
 		7C059A101D725ABD00606270 /* AVAsset+Timing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C059A0F1D725ABD00606270 /* AVAsset+Timing.swift */; };
+		7C059A121D7516F700606270 /* UDPSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C059A111D7516F700606270 /* UDPSender.swift */; };
 		7C086B461D6FB4D20034648C /* LoggingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C086B451D6FB4D20034648C /* LoggingCoordinator.swift */; };
 		7C09E2991D6D3836002F986C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2981D6D3836002F986C /* AppDelegate.swift */; };
 		7C09E29D1D6D3836002F986C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C09E29C1D6D3836002F986C /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 		7C059A0B1D7237ED00606270 /* NSUUID+ITUConformance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUUID+ITUConformance.swift"; sourceTree = "<group>"; };
 		7C059A0D1D725A2900606270 /* VideoFrameGrabber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameGrabber.swift; sourceTree = "<group>"; };
 		7C059A0F1D725ABD00606270 /* AVAsset+Timing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVAsset+Timing.swift"; sourceTree = "<group>"; };
+		7C059A111D7516F700606270 /* UDPSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPSender.swift; sourceTree = "<group>"; };
 		7C086B451D6FB4D20034648C /* LoggingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingCoordinator.swift; sourceTree = "<group>"; };
 		7C09E2951D6D3836002F986C /* SharktopodaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharktopodaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C09E2981D6D3836002F986C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				7C09E2AD1D6D4C41002F986C /* MessageHandler.swift */,
 				7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */,
 				7C09E2C11D6D4F58002F986C /* UDPService.swift */,
+				7C059A111D7516F700606270 /* UDPSender.swift */,
 				7C09E2C51D6D4F79002F986C /* Third Party */,
 			);
 			name = Networking;
@@ -365,6 +368,7 @@
 				7C09E2E11D6D5D02002F986C /* OpenURLPromptViewController.swift in Sources */,
 				7C09E2B71D6D4D15002F986C /* SharkCommand.swift in Sources */,
 				7C09E2CA1D6D4F96002F986C /* GCDAsyncUdpSocket.m in Sources */,
+				7C059A121D7516F700606270 /* UDPSender.swift in Sources */,
 				7C09E2C01D6D4F43002F986C /* IPGeneral.swift in Sources */,
 				7C09E2D21D6D5966002F986C /* VideoPlayerCoordinator.swift in Sources */,
 				7C09E2E01D6D5D02002F986C /* OpenURLPromptWindowController.swift in Sources */,
