@@ -20,8 +20,8 @@ final class UDPService: NSObject {
     private(set) var running = false
     private(set) var port : PortNumber?
     
-    // TODO:1 try a background queue
-    private var q : dispatch_queue_t = dispatch_get_main_queue()
+//    private var q : dispatch_queue_t = dispatch_get_main_queue()
+    private var q : dispatch_queue_t = dispatch_queue_create("UDPService", DISPATCH_QUEUE_SERIAL)
     
     private lazy var udpSocket : GCDAsyncUdpSocket = {
         return GCDAsyncUdpSocket(delegate: self, delegateQueue: self.q)
@@ -83,7 +83,11 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
     func udpSocketDidClose(sock: GCDAsyncUdpSocket, withError error: NSError?) {
         port = nil
         running = false
-        didStopListening(service:self)
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            self.didStopListening(service:self)
+        }
+
     }
     
     private struct UDPClientAddress : UDPClient, CustomStringConvertible {
@@ -106,23 +110,36 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
         
         do {
             let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue:0))
-            didReceiveJSON(json: json, from: address, service:self)
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                self.didReceiveJSON(json: json, from: address, service:self)
+            }
+
         }
         catch {
             
             // it's not valid json, but maybe it's a valid string
             if let message = NSString(data: data, encoding: NSUTF8StringEncoding) as? String {
-                didReceiveMessage(message: message, from: address, service:self)
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    self.didReceiveMessage(message: message, from: address, service:self)
+                }
             }
         }
     }
     
     func udpSocket(sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
-        didSendResponse()
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            self.didSendResponse()
+        }
     }
     
     func udpSocket(sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {
         let error = error ?? NSError(domain: "UDPService", code: 100, userInfo: [NSLocalizedDescriptionKey: "Unknown Error"])
-        failedToSendResponse(error: error)
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            self.failedToSendResponse(error: error)
+        }
     }
 }

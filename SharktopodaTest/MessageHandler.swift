@@ -108,19 +108,6 @@ final class MessageHandler: NSObject {
         interpreter.handle(command)
     }
     
-    private func hostForResponse(response:VerboseSharkResponse) -> String? {
-        // If we were using the connect message as a handshake, then we'd want to:
-        // - check a lookup table for host names associated with the address
-        return response.command.host
-    }
-    
-//    private func portForResponse(response:VerboseSharkResponse) -> UInt16? {
-//        // If we were using the connect message as a handshake, then we'd want to:
-//        // - check a lookup table for port numbers associated with the host
-//        
-//        // instead, we just return the default return port
-//        return NetworkingDefaults.Ports.returnPort
-//    }
     
     private func processResponse(response:SharkResponse) {
         
@@ -135,23 +122,6 @@ final class MessageHandler: NSObject {
             // TODO:2 send response to the remote UDP port instead
             sendResponse(response)
         }
-        
-//        if response.succeeded || response.allowSendingOnFailure {
-//            
-//            if response.commandVerb.sendsResponseToClient {
-//                sendResponse(response)
-//            }
-//            else if response.commandVerb.sendsResponseToRemoteServer {
-//                // TODO:2 send response to the remote UDP port instead
-//                sendResponse(response)
-//            }
-//        }
-//        else if let error = response.error {
-//            log(error)
-//        }
-//        else {
-//            log("Unknown error in response: \(response)")
-//        }
     }
     
     private func sendResponse(response:VerboseSharkResponse) {
@@ -161,14 +131,6 @@ final class MessageHandler: NSObject {
             log("Malformed response: \(response)", label:.error)
             return
         }
-//        guard let host = hostForResponse(response) else {
-//            log("No known host to send response \(response)", label:.error)
-//            return
-//        }
-//        guard let port = portForResponse(response) else {
-//            log("No known port for response \(response)", label:.error)
-//            return
-//        }
 
         log("Sending Response \(response)")
         
