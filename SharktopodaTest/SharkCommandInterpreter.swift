@@ -68,11 +68,12 @@ class SharkCommandInterpreter {
         case .framecapture:
             captureCurrentFrame(command)
             // TODO:11
-//        case frameAdvance = "frame advance"
+        case .frameAdvance:
+            frameAdvance(command)
             
-        default:
-            let error = NSError(domain: "SharkCommandInterpreter", code: Errors.CommandNotYetImplemented, userInfo: [NSLocalizedDescriptionKey: "\"\(command.verb)\" not yet implemented"])
-            callbackError(error, forCommand: command)
+//        default:
+//            let error = NSError(domain: "SharkCommandInterpreter", code: Errors.CommandNotYetImplemented, userInfo: [NSLocalizedDescriptionKey: "\"\(command.verb)\" not yet implemented"])
+//            callbackError(error, forCommand: command)
         }
     }
     
@@ -104,7 +105,7 @@ class SharkCommandInterpreter {
         
         closeCallback(uuid: uuid.UUID!, command:command)
     }
-    
+
     var showCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
     func show(command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
@@ -187,6 +188,14 @@ class SharkCommandInterpreter {
         captureCurrentFrameCallback(uuid:uuid.UUID!, imageLocation:imageLocation, imageReferenceUUID:imageReferenceUUID.UUID!, command:command)
     }
     
+    
+    var frameAdvanceCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
+    func frameAdvance(command:SharkCommand) {
+        guard let uuid = uuidFromCommand(command) else { return }
+        
+        frameAdvanceCallback(uuid: uuid.UUID!, command:command)
+    }
+
     // MARK:- Convenience
 
     private func uuidFromCommand(command:SharkCommand) -> SharkCommand.UUID? {

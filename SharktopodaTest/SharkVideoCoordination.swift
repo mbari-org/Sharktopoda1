@@ -83,9 +83,8 @@ protocol SharkVideoCoordination {
     func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID,
                                                  then callback:(success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()) throws
 
-    /*      The following are yet to be implemented: 
     ////    Advance the video one frame for the given video The UDP/JSON command is
     // we'll just make it a generic frame count to advance
-    func advanceVideoWithUUID(uuid inUUID:NSUUID, byFrameCount:Int)
- */
+    func advanceToNextFrameInVideoWithUUID(uuid inUUID:NSUUID, byFrameCount:Int) throws
+ 
 }

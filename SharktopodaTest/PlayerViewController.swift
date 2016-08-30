@@ -19,6 +19,7 @@ final class PlayerViewController: NSViewController {
         static let UnknownStatus = 1
         static let FailedToLoad = 2
         static let TimedOut = 3
+        static let UnknownFrameRate = 4
     }
 
     
@@ -273,6 +274,17 @@ final class PlayerViewController: NSViewController {
         videoPlayer!.seekToTime(time, toleranceBefore: tolerance, toleranceAfter: tolerance)
     }
     
+    func advanceByFrameNumber(framesToAdvance:Int) throws {
+        let time = videoElpasedTimeInMilliseconds
+
+        guard let frameTime = videoPlayer?.currentItem?.asset.frameDuration?.milliseconds else {
+            throw(NSError(domain: "PlayerViewController", code: Errors.UnknownFrameRate, userInfo: [NSLocalizedDescriptionKey:"Unable to determine frame rate for video at \(videoURL)"]))
+        }
+        
+        let start = Int(frameTime * time/frameTime)  // to get the time of the current frame
+        let newTime = start + Int(frameTime) * framesToAdvance
+        try advanceToTimeInMilliseconds(UInt(newTime))
+    }
     
     var frameGrabbingCallback : (outcome:FrameGrabbingOutcome) -> () = { _ in }
     

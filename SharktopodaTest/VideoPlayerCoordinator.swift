@@ -368,6 +368,13 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         pwc.playerViewController.pauseVideo(self)
     }
     
+    
+    func advanceToNextFrameInVideoWithUUID(uuid inUUID:NSUUID, byFrameCount:Int) throws {
+        let pwc = try playerWindowControllerForUUID(inUUID)
+
+        try pwc.playerViewController.advanceByFrameNumber(1)
+    }
+
     enum ErrorCode : Int {
         case unsupportedURL = 11
         case noVideoForThisUUID = 12

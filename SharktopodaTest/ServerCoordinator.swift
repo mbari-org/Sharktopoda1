@@ -236,5 +236,19 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             }
 
         }
+        
+        inInterpreter.frameAdvanceCallback = { uuid, command in
+            
+            var response : SharkResponse?
+            do {
+                try self.videoCoordinator.advanceToNextFrameInVideoWithUUID(uuid: uuid, byFrameCount:1)
+                response = VerboseSharkResponse(successfullyCompletedCommand: command)
+            }
+            catch let error as NSError {
+                response = VerboseSharkResponse(failedCommand: command, error: error)
+            }
+            command.processResponse?(response!)
+        }
+
     }
 }

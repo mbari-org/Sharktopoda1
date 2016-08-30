@@ -57,7 +57,6 @@ final class Log : Logging {
     var savePath : NSURL?
     private var saveTimer : NSTimer?
     
-    // TODO: add an option to save after a delay in NSTimeInterval
     func log(message: String, label: LogLabel, andWriteToFileAfterDelay writeDelay:NSTimeInterval) {
         log.log(message, label: label)
         notify()
