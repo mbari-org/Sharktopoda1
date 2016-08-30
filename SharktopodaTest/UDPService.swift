@@ -18,6 +18,11 @@ protocol UDPClient : CustomStringConvertible {}
  */
 final class UDPService: NSObject {
     
+    struct Errors {
+        static let UnknownError = 1
+    }
+
+    
     private(set) var running = false
     private(set) var port : PortNumber?
     
@@ -137,7 +142,7 @@ extension UDPService : GCDAsyncUdpSocketDelegate {
     }
     
     func udpSocket(sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {
-        let error = error ?? NSError(domain: "UDPService", code: 100, userInfo: [NSLocalizedDescriptionKey: "Unknown Error"])
+        let error = error ?? NSError(domain: "UDPService", code: Errors.UnknownError, userInfo: [NSLocalizedDescriptionKey: "Unknown Error"])
         dispatch_async(dispatch_get_main_queue()) {
             
             self.failedToSendResponse(error: error)

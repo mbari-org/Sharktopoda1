@@ -23,6 +23,14 @@ import CoreMedia
  */
 class SharkCommandInterpreter {
     
+    struct Errors {
+        static let CommandNotYetImplemented = 1
+        static let MissingValue = 2
+        static let InvalidUUID = 3
+
+    }
+
+    
     func handle(command:SharkCommand) {
         
         // NOTE: the interpreter can callback sending an error,
@@ -63,7 +71,7 @@ class SharkCommandInterpreter {
 //        case frameAdvance = "frame advance"
             
         default:
-            let error = NSError(domain: "SharkCommandInterpreter", code: 10, userInfo: [NSLocalizedDescriptionKey: "\"\(command.verb)\" not yet implemented"])
+            let error = NSError(domain: "SharkCommandInterpreter", code: Errors.CommandNotYetImplemented, userInfo: [NSLocalizedDescriptionKey: "\"\(command.verb)\" not yet implemented"])
             callbackError(error, forCommand: command)
         }
     }
@@ -196,7 +204,7 @@ class SharkCommandInterpreter {
     // MARK:- Error Handling
     
     func missingParameterErrorForCommand(command:SharkCommand, parameter:String) -> NSError {
-        return NSError(domain: "SharkCommandInterpreter", code: 11, userInfo: [NSLocalizedDescriptionKey: "command \"\(command.verb)\" has no value \"\(parameter)\""])
+        return NSError(domain: "SharkCommandInterpreter", code: Errors.MissingValue, userInfo: [NSLocalizedDescriptionKey: "command \"\(command.verb)\" has no value \"\(parameter)\""])
     }
     
     func callbackError(error:NSError, forCommand command:SharkCommand) {
@@ -210,8 +218,8 @@ class SharkCommandInterpreter {
     }
     
     func callbackErrorForMalformedUUID(uuid:SharkCommand.UUID, forCommand command:SharkCommand) {
-        let error = NSError(domain: "SharkCommandInterpreter", code: 12, userInfo: [NSLocalizedDescriptionKey : "\(uuid) is not a valid UUID"])
-        let response = VerboseSharkResponse(failedCommand:command, error:error, canSendAnyway:true)
+        let error = NSError(domain: "SharkCommandInterpreter", code: Errors.InvalidUUID, userInfo: [NSLocalizedDescriptionKey : "\(uuid) is not a valid UUID"])
+        let response = VerboseSharkResponse(failedCommand:command, error:error)
         command.processResponse?(response)
     }
 }

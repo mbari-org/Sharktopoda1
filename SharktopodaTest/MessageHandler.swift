@@ -165,32 +165,14 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
     
     func configureInterpreter(interpreter inInterpreter:SharkCommandInterpreter) {
         
-        // these two implementations are summy implementations,
-        // a subclass will override them and develop something much more interesting
-        
+        // MessageHandler only worries about the 'connect' command
+        // it leaves another layer to handle the other, more video-oriented commands
         inInterpreter.connectCallback = { port, host in
             
             self.remoteServer = host
             self.remoteServerPort = port
             
             self.log("Connected to \(self.remoteServer):\(self.remoteServerPort)", label:.start)
-            
-            // in fact, we don't even callback here
-            // callback(nil)
-        }
-        
-        inInterpreter.openCallback = { url, uuid, command in
-            
-            let response : SharkResponse
-            
-            // for now, respond with a success for local urls and a failure for all others
-            if url.scheme == "file" {
-                response = VerboseSharkResponse(successfullyCompletedCommand: command)
-            }
-            else {
-                response = VerboseSharkResponse(failedCommand: command, error: NSError(domain: "MessageHandler", code: 888, userInfo: [NSLocalizedDescriptionKey:"We don't support non-file URLs"]), canSendAnyway:true)
-            }
-            command.processResponse?(response)
         }
         
         // if we have a next configurator in the chain, then give it a chance at configuring the interpreter

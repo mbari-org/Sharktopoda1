@@ -84,7 +84,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                     command.processResponse?(VerboseSharkResponse(successfullyCompletedCommand: command))
                 }
                 else {
-                    command.processResponse?(VerboseSharkResponse(failedCommand: command, error: error!, canSendAnyway: true))
+                    command.processResponse?(VerboseSharkResponse(failedCommand: command, error: error!))
                 }
             }
         }
@@ -97,7 +97,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
         }
@@ -110,7 +110,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid])
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
         }
@@ -123,7 +123,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid])
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
         }
@@ -136,7 +136,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command)
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
         }
@@ -149,7 +149,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["videos":info])
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
         }
@@ -162,7 +162,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: info)
            }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
         }
@@ -175,33 +175,10 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "status":status.rawValue])
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
-            command.processResponse?(response!)
-       }
-        
-/*      The following is useful (we needed to be able to do this before we could do some other things), but not part of the spec
-         
-        inInterpreter.getInfoForVideoWithUUIDCallback = { uuid, command in
-            
-            var response : SharkResponse?
-            do {
-                guard let info = try self.videoCoordinator?.returnInfoForVideoWithUUID(uuid) else {
-                    let error = NSError(domain: "ServerCoordinator", code: 12, userInfo:
-                        [NSLocalizedDescriptionKey: "Unable to retrieve info for video with uuid \(uuid)"])
-                   response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-                    command.processResponse?(response!)
-                    return
-                }
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: info)
-           }
-            catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
-            }
-            
             command.processResponse?(response!)
         }
- */
         
         inInterpreter.getElapsedTimeCallback = { uuid, command in
             
@@ -211,7 +188,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":elapsedTime])
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
         }
@@ -226,7 +203,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                 response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":time])
             }
             catch let error as NSError {
-                response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                response = VerboseSharkResponse(failedCommand: command, error: error)
             }
             command.processResponse?(response!)
 
@@ -246,14 +223,14 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                         response = (VerboseSharkResponse(successfullyCompletedCommand: command, payload:payload))
                     }
                     else {
-                        response = (VerboseSharkResponse(failedCommand: command, error: error!, canSendAnyway: true))
+                        response = (VerboseSharkResponse(failedCommand: command, error: error!))
                     }
                     
                     command.processResponse?(response!)
                 }
             }
             catch let error as NSError {
-                let response = VerboseSharkResponse(failedCommand: command, error: error, canSendAnyway: true)
+                let response = VerboseSharkResponse(failedCommand: command, error: error)
                 command.processResponse?(response)
                 
             }

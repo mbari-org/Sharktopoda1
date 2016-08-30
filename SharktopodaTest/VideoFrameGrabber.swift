@@ -11,6 +11,14 @@ import AVFoundation
 
 class VideoFrameGrabber: NSObject {
 
+    
+    struct Errors {
+        static let Cancelled = 1
+        static let FailedToCreateDestination = 2
+        static let FailedToWrite = 3
+    }
+
+    
     let asset : AVAsset
     
     private let imageGenerator : AVAssetImageGenerator
@@ -45,7 +53,7 @@ class VideoFrameGrabber: NSObject {
         case .Succeeded:
             gotImage(image!, atTime: actualTime, requestedTime: requestedTime)
         case .Cancelled:
-            responseError = NSError(domain: "VideoFrameGrabber", code: 1, userInfo: [NSLocalizedDescriptionKey:"Frame Grabbing was cancelled before this frame could be grabbed (time:\(requestedTime)"])
+            responseError = NSError(domain: "VideoFrameGrabber", code: Errors.Cancelled, userInfo: [NSLocalizedDescriptionKey:"Frame Grabbing was cancelled before this frame could be grabbed (time:\(requestedTime)"])
             fallthrough
         case .Failed:
             let (_, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
@@ -79,7 +87,7 @@ class VideoFrameGrabber: NSObject {
             }
             
             guard let destination = CGImageDestinationCreateWithURL(saveLocation, type, 1, nil) else {
-                let error = NSError(domain: "VideoFrameGrabber", code: 2, userInfo:
+                let error = NSError(domain: "VideoFrameGrabber", code:Errors.FailedToCreateDestination, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to create destination for saving image to \(saveLocation)"])
                 self.failureCallback(requestedTime: requestedTime, error: error, destinationUUID:uuid)
                 return
@@ -91,7 +99,7 @@ class VideoFrameGrabber: NSObject {
             // save the file
             CGImageDestinationAddImage(destination, image, properties)
             guard CGImageDestinationFinalize(destination) else {
-                let error = NSError(domain: "VideoFrameGrabber", code: 3, userInfo:
+                let error = NSError(domain: "VideoFrameGrabber", code: Errors.FailedToWrite, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to write image to \(saveLocation)"])
                 self.failureCallback(requestedTime: requestedTime, error: error, destinationUUID:uuid)
                 return

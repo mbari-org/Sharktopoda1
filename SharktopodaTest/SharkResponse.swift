@@ -44,7 +44,7 @@ struct VerboseSharkResponse : SharkResponse {
     var error : NSError? = nil
     // by default, a failure won't be sent to the client in a response,
     // set this to true to allow a failure to be sent
-    var allowSendingOnFailure = false
+//    var allowSendingOnFailure = false
     
     // any other information that should be passed along
     var payload : [String:JSONObject] = [:]
@@ -64,12 +64,12 @@ struct VerboseSharkResponse : SharkResponse {
         self.success = .failed
     }
 
-    init(failedCommand:SharkCommand, error:NSError, canSendAnyway:Bool) {
-        self.command = failedCommand
-        self.error = error
-        self.success = .failed
-        self.allowSendingOnFailure = canSendAnyway
-    }
+//    init(failedCommand:SharkCommand, error:NSError) {
+//        self.command = failedCommand
+//        self.error = error
+//        self.success = .failed
+////        self.allowSendingOnFailure = canSendAnyway
+//    }
     
     
     var dictionaryRepresentation : [String:JSONObject] {

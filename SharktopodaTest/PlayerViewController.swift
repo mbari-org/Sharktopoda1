@@ -15,6 +15,13 @@ import MediaAccessibility
 
 final class PlayerViewController: NSViewController {
     
+    struct Errors {
+        static let UnknownStatus = 1
+        static let FailedToLoad = 2
+        static let TimedOut = 3
+    }
+
+    
     var readyToShowVideo : () -> () = {}
     var mediaSizeChanged : (newSize:CGSize) -> () = { _ in }
     var failedToLoad : () -> () = {}
@@ -148,7 +155,7 @@ final class PlayerViewController: NSViewController {
             // this is too rare and wild to report to the suer, we just want the video windo to disappear in this case
             let desc = ("A video asset's status changed but the asset or its status returned nil. Status unknown.");
             debugPrint(desc)
-            videoLoadFailed(withError: NSError(domain: "PlayerViewController", code: 1, userInfo: [NSLocalizedDescriptionKey:desc]))
+            videoLoadFailed(withError: NSError(domain: "PlayerViewController", code: Errors.UnknownStatus, userInfo: [NSLocalizedDescriptionKey:desc]))
             return;
         }
         
@@ -167,13 +174,13 @@ final class PlayerViewController: NSViewController {
             let desc = ("A video asset failed to load.\n\tAsset Description: \(assetString)\n\tAsset Readable: \(asset?.readable)\n\tAsset Playable: \(asset?.playable)\n\tAsset Has Protected Content: \(asset?.hasProtectedContent)\n\tFull error output:\n\(paybackError)");
             debugPrint(desc)
                         
-            videoLoadFailed(withError: paybackError ?? NSError(domain: "PlayerViewController", code: 2, userInfo: [NSLocalizedDescriptionKey:desc]));
+            videoLoadFailed(withError: paybackError ?? NSError(domain: "PlayerViewController", code: Errors.FailedToLoad, userInfo: [NSLocalizedDescriptionKey:desc]));
         }else if(videoStatus == AVPlayerItemStatus.Unknown){
             //The asset should have started in an Unknown state, so it *should* not have changed into this state
             let desc = ("A video asset has an unknown status. (Asset Description: \(assetString))");
             debugPrint(desc)
             // this is another case that's too weird to show the user
-            videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: 3, userInfo: [NSLocalizedDescriptionKey:desc])));
+            videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: Errors.UnknownStatus, userInfo: [NSLocalizedDescriptionKey:desc])));
         }
         
         //De-register for infomation about the item because it is now either ready or failed to load
@@ -212,7 +219,7 @@ final class PlayerViewController: NSViewController {
     func videoLoadTimedOut(sender:NSTimer) {
         let desc = "Video at \(videoURL!) failed to load in the time alloted"
         debugPrint(desc)
-        videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: 4, userInfo: [NSLocalizedDescriptionKey:desc])));
+        videoLoadFailed((withError: NSError(domain: "PlayerViewController", code: Errors.TimedOut, userInfo: [NSLocalizedDescriptionKey:desc])));
     }
     
     var videoPlaybackRate : Double {
