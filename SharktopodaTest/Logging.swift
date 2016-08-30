@@ -54,6 +54,7 @@ final class Log : Logging {
     
     private(set) var log = NSMutableAttributedString()
     
+    // TODO: add an option to save after a delay in NSTimeInterval
     func log(message: String, label: LogLabel) {
         log.log(message, label: label)
         notify()

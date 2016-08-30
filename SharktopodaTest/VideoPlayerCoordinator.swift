@@ -128,22 +128,51 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
         case error(NSError)
     }
     
-    func validateURL(url:NSURL) -> URLValidation {
+    func validateURLSchemeForURL(url:NSURL) -> URLValidation {
         
         // only accept http and file urls
         guard ["file", "http", "https"].contains(url.scheme) else {
             return .error(errorWithCode(.unsupportedURL, description:"The url \(url) is not supported"))
         }
+        return .url(url)
+    }
+    
+    func validateURL(url:NSURL) -> URLValidation {
         
-        // if it's a file url, make sure it represents a reachable resource
-        if "file" == url.scheme {
-            var error : NSError?
-            if !url.checkResourceIsReachableAndReturnError(&error) {
-                return .error(error!)
+        // only accept http and file urls
+//        guard ["file", "http", "https"].contains(url.scheme) else {
+        
+        // first, validate the scheme
+        let validURL = validateURLSchemeForURL(url)
+        switch validURL {
+        case .error:
+            return validURL
+            
+        case .url:
+            // if it's a file url, make sure it represents a reachable resource
+            if "file" == url.scheme {
+                var error : NSError?
+                if !url.checkResourceIsReachableAndReturnError(&error) {
+                    return .error(error!)
+                }
             }
+            
+            return .url(url)
         }
         
-        return .url(url)
+//        guard validateURLSchemeForURL(url) == .url else {
+//            return .error(errorWithCode(.unsupportedURL, description:"The url \(url) is not supported"))
+//        }
+//        
+//        // if it's a file url, make sure it represents a reachable resource
+//        if "file" == url.scheme {
+//            var error : NSError?
+//            if !url.checkResourceIsReachableAndReturnError(&error) {
+//                return .error(error!)
+//            }
+//        }
+//        
+//        return .url(url)
     }
     
     
@@ -278,6 +307,14 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID,
                                                  then callback:(success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
+
+        switch validateURLSchemeForURL(saveLocation) {
+        case .error(let error):
+            callback(success: false, error: error, requestedTimeInMilliseconds:nil, actualTimeInMilliseconds:nil)
+            return
+        default:
+            break
+        }
 
         frameCaptureCallbacks[referenceUUID] = callback
         pwc.playerViewController.grabFrameAndSaveItTo(saveLocation, destinationUUID: referenceUUID)

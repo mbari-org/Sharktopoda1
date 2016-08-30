@@ -1,6 +1,3 @@
-
-TODO: add reachability support: the server gets confused after I turn off Link Conditioner
-
 //// notes.txt as bid submission 8/23/2016:
 
 This is the beginnings of an implementation of Sharktopoda as it's described at https://github.com/underwatervideo/Sharktopoda/blob/master/REQUIREMENTS.md

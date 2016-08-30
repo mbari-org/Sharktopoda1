@@ -60,7 +60,6 @@ struct SharkCommand {
             }
         }
 
-        // TODO: verify that these are the only commands that return responses
         var sendsResponseToClient : Bool {
             switch self {
             case .open, .getVideoInfo, .getAllVideosInfo, .getElapsedTime, .getStatus, .play, .pause:
@@ -116,13 +115,13 @@ struct SharkCommand {
         return UUID(object: uuid)
     }
 
-    var host : String? {
-        return data["host"] as? String
+    var host : String {
+        return data["host"] as? String ?? "localhost"
     }
 
     var port : UInt16? {
-        if let out = data["port"] as? UInt16 {
-            return out
+        if let d = data["port"] as? Double {
+            return UInt16(d)
         }
         guard let port = data["port"] as? String else { return nil }
         return UInt16(port)

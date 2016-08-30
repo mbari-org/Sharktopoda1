@@ -43,15 +43,18 @@ final class MessageHandler: NSObject {
     }(UDPService())
     
     
-//    lazy var sender : UDPSender = {
-//        $0.didSend = { message, address, port, timeSent in
-//            self.log("message sent to \(address):\(port) at \(timeSent): \(message)")
-//        }
-//        $0.failedToSend = { message, address, port, timeSent, error in
-//            self.log("failed to send message to \(address):\(port) at \(timeSent): \(message)\n\nerror:\(error)", label:.error)
-//        }
-//        return $0
-//    }(UDPSender())
+    private lazy var remoteSender : UDPSender = {
+        $0.didSend = { message, address, port, timeSent in
+            self.log("message sent to \(address):\(port) at \(timeSent): \(message)")
+        }
+        $0.failedToSend = { message, address, port, timeSent, error in
+            self.log("failed to send message to \(address):\(port) at \(timeSent): \(message)\n\nerror:\(error)", label:.error)
+        }
+        return $0
+    }(UDPSender())
+
+    private var remoteServer : String?
+    private var remoteServerPort : UInt16?
     
     lazy var interpreter : SharkCommandInterpreter = {
         
@@ -114,21 +117,18 @@ final class MessageHandler: NSObject {
         // has to be a verbose response, or else we can't send it
         let response = response as! VerboseSharkResponse
         
-        // TODO: clean this up
         if response.commandVerb.sendsResponseToClient {
             sendResponse(response)
         }
         else if response.commandVerb.sendsResponseToRemoteServer {
-            // TODO:2 send response to the remote UDP port instead
-            sendResponse(response)
+            sendResponseToRemoteServer(response)
         }
         else {
-            log.log("Did not send response \(response)", label: response.succeeded ? .important : .error)
+            log.log("Did not send generated response \(response)", label: response.succeeded ? .important : .error)
         }
     }
     
     private func sendResponse(response:VerboseSharkResponse) {
-        
         
         guard let data = response.dataRepresentation else {
             log("Malformed response: \(response)", label:.error)
@@ -138,13 +138,25 @@ final class MessageHandler: NSObject {
         log("Sending Response \(response)")
         
         server.sendResponse(data, toClient:response.command.address)
-        
-        //        sender.sendData(data, to: host, onPort: port)
     }
-    
-    // If we were using the connect message as a handshake, then we'd want to:
-    // - all commands except connect must follow a previous connect: call
-    // - connections time out after a reasonable time
+
+    private func sendResponseToRemoteServer(response:VerboseSharkResponse) {
+        print("\(#function) \(response)")
+        
+        guard let data = response.dataRepresentation else {
+            log("Malformed response: \(response)", label:.error)
+            return
+        }
+        guard let server = remoteServer,
+            serverPort = remoteServerPort else {
+                log("Not enough information to send response to remote server \(remoteServer) on port \(remoteServerPort)\nresponse:\(response)", label:.error)
+                return
+        }
+        
+        log("Sending Reponse to remove server \(response)")
+        
+        remoteSender.sendData(data, to: server, onPort: serverPort)
+    }
 }
 
 // MARK:- SharkCommandInterpreterConfigurator
@@ -158,20 +170,10 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
         
         inInterpreter.connectCallback = { port, host in
             
-            // TODO: we need to set up a UDPSender here based on the address we're given
+            self.remoteServer = host
+            self.remoteServerPort = port
             
-            
-            // NOTE: per the spec, this is only used for
-            // "additional out-of-band messages to (outside of the UDP command -> response messages)"
-            // I would think it would be a way to do a handshake before receiving any other messages,
-            // but that's not my understanding of the spec right now...
-            // if this were the case, then we'd want to:
-            // - verify that this host is allowed (perhaps as simple as a blacklist)
-            // - build a data structure of allowed host and port for this address
-            
-            // but for now, all we do is log the fact that a connection was made,
-            // as if the connection has been
-            self.log("Connected to \(host):\(port)", label:.start)
+            self.log("Connected to \(self.remoteServer):\(self.remoteServerPort)", label:.start)
             
             // in fact, we don't even callback here
             // callback(nil)

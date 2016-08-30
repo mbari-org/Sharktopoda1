@@ -9,7 +9,8 @@
 import Foundation
 
 // a wrapper protocol for interacting with client code
-protocol UDPClient {}
+// description will return a string representation of the address
+protocol UDPClient : CustomStringConvertible {}
 
 /*
  This is a simple UDP service that accepts messages on one port at a time,
