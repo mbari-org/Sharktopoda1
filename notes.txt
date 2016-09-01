@@ -1,43 +1,9 @@
-//// notes.txt as bid submission 8/23/2016:
 
-This is the beginnings of an implementation of Sharktopoda as it's described at https://github.com/underwatervideo/Sharktopoda/blob/master/REQUIREMENTS.md
-
-It should be enough to show you my approach to coding and architecture and my coding style.
+Architecture:
 
 It uses a "MVCNC" architecture: Model-View-Controller-Networking-Coordinator
 This is like MVC with 2 major distinctions:
 1) Coordinators run the high level logic: deciding which windows are shown when, handling app-level logic, and integrating the Networking and Controller Layers
 2) A Networking layer is separate from the app logic and controller layer.  It is owned by the coordinator layer, and controllers can have a reference to it and interact with it (both getting updates and making changes)
 
-This project implements a subset of the features mentioned at the requirements page, just enough to make the rest of the process relatively easy should you accept my bid.  The app can:
-
-- load a video via the GUI either from an NSOpenPanel (for local files) or a separate openURL… dialog (for web videos)
-- show a standard set of floating controls for the video
-- respond to a subset of the Sharktopoda commands listed in the requirements page:
-open - either file: or http: urls
-play/pause (and play at various rates)
-show - bring a video window to the top based on its uuid
-request status for video by uuid
-request info for frontmost video
-request info for all videos
-
-- accept a connect command, but at the moment, it simply logs the result (see below)
-- Show a color-coded server log in a Log window (accessible from the Window Menu)
-
-I use one third party library: CocoaAsyncSocket, to handle UDP. For the purposes of the demo, I've simply included the 2 files I need, but a production app would of course use cocoapods to guarantee it was up to date.
-
-About the 'connect' command:
-If I am hired for this project, I will want more guidance on how to approach this.  When I first read the spec, I took "connect" to mean that the client would have to send a connect message and receive a response before Sharktopoda would accept any other messages from that client.  I also took it to mean that the client would listen for responses from the server on the port passed in the 'connect' message.  On further reading, however, it appears that only SOME messages are meant to be restricted in this way.  At this stage, this app logs any connect message, but doesn't do anything else with it. It sends back responses on an arbitrary port number that's stored in a preferences file, not the most secure way to go... I've commented in a couple places in the code how I would approach it if 'connect' is meant to be more restrictive, which I would highly recommend from a security standpoint.
-
-About responses:
-In the requirements page, some commands' responses include a 'status' key (e.g. open) while others do not (e.g. 'request video information').  For this project, all command responses include a 'status' element, which can be either 'ok' or 'failed'.  If this is not preferred, I can change it fairly easily.
-
-And while we're at it: some commands in the requirements ask to only work on the frontmost window (e.g. 'request video information'), while others are documented as working based on a UUID (e.g. 'request status').  I believe that this is meant to mean that all of these commands can work using either approach (pass in a uuid to specify a particular video, or don't and get back info for the frontmost video), but that's my guess. For this stage, I've elected to support the requirements as written to the best of my ability.
-
-There is a dummy client app in the UDPServerTest Project (the second target, UDPClientTest) that can be used to send messages to this app for testing purposes.
-There's also a test app that includes a test panel to see how the networking commands (once they're interprested by the networking layer) will control the video.
-
-If you have any further questions, feel free to contact me via freelancer or at jaywardell@mac.com
-
-Whether you accept my bid or not, I want to thank you for an interesting challenge. I hope to work with you on this some more.
 

@@ -118,6 +118,7 @@
 				7C09E2A91D6D4BF4002F986C /* Coordinator */,
 				7C09E2AF1D6D4C52002F986C /* Controller */,
 				7C09E2B51D6D4D04002F986C /* Model */,
+				7C09E2C51D6D4F79002F986C /* Third Party */,
 				7C09E2AC1D6D4C29002F986C /* Networking */,
 				7C09E2B21D6D4C9A002F986C /* Preferences & Defaults */,
 				7C09E29C1D6D3836002F986C /* Assets.xcassets */,
@@ -145,7 +146,6 @@
 				7C09E2BF1D6D4F43002F986C /* IPGeneral.swift */,
 				7C09E2C11D6D4F58002F986C /* UDPService.swift */,
 				7C059A111D7516F700606270 /* UDPSender.swift */,
-				7C09E2C51D6D4F79002F986C /* Third Party */,
 			);
 			name = Networking;
 			sourceTree = "<group>";

@@ -63,6 +63,9 @@ final class PlayerViewController: NSViewController {
     func stopObserving(key:String) {
         if keysObserved.contains(key) {
             do {
+                // occasionally, if the video load fails very early on, 
+                // not all KVO has been set up and we can crash
+                // unless we catch the exception thrown by removeObserver
                 try trap {
                     self.videoPlayer?.currentItem?.removeObserver(self, forKeyPath: key)
                     self.keysObserved.remove(key)

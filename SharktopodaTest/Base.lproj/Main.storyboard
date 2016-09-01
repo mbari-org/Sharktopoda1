@@ -362,7 +362,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SharktopodaTest" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Sharktopoda" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
@@ -388,7 +388,7 @@
         <!--Preferences-->
         <scene sceneID="PDg-ly-0zj">
             <objects>
-                <viewController title="Preferences" id="inA-Kj-4Ib" customClass="PreferencesViewController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Preferences" id="inA-Kj-4Ib" customClass="PreferencesViewController" customModule="Sharktopoda" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="h0I-4p-R9e">
                         <rect key="frame" x="0.0" y="0.0" width="410" height="89"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -452,7 +452,7 @@
         <!--Window Controller-->
         <scene sceneID="JgB-Ai-MNn">
             <objects>
-                <windowController storyboardIdentifier="VideoPlayerWindowController" id="m1o-G8-qCM" customClass="PlayerWindowController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="VideoPlayerWindowController" id="m1o-G8-qCM" customClass="PlayerWindowController" customModule="Sharktopoda" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="DJ1-JQ-l5o">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -470,7 +470,7 @@
         <!--Player View Controller-->
         <scene sceneID="Nvo-Cu-8kz">
             <objects>
-                <viewController id="XsT-AI-yKF" customClass="PlayerViewController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XsT-AI-yKF" customClass="PlayerViewController" customModule="Sharktopoda" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="60o-o6-qia">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -503,7 +503,7 @@
         <!--Window Controller-->
         <scene sceneID="439-Wm-WpO">
             <objects>
-                <windowController storyboardIdentifier="OpenURLWindowController" id="kSu-4B-VOu" customClass="OpenURLPromptWindowController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="OpenURLWindowController" id="kSu-4B-VOu" customClass="OpenURLPromptWindowController" customModule="Sharktopoda" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Open URL" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="1Q8-td-7nN">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -521,7 +521,7 @@
         <!--Open URL Prompt View Controller-->
         <scene sceneID="APd-3K-OgE">
             <objects>
-                <viewController id="j3t-d0-NDg" customClass="OpenURLPromptViewController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="j3t-d0-NDg" customClass="OpenURLPromptViewController" customModule="Sharktopoda" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="w1P-pP-aQU">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="61"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -541,9 +541,8 @@ DQ
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Kj-Yk-jyR">
                                 <rect key="frame" x="20" y="20" width="371" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="QaL-HS-QAw">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="http://" placeholderString="" drawsBackground="YES" id="QaL-HS-QAw">
                                     <font key="font" metaFont="system"/>
-                                    <string key="title">http://images.apple.com/media/us/iphone-6s/2016/af22bd64-5646-43f6-8b97-6085158f0cd7/tv-spots/shot-by-marc/iphone6s-shot-by-marc-cc-us-20160720_r848-9dwc.mov</string>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -588,7 +587,7 @@ DQ
         <!--Log-->
         <scene sceneID="1J9-7T-qCi">
             <objects>
-                <viewController title="Log" id="gcS-l1-yWN" customClass="LogViewController" customModule="SharktopodaTest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Log" id="gcS-l1-yWN" customClass="LogViewController" customModule="Sharktopoda" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ncy-EF-QDf">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
