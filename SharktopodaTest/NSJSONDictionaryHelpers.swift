@@ -3,7 +3,6 @@
 //  SharktopodaTest
 //
 //  Created by Joseph Wardell on 8/24/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Foundation
@@ -11,6 +10,9 @@ import Foundation
 // given a dictionary that COULD be safe to convert to JSON,
 // return one that is GUARANTEED to be JSON-safe,
 // though that might be missing some individuals entries that were not JSON-safe
+//
+// NOTE: when I say guaranteed, this has been tested against JSON-style dictionaries in THIS APP ONLY without any issues, ymmv
+
 func makeJSONSafe(dictionary:[String:AnyObject?]) -> [String:AnyObject] {
     
     var out = [String:AnyObject]()

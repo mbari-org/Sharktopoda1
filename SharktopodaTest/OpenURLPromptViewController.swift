@@ -3,7 +3,6 @@
 //  AVPlayerTest
 //
 //  Created by Joseph Wardell on 8/22/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Cocoa

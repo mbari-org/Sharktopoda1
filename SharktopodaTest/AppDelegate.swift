@@ -3,7 +3,6 @@
 //  SharktopodaTest
 //
 //  Created by Joseph Wardell on 8/23/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Cocoa
@@ -40,14 +39,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         videoCoordinator.nextResponder = loggingCoordinator
         
         // show the openURL prompt when we first load
+        // this is commented out because, most of the time, this app will be controlled from an external client
+        // so showing the "Open URL…" dialog might be confusing
 //        videoCoordinator.openURL(self)
 
     }
-
-    func applicationWillTerminate(aNotification: NSNotification) {
-        // Insert code here to tear down your application
-    }
-
-
+    
 }
 

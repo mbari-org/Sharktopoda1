@@ -3,7 +3,6 @@
 //  UDPServerTest
 //
 //  Created by Joseph Wardell on 8/21/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Foundation
@@ -70,6 +69,8 @@ class SharkCommandInterpreter {
         case .frameAdvance:
             frameAdvance(command)
             
+            // not needed, compiler complains,
+            // but I'm leaving it here as a reminder in case new commands are ever added
 //        default:
 //            let error = NSError(domain: "SharkCommandInterpreter", code: Errors.CommandNotYetImplemented, userInfo: [NSLocalizedDescriptionKey: "\"\(command.verb)\" not yet implemented"])
 //            callbackError(error, forCommand: command)
@@ -115,16 +116,7 @@ class SharkCommandInterpreter {
     var getInfoForVideoWithUUIDCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
     var getFrontmostVideoInfoCallback : (command:SharkCommand) -> () = { _ in }
     func getVideoInfo(command:SharkCommand) {
-//        if let uuid = command.uuid {
-//            guard uuid.isValidUUID else {
-//                callbackErrorForMalformedUUID(uuid, forCommand: command)
-//                return
-//            }
-//            getInfoForVideoWithUUIDCallback(uuid: uuid.UUID!, command: command)
-//        }
-//        else {
             getFrontmostVideoInfoCallback(command: command)
-//        }
     }
     
     var getInfoForAllVideosCallback : (command:SharkCommand) -> () = { _ in }

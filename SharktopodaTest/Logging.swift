@@ -3,7 +3,6 @@
 //  SharktopodaTest
 //
 //  Created by Joseph Wardell on 8/23/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Cocoa
@@ -102,7 +101,7 @@ final class Log : Logging {
             do {
                 try NSFileManager.defaultManager().createDirectoryAtURL(saveDirectory, withIntermediateDirectories: true, attributes: nil)
                 try stringToWrite.writeToURL(savePath, atomically: true, encoding: NSUTF8StringEncoding)
-                print("wrote log to \(savePath)")
+//                print("wrote log to \(savePath)")
             }
             catch let error as NSError {
                 print("error writing log to \(savePath): \(error.localizedDescription)")
@@ -141,36 +140,5 @@ extension NSMutableAttributedString : Logging {
     
 }
 
-extension NSTextView : Logging {
-    
-    func log(message:String, label:LogLabel) {
-        textStorage?.log(message, label: label)
-        scrollToBottom()
-    }
-    
-    func showLog(log:NSAttributedString) {
-        
-        textStorage?.setAttributedString(log)
-        scrollToBottom()
-    }
-    
-    func showLog(log:Log) {
-        
-        showLog(log.log)
-    }
-    
-    private func scrollToBottom() {
-        // TODO: not always scrolling to the bottom
-        // I think we're not rewrapping before the new scrollposition is calculated
-        guard let scrollView = enclosingScrollView,
-            docView = scrollView.documentView as? NSView
-            else { return }
-        
-        let y = docView.flipped ? docView.frame.maxY : 0
-        let newScrollPosition = NSPoint(x: 0, y: y)
-        
-        docView.scrollPoint(newScrollPosition)
-    }
-}
 
 

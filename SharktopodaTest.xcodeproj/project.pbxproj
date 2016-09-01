@@ -37,6 +37,7 @@
 		7C09E2E11D6D5D02002F986C /* OpenURLPromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */; };
 		7C09E96D1D708CA000EC50FA /* CMTime+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */; };
 		7CAD50461D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */; };
+		7CB5853D1D78C8170039685C /* Logging+AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5853C1D78C8170039685C /* Logging+AppKit.swift */; };
 		7CDBB32A1D70FE5200D1CF5A /* trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB3271D70FE5200D1CF5A /* trap.swift */; };
 		7CDBB32B1D70FE5200D1CF5A /* WBTry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBB3291D70FE5200D1CF5A /* WBTry.m */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		7C09E2DF1D6D5D02002F986C /* OpenURLPromptViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLPromptViewController.swift; sourceTree = "<group>"; };
 		7C09E96C1D708CA000EC50FA /* CMTime+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMTime+Convenience.swift"; sourceTree = "<group>"; };
 		7CAD50451D6DACCD00DF8F99 /* NSJSONDictionaryHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSJSONDictionaryHelpers.swift; sourceTree = "<group>"; };
+		7CB5853C1D78C8170039685C /* Logging+AppKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Logging+AppKit.swift"; sourceTree = "<group>"; };
 		7CDBB3251D70F8F200D1CF5A /* SharktopodaTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SharktopodaTest.entitlements; sourceTree = "<group>"; };
 		7CDBB3271D70FE5200D1CF5A /* trap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trap.swift; sourceTree = "<group>"; };
 		7CDBB3281D70FE5200D1CF5A /* WBTry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTry.h; sourceTree = "<group>"; };
@@ -133,8 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				7C09E2981D6D3836002F986C /* AppDelegate.swift */,
-				7C09E2D01D6D5949002F986C /* GUI Side */,
 				7C09E2CF1D6D593F002F986C /* Server Side */,
+				7C09E2D01D6D5949002F986C /* GUI Side */,
 			);
 			name = Coordinator;
 			sourceTree = "<group>";
@@ -153,6 +155,7 @@
 		7C09E2AF1D6D4C52002F986C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7C09E2B01D6D4C79002F986C /* MessageHandlerViewController.swift */,
 				7C09E2D81D6D5AF2002F986C /* Video Player */,
 				7C09E2DD1D6D5CF6002F986C /* Open URL Prompt */,
 				7C09E2D71D6D5AD4002F986C /* Server Side */,
@@ -187,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				7C09E2BD1D6D4E6B002F986C /* Logging.swift */,
+				7CB5853C1D78C8170039685C /* Logging+AppKit.swift */,
 			);
 			name = Logging;
 			sourceTree = "<group>";
@@ -231,7 +235,6 @@
 		7C09E2D71D6D5AD4002F986C /* Server Side */ = {
 			isa = PBXGroup;
 			children = (
-				7C09E2B01D6D4C79002F986C /* MessageHandlerViewController.swift */,
 				7C09E2CB1D6D5537002F986C /* PreferencesViewController.swift */,
 				7C09E2CD1D6D5675002F986C /* LogViewController.swift */,
 			);
@@ -352,6 +355,7 @@
 				7C09E2BB1D6D4D35002F986C /* SharkResponse.swift in Sources */,
 				7C09E2D41D6D5988002F986C /* VideoURLPlaybackRequester.swift in Sources */,
 				7C09E2DB1D6D5B1A002F986C /* PlayerWindowController.swift in Sources */,
+				7CB5853D1D78C8170039685C /* Logging+AppKit.swift in Sources */,
 				7C09E2CC1D6D5537002F986C /* PreferencesViewController.swift in Sources */,
 				7C09E2CE1D6D5675002F986C /* LogViewController.swift in Sources */,
 				7C059A0C1D7237ED00606270 /* NSUUID+ITUConformance.swift in Sources */,

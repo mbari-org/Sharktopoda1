@@ -15,6 +15,8 @@ protocol UDPClient : CustomStringConvertible {}
 /*
  This is a simple UDP service that accepts messages on one port at a time,
  and sends them to a callback.
+ 
+ It also is able to respond to a message given the address from which the message was sent.
  */
 final class UDPService: NSObject {
     
@@ -26,7 +28,6 @@ final class UDPService: NSObject {
     private(set) var running = false
     private(set) var port : PortNumber?
     
-//    private var q : dispatch_queue_t = dispatch_get_main_queue()
     private var q : dispatch_queue_t = dispatch_queue_create("UDPService", DISPATCH_QUEUE_SERIAL)
     
     private lazy var udpSocket : GCDAsyncUdpSocket = {

@@ -3,7 +3,6 @@
 //  AVPlayerTest
 //
 //  Created by Joseph Wardell on 8/23/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Cocoa
@@ -19,8 +18,6 @@ import Cocoa
     // the playback object will
     var urlToPlay : String { get }
 }
-
-
 
 @objc protocol VideoPlaybackCoordinator {
     

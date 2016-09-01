@@ -3,7 +3,6 @@
 //  UDPServerTest
 //
 //  Created by Joseph Wardell on 8/22/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Cocoa
@@ -93,6 +92,14 @@ final class PreferencesViewController: MessageHandlerViewController {
         guard newPort <= PortNumber.max else { return }
         
         messageHandler?.startServerOnPort(newPort)
+
+        NSUserDefaults.standardUserDefaults().preferredServerPort = preferredServerPort
+
+        // user started the server from the Preference Window,
+        // probably expects the server to run automatically
+        // the next time it starts
+        NSUserDefaults.standardUserDefaults().startServerOnStartup = true
+        
     }
 
     

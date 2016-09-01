@@ -3,14 +3,14 @@
 //  AVPlayerTest
 //
 //  Created by Joseph Wardell on 8/23/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Cocoa
 
 /*
- Coorindates video playback through a group of window controllers.
+ Coordinates video playback through a group of window controllers.
  Basically, handles the video playback aspect of the app
+ And handles responding to commands from the Networking layer
  */
 final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     
@@ -140,7 +140,6 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     func validateURL(url:NSURL) -> URLValidation {
         
         // only accept http and file urls
-//        guard ["file", "http", "https"].contains(url.scheme) else {
         
         // first, validate the scheme
         let validURL = validateURLSchemeForURL(url)
@@ -159,20 +158,6 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
             
             return .url(url)
         }
-        
-//        guard validateURLSchemeForURL(url) == .url else {
-//            return .error(errorWithCode(.unsupportedURL, description:"The url \(url) is not supported"))
-//        }
-//        
-//        // if it's a file url, make sure it represents a reachable resource
-//        if "file" == url.scheme {
-//            var error : NSError?
-//            if !url.checkResourceIsReachableAndReturnError(&error) {
-//                return .error(error!)
-//            }
-//        }
-//        
-//        return .url(url)
     }
     
     

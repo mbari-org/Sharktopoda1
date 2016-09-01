@@ -3,7 +3,6 @@
 //  UDPServerTest
 //
 //  Created by Joseph Wardell on 8/21/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Foundation
@@ -42,9 +41,6 @@ struct VerboseSharkResponse : SharkResponse {
     // an error if the command failed
     // may or may not be there if succeeded == false, depending on how it was created
     var error : NSError? = nil
-    // by default, a failure won't be sent to the client in a response,
-    // set this to true to allow a failure to be sent
-//    var allowSendingOnFailure = false
     
     // any other information that should be passed along
     var payload : [String:JSONObject] = [:]
@@ -63,14 +59,6 @@ struct VerboseSharkResponse : SharkResponse {
         self.error = error
         self.success = .failed
     }
-
-//    init(failedCommand:SharkCommand, error:NSError) {
-//        self.command = failedCommand
-//        self.error = error
-//        self.success = .failed
-////        self.allowSendingOnFailure = canSendAnyway
-//    }
-    
     
     var dictionaryRepresentation : [String:JSONObject] {
 

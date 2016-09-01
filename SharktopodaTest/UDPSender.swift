@@ -3,7 +3,6 @@
 //  UDPServerTest
 //
 //  Created by Joseph Wardell on 8/21/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Foundation
@@ -11,6 +10,7 @@ import Foundation
 /*
  This is an object that can send messages via UDP
  It maintains a dictionary of messages sent and the times they were sent 
+ and notifies client code via callbacks
  */
 class UDPSender: NSObject {
 

@@ -3,7 +3,6 @@
 //  SharktopodaTest
 //
 //  Created by Joseph Wardell on 8/26/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +10,8 @@ import CoreMedia
 
 extension CMTime {
     
-    // TODO: I'd love to have this as an init rather than a factory method, much swiftier
+    // NOTE: I'd love to have this as an init rather than a factory method, much swiftier
+    // but the compiler complains when I try
     static func timeWithMilliseconds(milliseconds:UInt) -> CMTime {
         let seconds = Double(milliseconds)/1000
         let out = CMTime(seconds:seconds, preferredTimescale:1000)

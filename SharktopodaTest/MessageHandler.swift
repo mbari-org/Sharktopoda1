@@ -3,10 +3,18 @@
 //  UDPServerTest
 //
 //  Created by Joseph Wardell on 8/22/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Foundation
+
+/*
+ Handles messages received from a client
+ then hands them off to a SharkCommandInterpreter to dispatch
+ 
+ In the case of the connect message,
+ this class handles it itself, setting up the remote server
+ In the case of all other mesages, a client class is expected to handle them.
+ */
 
 final class MessageHandler: NSObject {
     

@@ -3,11 +3,14 @@
 //  SharktopodaTest
 //
 //  Created by Joseph Wardell on 8/25/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Cocoa
 
+/*
+ Ties the Logging system into the command chain.
+ Provides a window for showing logs.
+ */
 class LoggingCoordinator: NSResponder {
 
     struct StoryboardIdentifiers {

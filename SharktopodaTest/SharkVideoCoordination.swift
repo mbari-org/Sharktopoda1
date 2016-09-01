@@ -3,7 +3,6 @@
 //  AVPlayerTest
 //
 //  Created by Joseph Wardell on 8/23/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 
 import Foundation
@@ -22,7 +21,12 @@ enum SharkVideoPlaybackStatus : String {
 
 /*
  The protocol that must be supported by a coordinator in order to implement the Sharktopoda API
- These methods from the Server Coordinator
+ In Sharktopoda, these methods are called from the ServerCoordinator
+ 
+ If you wanted to reimplement the controller layer, this is the highest-level thing you need.
+ You would create a new coordinator object that implemented this protocol
+ (or, perhaps, just implement the protocol in your AppDelegate)
+ You could then ignore everything else in the "GUI Side" and most of the Controller Layer stuff
  */
 
 protocol SharkVideoCoordination {

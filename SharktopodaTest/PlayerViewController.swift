@@ -3,7 +3,6 @@
 //  AVPlayerTest
 //
 //  Created by Joseph Wardell on 8/22/16.
-//  Copyright © 2016 Joseph Wardell. All rights reserved.
 //
 // with many thanks to charlesboyd https://gist.github.com/charlesboyd/e0e840e8af9e52836d51
 
@@ -209,9 +208,7 @@ final class PlayerViewController: NSViewController {
         
         // There's no video to show
         failedToLoad()
-        
-        print("The video load failed! (See the console output)");
-        
+                
         // notify the callback that loading failed and pass along the error
         videoLoadCompletionCallback?(success: false, error: error)
         videoLoadCompletionCallback = nil   // clear it to be safe
