@@ -47,7 +47,7 @@
 		7C059A0F1D725ABD00606270 /* AVAsset+Timing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVAsset+Timing.swift"; sourceTree = "<group>"; };
 		7C059A111D7516F700606270 /* UDPSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPSender.swift; sourceTree = "<group>"; };
 		7C086B451D6FB4D20034648C /* LoggingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingCoordinator.swift; sourceTree = "<group>"; };
-		7C09E2951D6D3836002F986C /* SharktopodaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SharktopodaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C09E2951D6D3836002F986C /* Sharktopoda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sharktopoda.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C09E2981D6D3836002F986C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C09E29C1D6D3836002F986C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C09E29F1D6D3836002F986C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 		7C09E2961D6D3836002F986C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7C09E2951D6D3836002F986C /* SharktopodaTest.app */,
+				7C09E2951D6D3836002F986C /* Sharktopoda.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -270,9 +270,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7C09E2941D6D3836002F986C /* SharktopodaTest */ = {
+		7C09E2941D6D3836002F986C /* Sharktopoda */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C09E2A41D6D3836002F986C /* Build configuration list for PBXNativeTarget "SharktopodaTest" */;
+			buildConfigurationList = 7C09E2A41D6D3836002F986C /* Build configuration list for PBXNativeTarget "Sharktopoda" */;
 			buildPhases = (
 				7C09E2911D6D3836002F986C /* Sources */,
 				7C09E2921D6D3836002F986C /* Frameworks */,
@@ -282,9 +282,9 @@
 			);
 			dependencies = (
 			);
-			name = SharktopodaTest;
+			name = Sharktopoda;
 			productName = SharktopodaTest;
-			productReference = 7C09E2951D6D3836002F986C /* SharktopodaTest.app */;
+			productReference = 7C09E2951D6D3836002F986C /* Sharktopoda.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -320,7 +320,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7C09E2941D6D3836002F986C /* SharktopodaTest */,
+				7C09E2941D6D3836002F986C /* Sharktopoda */,
 			);
 		};
 /* End PBXProject section */
@@ -479,7 +479,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SharktopodaTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.SharktopodaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.Sharktopoda;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "SharktopodaTest/SharktopodaTest-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -494,7 +494,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SharktopodaTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.SharktopodaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.Sharktopoda;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "SharktopodaTest/SharktopodaTest-Bridging-Header.h";
 			};
@@ -512,7 +512,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C09E2A41D6D3836002F986C /* Build configuration list for PBXNativeTarget "SharktopodaTest" */ = {
+		7C09E2A41D6D3836002F986C /* Build configuration list for PBXNativeTarget "Sharktopoda" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C09E2A51D6D3836002F986C /* Debug */,

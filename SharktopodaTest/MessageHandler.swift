@@ -63,27 +63,26 @@ final class MessageHandler: NSObject {
         return $0
     }(SharkCommandInterpreter())
     
-    lazy var log : Log = {
-        
-        do {
-            // write the log file to /Library/Logs/Sharktopoda and have one log file for each time Sharktopoda starts up
-            let library = try NSFileManager.defaultManager().URLForDirectory(.LibraryDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
-            let logs = library.URLByAppendingPathComponent("Logs")
-            let sharktopoda = logs.URLByAppendingPathComponent("Sharktopoda")
-            
-            let now = NSDate()
-            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-            let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: now)
-            let logname = "\(components.year)_\(components.month)_\(components.day) \(components.hour)_\(components.minute)_\(components.second).txt"
-            let log = sharktopoda.URLByAppendingPathComponent(logname)
-            $0.savePath = log
+    var log = Log() {
+        didSet {
+            do {
+                // write the log file to /Library/Logs/Sharktopoda and have one log file for each time Sharktopoda starts up
+                let library = try NSFileManager.defaultManager().URLForDirectory(.LibraryDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
+                let logs = library.URLByAppendingPathComponent("Logs")
+                let sharktopoda = logs.URLByAppendingPathComponent("Sharktopoda")
+                
+                let now = NSDate()
+                let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+                let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: now)
+                let logname = "\(components.year)_\(components.month)_\(components.day) \(components.hour)_\(components.minute)_\(components.second).txt"
+                let logURL = sharktopoda.URLByAppendingPathComponent(logname)
+                log.savePath = logURL
+            }
+            catch let error as NSError {
+                print("error creating url for logging: \(error)")
+            }
         }
-        catch let error as NSError {
-            print("error creating url for logging: \(error)")
-        }
-        return $0
-    }(Log())
-//    let log = Log()
+    }
     
     var nextInterpreterConfigurator : SharkCommandInterpreterConfigurator?
     
@@ -173,7 +172,7 @@ final class MessageHandler: NSObject {
                 return
         }
         
-        log("Sending Reponse to remove server \(response)")
+        log("Sending Reponse to remote server \(response)")
         
         remoteSender.sendData(data, to: server, onPort: serverPort)
     }
