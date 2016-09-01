@@ -1,0 +1,530 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7CB5853F1D78D12C0039685C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5853E1D78D12C0039685C /* AppDelegate.swift */; };
+		7CB585411D78D13C0039685C /* ServerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585401D78D13C0039685C /* ServerCoordinator.swift */; };
+		7CB585431D78D14D0039685C /* SharkVideoCoordination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585421D78D14D0039685C /* SharkVideoCoordination.swift */; };
+		7CB585451D78D1560039685C /* VideoPlayerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585441D78D1560039685C /* VideoPlayerCoordinator.swift */; };
+		7CB585471D78D1650039685C /* VideoURLPlaybackRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585461D78D1650039685C /* VideoURLPlaybackRequester.swift */; };
+		7CB585491D78D17D0039685C /* LoggingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585481D78D17D0039685C /* LoggingCoordinator.swift */; };
+		7CB5854B1D78D1900039685C /* MessageHandlerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5854A1D78D1900039685C /* MessageHandlerViewController.swift */; };
+		7CB5854D1D78D19F0039685C /* PlayerWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5854C1D78D19F0039685C /* PlayerWindowController.swift */; };
+		7CB5854F1D78D1A40039685C /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5854E1D78D1A40039685C /* PlayerViewController.swift */; };
+		7CB585511D78D1AB0039685C /* AVAsset+Timing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585501D78D1AB0039685C /* AVAsset+Timing.swift */; };
+		7CB585541D78D1BE0039685C /* OpenURLPromptViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585521D78D1BE0039685C /* OpenURLPromptViewController.swift */; };
+		7CB585551D78D1BE0039685C /* OpenURLPromptWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585531D78D1BE0039685C /* OpenURLPromptWindowController.swift */; };
+		7CB585581D78D1D00039685C /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585561D78D1D00039685C /* LogViewController.swift */; };
+		7CB585591D78D1D00039685C /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585571D78D1D00039685C /* PreferencesViewController.swift */; };
+		7CB5855D1D78D1E80039685C /* SharkCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5855A1D78D1E80039685C /* SharkCommand.swift */; };
+		7CB5855E1D78D1E80039685C /* SharkCommandInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5855B1D78D1E80039685C /* SharkCommandInterpreter.swift */; };
+		7CB5855F1D78D1E80039685C /* SharkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5855C1D78D1E80039685C /* SharkResponse.swift */; };
+		7CB585611D78D1F10039685C /* NSJSONDictionaryHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585601D78D1F10039685C /* NSJSONDictionaryHelpers.swift */; };
+		7CB585631D78D1FC0039685C /* CMTime+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585621D78D1FC0039685C /* CMTime+Convenience.swift */; };
+		7CB585651D78D2020039685C /* NSUUID+ITUConformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585641D78D2020039685C /* NSUUID+ITUConformance.swift */; };
+		7CB585671D78D20A0039685C /* VideoFrameGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585661D78D20A0039685C /* VideoFrameGrabber.swift */; };
+		7CB5856B1D78D2240039685C /* trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585681D78D2240039685C /* trap.swift */; };
+		7CB5856C1D78D2240039685C /* WBTry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5856A1D78D2240039685C /* WBTry.m */; };
+		7CB5856F1D78D2350039685C /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5856E1D78D2350039685C /* GCDAsyncUdpSocket.m */; };
+		7CB585711D78D2520039685C /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585701D78D2520039685C /* MessageHandler.swift */; };
+		7CB585731D78D2570039685C /* IPGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585721D78D2570039685C /* IPGeneral.swift */; };
+		7CB585761D78D25F0039685C /* UDPSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585741D78D25F0039685C /* UDPSender.swift */; };
+		7CB585771D78D25F0039685C /* UDPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585751D78D25F0039685C /* UDPService.swift */; };
+		7CB585791D78D2720039685C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CB585781D78D2720039685C /* Assets.xcassets */; };
+		7CB5857F1D78D33D0039685C /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5857D1D78D33D0039685C /* Logging.swift */; };
+		7CB585801D78D33D0039685C /* Logging+AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5857E1D78D33D0039685C /* Logging+AppKit.swift */; };
+		7CB585821D78D3480039685C /* NSUserDefaults+ServerPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585811D78D3480039685C /* NSUserDefaults+ServerPreferences.swift */; };
+		7CB585851D78D3A60039685C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB585831D78D3A60039685C /* Main.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7C09E2951D6D3836002F986C /* Sharktopoda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sharktopoda.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C09E2A71D6D3885002F986C /* notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.txt; sourceTree = "<group>"; };
+		7CB5853E1D78D12C0039685C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Sharktopoda/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		7CB585401D78D13C0039685C /* ServerCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServerCoordinator.swift; path = Sharktopoda/ServerCoordinator.swift; sourceTree = SOURCE_ROOT; };
+		7CB585421D78D14D0039685C /* SharkVideoCoordination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharkVideoCoordination.swift; path = Sharktopoda/SharkVideoCoordination.swift; sourceTree = SOURCE_ROOT; };
+		7CB585441D78D1560039685C /* VideoPlayerCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoPlayerCoordinator.swift; path = Sharktopoda/VideoPlayerCoordinator.swift; sourceTree = SOURCE_ROOT; };
+		7CB585461D78D1650039685C /* VideoURLPlaybackRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoURLPlaybackRequester.swift; path = Sharktopoda/VideoURLPlaybackRequester.swift; sourceTree = SOURCE_ROOT; };
+		7CB585481D78D17D0039685C /* LoggingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoggingCoordinator.swift; path = Sharktopoda/LoggingCoordinator.swift; sourceTree = SOURCE_ROOT; };
+		7CB5854A1D78D1900039685C /* MessageHandlerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageHandlerViewController.swift; path = Sharktopoda/MessageHandlerViewController.swift; sourceTree = SOURCE_ROOT; };
+		7CB5854C1D78D19F0039685C /* PlayerWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerWindowController.swift; path = Sharktopoda/PlayerWindowController.swift; sourceTree = SOURCE_ROOT; };
+		7CB5854E1D78D1A40039685C /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = Sharktopoda/PlayerViewController.swift; sourceTree = SOURCE_ROOT; };
+		7CB585501D78D1AB0039685C /* AVAsset+Timing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "AVAsset+Timing.swift"; path = "Sharktopoda/AVAsset+Timing.swift"; sourceTree = SOURCE_ROOT; };
+		7CB585521D78D1BE0039685C /* OpenURLPromptViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenURLPromptViewController.swift; path = Sharktopoda/OpenURLPromptViewController.swift; sourceTree = SOURCE_ROOT; };
+		7CB585531D78D1BE0039685C /* OpenURLPromptWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenURLPromptWindowController.swift; path = Sharktopoda/OpenURLPromptWindowController.swift; sourceTree = SOURCE_ROOT; };
+		7CB585561D78D1D00039685C /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogViewController.swift; path = Sharktopoda/LogViewController.swift; sourceTree = SOURCE_ROOT; };
+		7CB585571D78D1D00039685C /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreferencesViewController.swift; path = Sharktopoda/PreferencesViewController.swift; sourceTree = SOURCE_ROOT; };
+		7CB5855A1D78D1E80039685C /* SharkCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharkCommand.swift; path = Sharktopoda/SharkCommand.swift; sourceTree = SOURCE_ROOT; };
+		7CB5855B1D78D1E80039685C /* SharkCommandInterpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharkCommandInterpreter.swift; path = Sharktopoda/SharkCommandInterpreter.swift; sourceTree = SOURCE_ROOT; };
+		7CB5855C1D78D1E80039685C /* SharkResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharkResponse.swift; path = Sharktopoda/SharkResponse.swift; sourceTree = SOURCE_ROOT; };
+		7CB585601D78D1F10039685C /* NSJSONDictionaryHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSJSONDictionaryHelpers.swift; path = Sharktopoda/NSJSONDictionaryHelpers.swift; sourceTree = SOURCE_ROOT; };
+		7CB585621D78D1FC0039685C /* CMTime+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CMTime+Convenience.swift"; path = "Sharktopoda/CMTime+Convenience.swift"; sourceTree = SOURCE_ROOT; };
+		7CB585641D78D2020039685C /* NSUUID+ITUConformance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSUUID+ITUConformance.swift"; path = "Sharktopoda/NSUUID+ITUConformance.swift"; sourceTree = SOURCE_ROOT; };
+		7CB585661D78D20A0039685C /* VideoFrameGrabber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoFrameGrabber.swift; path = Sharktopoda/VideoFrameGrabber.swift; sourceTree = SOURCE_ROOT; };
+		7CB585681D78D2240039685C /* trap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = trap.swift; path = Sharktopoda/trap.swift; sourceTree = SOURCE_ROOT; };
+		7CB585691D78D2240039685C /* WBTry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBTry.h; path = Sharktopoda/WBTry.h; sourceTree = SOURCE_ROOT; };
+		7CB5856A1D78D2240039685C /* WBTry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBTry.m; path = Sharktopoda/WBTry.m; sourceTree = SOURCE_ROOT; };
+		7CB5856D1D78D2350039685C /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = Sharktopoda/GCDAsyncUdpSocket.h; sourceTree = SOURCE_ROOT; };
+		7CB5856E1D78D2350039685C /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Sharktopoda/GCDAsyncUdpSocket.m; sourceTree = SOURCE_ROOT; };
+		7CB585701D78D2520039685C /* MessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageHandler.swift; path = Sharktopoda/MessageHandler.swift; sourceTree = SOURCE_ROOT; };
+		7CB585721D78D2570039685C /* IPGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPGeneral.swift; path = Sharktopoda/IPGeneral.swift; sourceTree = SOURCE_ROOT; };
+		7CB585741D78D25F0039685C /* UDPSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDPSender.swift; path = Sharktopoda/UDPSender.swift; sourceTree = SOURCE_ROOT; };
+		7CB585751D78D25F0039685C /* UDPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDPService.swift; path = Sharktopoda/UDPService.swift; sourceTree = SOURCE_ROOT; };
+		7CB585781D78D2720039685C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Sharktopoda/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		7CB5857A1D78D29E0039685C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Sharktopoda/Info.plist; sourceTree = SOURCE_ROOT; };
+		7CB5857C1D78D2AF0039685C /* Sharktopoda-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Sharktopoda-Bridging-Header.h"; path = "Sharktopoda/Sharktopoda-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		7CB5857D1D78D33D0039685C /* Logging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Logging.swift; path = Sharktopoda/Logging.swift; sourceTree = SOURCE_ROOT; };
+		7CB5857E1D78D33D0039685C /* Logging+AppKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Logging+AppKit.swift"; path = "Sharktopoda/Logging+AppKit.swift"; sourceTree = SOURCE_ROOT; };
+		7CB585811D78D3480039685C /* NSUserDefaults+ServerPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSUserDefaults+ServerPreferences.swift"; path = "Sharktopoda/NSUserDefaults+ServerPreferences.swift"; sourceTree = SOURCE_ROOT; };
+		7CB585841D78D3A60039685C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Sharktopoda/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7C09E2921D6D3836002F986C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7C09E28C1D6D3836002F986C = {
+			isa = PBXGroup;
+			children = (
+				7C09E2A71D6D3885002F986C /* notes.txt */,
+				7C09E2971D6D3836002F986C /* Sharktopoda */,
+				7C09E2961D6D3836002F986C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7C09E2961D6D3836002F986C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2951D6D3836002F986C /* Sharktopoda.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7C09E2971D6D3836002F986C /* Sharktopoda */ = {
+			isa = PBXGroup;
+			children = (
+				7CB5853E1D78D12C0039685C /* AppDelegate.swift */,
+				7C09E2A91D6D4BF4002F986C /* Coordinator */,
+				7C09E2AF1D6D4C52002F986C /* Controller */,
+				7C09E2B51D6D4D04002F986C /* Model */,
+				7C09E2C51D6D4F79002F986C /* Third Party */,
+				7C09E2AC1D6D4C29002F986C /* Networking */,
+				7C09E2B21D6D4C9A002F986C /* Preferences & Defaults */,
+				7CB585781D78D2720039685C /* Assets.xcassets */,
+				7CB585831D78D3A60039685C /* Main.storyboard */,
+				7CB5857A1D78D29E0039685C /* Info.plist */,
+				7CB5857C1D78D2AF0039685C /* Sharktopoda-Bridging-Header.h */,
+			);
+			name = Sharktopoda;
+			path = SharktopodaTest;
+			sourceTree = "<group>";
+		};
+		7C09E2A91D6D4BF4002F986C /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				7C09E2CF1D6D593F002F986C /* Server Side */,
+				7C09E2D01D6D5949002F986C /* GUI Side */,
+			);
+			name = Coordinator;
+			sourceTree = "<group>";
+		};
+		7C09E2AC1D6D4C29002F986C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585701D78D2520039685C /* MessageHandler.swift */,
+				7CB585721D78D2570039685C /* IPGeneral.swift */,
+				7CB585751D78D25F0039685C /* UDPService.swift */,
+				7CB585741D78D25F0039685C /* UDPSender.swift */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		7C09E2AF1D6D4C52002F986C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7CB5854A1D78D1900039685C /* MessageHandlerViewController.swift */,
+				7C09E2D81D6D5AF2002F986C /* Video Player */,
+				7C09E2DD1D6D5CF6002F986C /* Open URL Prompt */,
+				7C09E2D71D6D5AD4002F986C /* Server Side */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		7C09E2B21D6D4C9A002F986C /* Preferences & Defaults */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585811D78D3480039685C /* NSUserDefaults+ServerPreferences.swift */,
+			);
+			name = "Preferences & Defaults";
+			sourceTree = "<group>";
+		};
+		7C09E2B51D6D4D04002F986C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7CB5855A1D78D1E80039685C /* SharkCommand.swift */,
+				7CB5855B1D78D1E80039685C /* SharkCommandInterpreter.swift */,
+				7CB5855C1D78D1E80039685C /* SharkResponse.swift */,
+				7CB585601D78D1F10039685C /* NSJSONDictionaryHelpers.swift */,
+				7CB585621D78D1FC0039685C /* CMTime+Convenience.swift */,
+				7CB585641D78D2020039685C /* NSUUID+ITUConformance.swift */,
+				7CB585661D78D20A0039685C /* VideoFrameGrabber.swift */,
+				7C09E2BC1D6D4DF7002F986C /* Logging */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		7C09E2BC1D6D4DF7002F986C /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				7CB5857D1D78D33D0039685C /* Logging.swift */,
+				7CB5857E1D78D33D0039685C /* Logging+AppKit.swift */,
+			);
+			name = Logging;
+			sourceTree = "<group>";
+		};
+		7C09E2C51D6D4F79002F986C /* Third Party */ = {
+			isa = PBXGroup;
+			children = (
+				7CDBB3261D70FE3A00D1CF5A /* Weebly_Try */,
+				7C09E2C61D6D4F8C002F986C /* CocoaAsynchSocket */,
+			);
+			name = "Third Party";
+			sourceTree = "<group>";
+		};
+		7C09E2C61D6D4F8C002F986C /* CocoaAsynchSocket */ = {
+			isa = PBXGroup;
+			children = (
+				7CB5856D1D78D2350039685C /* GCDAsyncUdpSocket.h */,
+				7CB5856E1D78D2350039685C /* GCDAsyncUdpSocket.m */,
+			);
+			name = CocoaAsynchSocket;
+			sourceTree = "<group>";
+		};
+		7C09E2CF1D6D593F002F986C /* Server Side */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585401D78D13C0039685C /* ServerCoordinator.swift */,
+			);
+			name = "Server Side";
+			sourceTree = "<group>";
+		};
+		7C09E2D01D6D5949002F986C /* GUI Side */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585421D78D14D0039685C /* SharkVideoCoordination.swift */,
+				7CB585441D78D1560039685C /* VideoPlayerCoordinator.swift */,
+				7CB585461D78D1650039685C /* VideoURLPlaybackRequester.swift */,
+				7CB585481D78D17D0039685C /* LoggingCoordinator.swift */,
+			);
+			name = "GUI Side";
+			sourceTree = "<group>";
+		};
+		7C09E2D71D6D5AD4002F986C /* Server Side */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585561D78D1D00039685C /* LogViewController.swift */,
+				7CB585571D78D1D00039685C /* PreferencesViewController.swift */,
+			);
+			name = "Server Side";
+			sourceTree = "<group>";
+		};
+		7C09E2D81D6D5AF2002F986C /* Video Player */ = {
+			isa = PBXGroup;
+			children = (
+				7CB5854C1D78D19F0039685C /* PlayerWindowController.swift */,
+				7CB5854E1D78D1A40039685C /* PlayerViewController.swift */,
+				7CB585501D78D1AB0039685C /* AVAsset+Timing.swift */,
+			);
+			name = "Video Player";
+			sourceTree = "<group>";
+		};
+		7C09E2DD1D6D5CF6002F986C /* Open URL Prompt */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585521D78D1BE0039685C /* OpenURLPromptViewController.swift */,
+				7CB585531D78D1BE0039685C /* OpenURLPromptWindowController.swift */,
+			);
+			name = "Open URL Prompt";
+			sourceTree = "<group>";
+		};
+		7CDBB3261D70FE3A00D1CF5A /* Weebly_Try */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585681D78D2240039685C /* trap.swift */,
+				7CB585691D78D2240039685C /* WBTry.h */,
+				7CB5856A1D78D2240039685C /* WBTry.m */,
+			);
+			name = Weebly_Try;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7C09E2941D6D3836002F986C /* Sharktopoda */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C09E2A41D6D3836002F986C /* Build configuration list for PBXNativeTarget "Sharktopoda" */;
+			buildPhases = (
+				7C09E2911D6D3836002F986C /* Sources */,
+				7C09E2921D6D3836002F986C /* Frameworks */,
+				7C09E2931D6D3836002F986C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Sharktopoda;
+			productName = SharktopodaTest;
+			productReference = 7C09E2951D6D3836002F986C /* Sharktopoda.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7C09E28D1D6D3836002F986C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Joseph Wardell";
+				TargetAttributes = {
+					7C09E2941D6D3836002F986C = {
+						CreatedOnToolsVersion = 7.3;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 7C09E2901D6D3836002F986C /* Build configuration list for PBXProject "Sharktopoda" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7C09E28C1D6D3836002F986C;
+			productRefGroup = 7C09E2961D6D3836002F986C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7C09E2941D6D3836002F986C /* Sharktopoda */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7C09E2931D6D3836002F986C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB585791D78D2720039685C /* Assets.xcassets in Resources */,
+				7CB585851D78D3A60039685C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7C09E2911D6D3836002F986C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB585761D78D25F0039685C /* UDPSender.swift in Sources */,
+				7CB585471D78D1650039685C /* VideoURLPlaybackRequester.swift in Sources */,
+				7CB5855D1D78D1E80039685C /* SharkCommand.swift in Sources */,
+				7CB585611D78D1F10039685C /* NSJSONDictionaryHelpers.swift in Sources */,
+				7CB585541D78D1BE0039685C /* OpenURLPromptViewController.swift in Sources */,
+				7CB585801D78D33D0039685C /* Logging+AppKit.swift in Sources */,
+				7CB5853F1D78D12C0039685C /* AppDelegate.swift in Sources */,
+				7CB585411D78D13C0039685C /* ServerCoordinator.swift in Sources */,
+				7CB5856C1D78D2240039685C /* WBTry.m in Sources */,
+				7CB5854D1D78D19F0039685C /* PlayerWindowController.swift in Sources */,
+				7CB585651D78D2020039685C /* NSUUID+ITUConformance.swift in Sources */,
+				7CB5856F1D78D2350039685C /* GCDAsyncUdpSocket.m in Sources */,
+				7CB585821D78D3480039685C /* NSUserDefaults+ServerPreferences.swift in Sources */,
+				7CB585771D78D25F0039685C /* UDPService.swift in Sources */,
+				7CB5855F1D78D1E80039685C /* SharkResponse.swift in Sources */,
+				7CB5857F1D78D33D0039685C /* Logging.swift in Sources */,
+				7CB585431D78D14D0039685C /* SharkVideoCoordination.swift in Sources */,
+				7CB5855E1D78D1E80039685C /* SharkCommandInterpreter.swift in Sources */,
+				7CB585581D78D1D00039685C /* LogViewController.swift in Sources */,
+				7CB585671D78D20A0039685C /* VideoFrameGrabber.swift in Sources */,
+				7CB585711D78D2520039685C /* MessageHandler.swift in Sources */,
+				7CB585731D78D2570039685C /* IPGeneral.swift in Sources */,
+				7CB5854B1D78D1900039685C /* MessageHandlerViewController.swift in Sources */,
+				7CB585511D78D1AB0039685C /* AVAsset+Timing.swift in Sources */,
+				7CB585631D78D1FC0039685C /* CMTime+Convenience.swift in Sources */,
+				7CB585451D78D1560039685C /* VideoPlayerCoordinator.swift in Sources */,
+				7CB585551D78D1BE0039685C /* OpenURLPromptWindowController.swift in Sources */,
+				7CB5856B1D78D2240039685C /* trap.swift in Sources */,
+				7CB585491D78D17D0039685C /* LoggingCoordinator.swift in Sources */,
+				7CB5854F1D78D1A40039685C /* PlayerViewController.swift in Sources */,
+				7CB585591D78D1D00039685C /* PreferencesViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7CB585831D78D3A60039685C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7CB585841D78D3A60039685C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7C09E2A21D6D3836002F986C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7C09E2A31D6D3836002F986C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7C09E2A51D6D3836002F986C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sharktopoda/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.Sharktopoda;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sharktopoda/Sharktopoda-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7C09E2A61D6D3836002F986C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sharktopoda/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.Sharktopoda;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sharktopoda/Sharktopoda-Bridging-Header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7C09E2901D6D3836002F986C /* Build configuration list for PBXProject "Sharktopoda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C09E2A21D6D3836002F986C /* Debug */,
+				7C09E2A31D6D3836002F986C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C09E2A41D6D3836002F986C /* Build configuration list for PBXNativeTarget "Sharktopoda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C09E2A51D6D3836002F986C /* Debug */,
+				7C09E2A61D6D3836002F986C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7C09E28D1D6D3836002F986C /* Project object */;
+}
