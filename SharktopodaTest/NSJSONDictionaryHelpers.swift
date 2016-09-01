@@ -1,6 +1,6 @@
 //
 //  NSJSONDictionaryHelpers.swift
-//  SharktopodaTest
+//  Sharktopoda
 //
 //  Created by Joseph Wardell on 8/24/16.
 //

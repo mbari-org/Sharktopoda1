@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  SharktopodaTest
+//  Sharktopoda
 //
 //  Created by Joseph Wardell on 8/23/16.
 //

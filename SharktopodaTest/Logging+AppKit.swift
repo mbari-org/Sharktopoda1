@@ -1,6 +1,6 @@
 //
 //  Logging+AppKit.swift
-//  SharktopodaTest
+//  Sharktopoda
 //
 //  Created by Joseph Wardell on 9/1/16.
 //  Copyright © 2016 Joseph Wardell. All rights reserved.

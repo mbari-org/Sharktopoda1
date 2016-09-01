@@ -1,6 +1,6 @@
 //
 //  CMTime+Convenience.swift
-//  SharktopodaTest
+//  Sharktopoda
 //
 //  Created by Joseph Wardell on 8/26/16.
 //
