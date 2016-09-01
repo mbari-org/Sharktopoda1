@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CocoaAsyncSocket
 
 // a wrapper protocol for interacting with client code
 // description will return a string representation of the address

@@ -30,7 +30,6 @@
 		7CB585671D78D20A0039685C /* VideoFrameGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585661D78D20A0039685C /* VideoFrameGrabber.swift */; };
 		7CB5856B1D78D2240039685C /* trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585681D78D2240039685C /* trap.swift */; };
 		7CB5856C1D78D2240039685C /* WBTry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5856A1D78D2240039685C /* WBTry.m */; };
-		7CB5856F1D78D2350039685C /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5856E1D78D2350039685C /* GCDAsyncUdpSocket.m */; };
 		7CB585711D78D2520039685C /* MessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585701D78D2520039685C /* MessageHandler.swift */; };
 		7CB585731D78D2570039685C /* IPGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585721D78D2570039685C /* IPGeneral.swift */; };
 		7CB585761D78D25F0039685C /* UDPSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585741D78D25F0039685C /* UDPSender.swift */; };
@@ -40,7 +39,22 @@
 		7CB585801D78D33D0039685C /* Logging+AppKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB5857E1D78D33D0039685C /* Logging+AppKit.swift */; };
 		7CB585821D78D3480039685C /* NSUserDefaults+ServerPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB585811D78D3480039685C /* NSUserDefaults+ServerPreferences.swift */; };
 		7CB585851D78D3A60039685C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB585831D78D3A60039685C /* Main.storyboard */; };
+		7CB585881D78E1510039685C /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */; };
+		7CB5858B1D78E2B40039685C /* CocoaAsyncSocket.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7CB5858A1D78E2AC0039685C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7CB5858B1D78E2B40039685C /* CocoaAsyncSocket.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7C09E2951D6D3836002F986C /* Sharktopoda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sharktopoda.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,8 +83,6 @@
 		7CB585681D78D2240039685C /* trap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = trap.swift; path = Sharktopoda/trap.swift; sourceTree = SOURCE_ROOT; };
 		7CB585691D78D2240039685C /* WBTry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBTry.h; path = Sharktopoda/WBTry.h; sourceTree = SOURCE_ROOT; };
 		7CB5856A1D78D2240039685C /* WBTry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBTry.m; path = Sharktopoda/WBTry.m; sourceTree = SOURCE_ROOT; };
-		7CB5856D1D78D2350039685C /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = Sharktopoda/GCDAsyncUdpSocket.h; sourceTree = SOURCE_ROOT; };
-		7CB5856E1D78D2350039685C /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Sharktopoda/GCDAsyncUdpSocket.m; sourceTree = SOURCE_ROOT; };
 		7CB585701D78D2520039685C /* MessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageHandler.swift; path = Sharktopoda/MessageHandler.swift; sourceTree = SOURCE_ROOT; };
 		7CB585721D78D2570039685C /* IPGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPGeneral.swift; path = Sharktopoda/IPGeneral.swift; sourceTree = SOURCE_ROOT; };
 		7CB585741D78D25F0039685C /* UDPSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UDPSender.swift; path = Sharktopoda/UDPSender.swift; sourceTree = SOURCE_ROOT; };
@@ -82,6 +94,8 @@
 		7CB5857E1D78D33D0039685C /* Logging+AppKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Logging+AppKit.swift"; path = "Sharktopoda/Logging+AppKit.swift"; sourceTree = SOURCE_ROOT; };
 		7CB585811D78D3480039685C /* NSUserDefaults+ServerPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSUserDefaults+ServerPreferences.swift"; path = "Sharktopoda/NSUserDefaults+ServerPreferences.swift"; sourceTree = SOURCE_ROOT; };
 		7CB585841D78D3A60039685C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Sharktopoda/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		7CB585861D78DE610039685C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CB585881D78E1510039685C /* CocoaAsyncSocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +114,9 @@
 			isa = PBXGroup;
 			children = (
 				7C09E2A71D6D3885002F986C /* notes.txt */,
+				7CB585861D78DE610039685C /* Cartfile */,
 				7C09E2971D6D3836002F986C /* Sharktopoda */,
+				7CB585891D78E1570039685C /* Frameworks */,
 				7C09E2961D6D3836002F986C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -198,18 +215,8 @@
 			isa = PBXGroup;
 			children = (
 				7CDBB3261D70FE3A00D1CF5A /* Weebly_Try */,
-				7C09E2C61D6D4F8C002F986C /* CocoaAsynchSocket */,
 			);
 			name = "Third Party";
-			sourceTree = "<group>";
-		};
-		7C09E2C61D6D4F8C002F986C /* CocoaAsynchSocket */ = {
-			isa = PBXGroup;
-			children = (
-				7CB5856D1D78D2350039685C /* GCDAsyncUdpSocket.h */,
-				7CB5856E1D78D2350039685C /* GCDAsyncUdpSocket.m */,
-			);
-			name = CocoaAsynchSocket;
 			sourceTree = "<group>";
 		};
 		7C09E2CF1D6D593F002F986C /* Server Side */ = {
@@ -259,6 +266,14 @@
 			name = "Open URL Prompt";
 			sourceTree = "<group>";
 		};
+		7CB585891D78E1570039685C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7CDBB3261D70FE3A00D1CF5A /* Weebly_Try */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,6 +294,7 @@
 				7C09E2911D6D3836002F986C /* Sources */,
 				7C09E2921D6D3836002F986C /* Frameworks */,
 				7C09E2931D6D3836002F986C /* Resources */,
+				7CB5858A1D78E2AC0039685C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -355,7 +371,6 @@
 				7CB5856C1D78D2240039685C /* WBTry.m in Sources */,
 				7CB5854D1D78D19F0039685C /* PlayerWindowController.swift in Sources */,
 				7CB585651D78D2020039685C /* NSUUID+ITUConformance.swift in Sources */,
-				7CB5856F1D78D2350039685C /* GCDAsyncUdpSocket.m in Sources */,
 				7CB585821D78D3480039685C /* NSUserDefaults+ServerPreferences.swift in Sources */,
 				7CB585771D78D25F0039685C /* UDPService.swift in Sources */,
 				7CB5855F1D78D1E80039685C /* SharkResponse.swift in Sources */,
@@ -480,6 +495,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Sharktopoda/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.Sharktopoda;
@@ -495,6 +514,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Sharktopoda/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oldjewel.Sharktopoda;
