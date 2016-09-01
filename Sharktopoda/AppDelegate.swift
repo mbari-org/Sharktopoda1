@@ -25,7 +25,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
 
         videoCoordinator = VideoPlayerCoordinator()
-        videoCoordinator.storyboard = storyboard
+        videoCoordinator.storyboard = storyboard    
 
         serverCoordinator = ServerCoordinator(videoCoordinator:videoCoordinator)
         serverCoordinator?.videoCoordinator = videoCoordinator
