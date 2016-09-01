@@ -199,7 +199,7 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
             self.remoteServer = host
             self.remoteServerPort = port
             
-            self.log("Connected to \(self.remoteServer):\(self.remoteServerPort)", label:.start)
+            self.log("Connected to \(self.remoteServer!):\(self.remoteServerPort!)", label:.start)
         }
         
         // if we have a next configurator in the chain, then give it a chance at configuring the interpreter
