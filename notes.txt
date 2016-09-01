@@ -1,9 +1,10 @@
 
 Architecture:
 
-It uses a "MVCNC" architecture: Model-View-Controller-Networking-Coordinator
+Uses a "MVCNC" architecture: Model-View-Controller-Networking-Coordinator
 This is like MVC with 2 major distinctions:
-1) Coordinators run the high level logic: deciding which windows are shown when, handling app-level logic, and integrating the Networking and Controller Layers
+1) Coordinators run the high level logic: deciding which windows are shown when, handling app-level logic, and integrating the Networking and Controller Layers.  They're the only thing that happend in the AppDelegate
 2) A Networking layer is separate from the app logic and controller layer.  It is owned by the coordinator layer, and controllers can have a reference to it and interact with it (both getting updates and making changes)
 
 
+TODO: move third party to external frameworks
