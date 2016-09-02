@@ -12,6 +12,3 @@ there are 3 places I use other peoples' code:
 CocoaAsyncSocket for the lowest-level UDP support, marked public domain in the source , but no license info is available at the repo (https://github.com/robbiehanson/CocoaAsyncSocket) - this is managed via Carthage and is referenced in the Cartfile
 WeeblyTry to deal with one intermittent objective-c style throw from the KVO system when video loading fails early on, with apparently its own nonstandard license that appears very lenient ( https://github.com/Weebly/Try) - this is included in the "Third Party group" as source"
 code for video loading using AVPlayer started out as a copy-paste from a gist by charles boyd (https://gist.github.com/charlesboyd/e0e840e8af9e52836d51). It's basically been rewritten aside from some of the error reporting, and his gist lists itself as being licensed under "the Unlicense". I attribute the gist in PlayerViewController.swift.
-
-
-TODO: move third party to external frameworks
