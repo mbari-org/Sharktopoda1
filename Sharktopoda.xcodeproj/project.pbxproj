@@ -41,6 +41,7 @@
 		7CB585851D78D3A60039685C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB585831D78D3A60039685C /* Main.storyboard */; };
 		7CB585881D78E1510039685C /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */; };
 		7CB5858B1D78E2B40039685C /* CocoaAsyncSocket.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7CB5858D1D78FDBE0039685C /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 7CB5858C1D78FDBE0039685C /* Cartfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,8 +95,8 @@
 		7CB5857E1D78D33D0039685C /* Logging+AppKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Logging+AppKit.swift"; path = "Sharktopoda/Logging+AppKit.swift"; sourceTree = SOURCE_ROOT; };
 		7CB585811D78D3480039685C /* NSUserDefaults+ServerPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSUserDefaults+ServerPreferences.swift"; path = "Sharktopoda/NSUserDefaults+ServerPreferences.swift"; sourceTree = SOURCE_ROOT; };
 		7CB585841D78D3A60039685C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Sharktopoda/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
-		7CB585861D78DE610039685C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
+		7CB5858C1D78FDBE0039685C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				7C09E2A71D6D3885002F986C /* notes.txt */,
-				7CB585861D78DE610039685C /* Cartfile */,
+				7CB5858C1D78FDBE0039685C /* Cartfile */,
 				7C09E2971D6D3836002F986C /* Sharktopoda */,
 				7CB585891D78E1570039685C /* Frameworks */,
 				7C09E2961D6D3836002F986C /* Products */,
@@ -348,6 +349,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CB5858D1D78FDBE0039685C /* Cartfile in Resources */,
 				7CB585791D78D2720039685C /* Assets.xcassets in Resources */,
 				7CB585851D78D3A60039685C /* Main.storyboard in Resources */,
 			);
