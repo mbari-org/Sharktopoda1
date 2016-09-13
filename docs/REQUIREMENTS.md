@@ -9,7 +9,7 @@ Sharktopoda will display videos (either local files or remote URL's) in windows 
 
 The UI can be the stock AVKit windows. It should have the controls pictured below. The window should be able to be resized. The ability to make a video window full-screen is not required.
 
-![Sharktopus UI](Sharktopus.png)
+![Sharktopus UI](images/Sharktopus.png)
 
 ## Configuring the UDP Port
 
