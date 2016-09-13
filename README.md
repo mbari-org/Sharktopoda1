@@ -9,6 +9,6 @@ Native video playback application for Mac OS X. Provides remote UDP interface fo
 
 ## Screenshot
 
-![Screenshot](docs/iamges/Sharktopus.png)
+![Screenshot](docs/images/Sharktopus.png)
 
 
