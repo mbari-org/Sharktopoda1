@@ -131,7 +131,7 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     func validateURLSchemeForURL(url:NSURL) -> URLValidation {
         
         // only accept http and file urls
-        guard ["file", "http", "https"].contains(url.scheme) else {
+        guard ["file", "http", "https"].contains(url.scheme!) else {
             return .error(errorWithCode(.unsupportedURL, description:"The url \(url) is not supported"))
         }
         return .url(url)

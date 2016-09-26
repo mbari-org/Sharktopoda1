@@ -77,13 +77,13 @@ final class MessageHandler: NSObject {
                 // write the log file to /Library/Logs/Sharktopoda and have one log file for each time Sharktopoda starts up
                 let library = try NSFileManager.defaultManager().URLForDirectory(.LibraryDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
                 let logs = library.URLByAppendingPathComponent("Logs")
-                let sharktopoda = logs.URLByAppendingPathComponent("Sharktopoda")
+                let sharktopoda = logs!.URLByAppendingPathComponent("Sharktopoda")
                 
                 let now = NSDate()
                 let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
                 let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: now)
                 let logname = "\(components.year)_\(components.month)_\(components.day) \(components.hour)_\(components.minute)_\(components.second).txt"
-                let logURL = sharktopoda.URLByAppendingPathComponent(logname)
+                let logURL = sharktopoda!.URLByAppendingPathComponent(logname)
                 log.savePath = logURL
             }
             catch let error as NSError {

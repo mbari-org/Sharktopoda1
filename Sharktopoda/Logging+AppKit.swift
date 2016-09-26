@@ -31,7 +31,7 @@ extension NSTextView : Logging {
         // NOTE: not always scrolling to the bottom
         // I think we're not rewrapping before the new scrollposition is calculated
         guard let scrollView = enclosingScrollView,
-            docView = scrollView.documentView as? NSView
+            docView = scrollView.documentView
             else { return }
         
         let y = docView.flipped ? docView.frame.maxY : 0
