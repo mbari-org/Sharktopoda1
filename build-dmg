@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+~/playspace/create-dmg/create-dmg \
+--volname "Sharktopoda" \
+--volicon "docs/images/Sharktopoda.icns" \
+--background "docs/images/logo-mbari-3b.png" \
+--window-size 500 300 \
+--icon-size 100 \
+--icon Sharktopoda.app 150 190 \
+--hide-extension Sharktopoda.app \
+--app-drop-link 350 185 \
+Sharktopoda.dmg \
+~/Downloads/Sharktopoda
