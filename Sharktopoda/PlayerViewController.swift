@@ -136,6 +136,13 @@ final class PlayerViewController: NSViewController {
         videoPlayer = AVPlayer(URL: url)
         
         videoPlayer?.allowsExternalPlayback = false
+        
+        // Fix for 10.12. This was causing Sharktopoda to crash when set to true (default)
+        if #available(OSX 10.12, *) {
+            videoPlayer?.automaticallyWaitsToMinimizeStalling = false
+        } else {
+            // Fallback on earlier versions. Do nothing
+        }
 
         // hide the player and start the spinner
         playerView.hidden = true
@@ -166,10 +173,11 @@ final class PlayerViewController: NSViewController {
         let assetString:String = (videoPlayer?.currentItem!.asset.description)!;
         
         //Take different actions based on the asset's new status
-        if(videoStatus == AVPlayerItemStatus.ReadyToPlay){
+        if(videoStatus == AVPlayerItemStatus.ReadyToPlay) {
             debugPrint("A video asset is ready to play. (Asset Description: \(assetString))");
             videoReady();
-        }else if(videoStatus == AVPlayerItemStatus.Failed){
+        }
+        else if(videoStatus == AVPlayerItemStatus.Failed) {
             let paybackError:NSError? = videoPlayer?.currentItem?.error;
             let asset = videoPlayer?.currentItem!.asset;
 
@@ -177,7 +185,8 @@ final class PlayerViewController: NSViewController {
             debugPrint(desc)
                         
             videoLoadFailed(withError: paybackError ?? NSError(domain: "PlayerViewController", code: Errors.FailedToLoad, userInfo: [NSLocalizedDescriptionKey:desc]));
-        }else if(videoStatus == AVPlayerItemStatus.Unknown){
+        }
+        else if(videoStatus == AVPlayerItemStatus.Unknown) {
             //The asset should have started in an Unknown state, so it *should* not have changed into this state
             let desc = ("A video asset has an unknown status. (Asset Description: \(assetString))");
             debugPrint(desc)
@@ -269,8 +278,9 @@ final class PlayerViewController: NSViewController {
         // we give AVPlayer a little leeway in the interest of performance
         // we let it jump to the frame nearest to the value passed in
         let tolerance = videoPlayer?.currentItem?.asset.minSeekTolerance ?? kCMTimeZero
-        
+        print(tolerance)
         videoPlayer!.seekToTime(time, toleranceBefore: tolerance, toleranceAfter: tolerance)
+
     }
     
     func advanceByFrameNumber(framesToAdvance:Int) throws {
