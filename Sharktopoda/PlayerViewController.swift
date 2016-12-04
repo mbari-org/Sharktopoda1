@@ -278,8 +278,15 @@ final class PlayerViewController: NSViewController {
         // we give AVPlayer a little leeway in the interest of performance
         // we let it jump to the frame nearest to the value passed in
         let tolerance = videoPlayer?.currentItem?.asset.minSeekTolerance ?? kCMTimeZero
-        print(tolerance)
-        videoPlayer!.seekToTime(time, toleranceBefore: tolerance, toleranceAfter: tolerance)
+        do {
+            try trap {
+                self.videoPlayer!.seekToTime(time, toleranceBefore: tolerance, toleranceAfter: tolerance)
+            }
+        }
+        catch {
+            // For MPEG Transport streams the tolerance needs to be more liberal
+            videoPlayer!.seekToTime(time, toleranceBefore: kCMTimePositiveInfinity, toleranceAfter: kCMTimeZero)
+        }
 
     }
     
