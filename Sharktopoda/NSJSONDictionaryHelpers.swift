@@ -13,7 +13,7 @@ import Foundation
 //
 // NOTE: when I say guaranteed, this has been tested against JSON-style dictionaries in THIS APP ONLY without any issues, ymmv
 
-func makeJSONSafe(dictionary:[String:AnyObject?]) -> [String:AnyObject] {
+func makeJSONSafe(_ dictionary:[String:AnyObject?]) -> [String:AnyObject] {
     
     var out = [String:AnyObject]()
     
@@ -25,7 +25,7 @@ func makeJSONSafe(dictionary:[String:AnyObject?]) -> [String:AnyObject] {
             out[key] = string
         }
         else if let array = value as? NSArray {
-            if NSJSONSerialization.isValidJSONObject(array) {
+            if JSONSerialization.isValidJSONObject(array) {
                 out[key] = array
             }
             else {
@@ -33,18 +33,18 @@ func makeJSONSafe(dictionary:[String:AnyObject?]) -> [String:AnyObject] {
             }
         }
         else if let dict = value as? NSDictionary {
-            if  NSJSONSerialization.isValidJSONObject(dict) {
+            if  JSONSerialization.isValidJSONObject(dict) {
                 out[key] = dict
             }
             else {
-                out[key] = makeJSONSafe(dict as! [String:NSObject])
+                out[key] = makeJSONSafe(dict as! [String:NSObject]) as AnyObject
             }
         }
         else if let null = value as? NSNull {
             out[key] = null
         }
         else if let stringconvertible = value as? CustomStringConvertible {
-            out[key] = stringconvertible.description
+            out[key] = stringconvertible.description as AnyObject
         }
         else {
             // not a JSON-Safe type and can't convert it to one, so just leave a placeholder
@@ -53,7 +53,7 @@ func makeJSONSafe(dictionary:[String:AnyObject?]) -> [String:AnyObject] {
     }
     
     // check one last time to see if there's something else that doesn't work...
-    if !NSJSONSerialization.isValidJSONObject(out) {
+    if !JSONSerialization.isValidJSONObject(out) {
         return [:]
     }
     

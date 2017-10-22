@@ -16,7 +16,7 @@ class MessageHandlerViewController: NSViewController {
 
     var messageHandler : MessageHandler?
     
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         get {
             return self.messageHandler
         }
@@ -43,31 +43,31 @@ class MessageHandlerViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidLoad, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.DidLoad), object: self)
     }
     
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.WillAppear, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.WillAppear), object: self)
     }
     
     override func viewDidAppear() {
         super.viewDidAppear()
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidAppear, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.DidAppear), object: self)
     }
     
     override func viewWillDisappear() {
         super.viewWillDisappear()
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.WillDisappear, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.WillDisappear), object: self)
     }
     
     override func viewDidDisappear() {
         super.viewDidDisappear()
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidDisappear, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.DidDisappear), object: self)
     }
     
 }

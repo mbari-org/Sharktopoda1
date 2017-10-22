@@ -22,7 +22,7 @@ import Cocoa
 @objc protocol VideoPlaybackCoordinator {
     
     // the action that a VideoURLPlaybackRequester would call for
-    @objc func openURLForPlayback(sender:AnyObject)
+    @objc func openURLForPlayback(_ sender:AnyObject)
 }
 
 extension VideoURLPlaybackRequester {

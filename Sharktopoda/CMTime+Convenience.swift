@@ -12,7 +12,7 @@ extension CMTime {
     
     // NOTE: I'd love to have this as an init rather than a factory method, much swiftier
     // but the compiler complains when I try
-    static func timeWithMilliseconds(milliseconds:UInt) -> CMTime {
+    static func timeWithMilliseconds(_ milliseconds:UInt) -> CMTime {
         let seconds = Double(milliseconds)/1000
         let out = CMTime(seconds:seconds, preferredTimescale:1000)
         return out

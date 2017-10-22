@@ -17,11 +17,11 @@ public let tryExceptionErrorKey = "exception"
  - parameter    block:  The block of code to run within a `WBTry.tryBlock`.
  - throws:      Throws an `NSError` if the wrapped code throws an exception.
 */
-public func trap(block: () -> Void) throws {
+public func trap(_ block: @escaping () -> Void) throws {
     var exception: AnyObject?
 
-    WBTry.tryBlock(block, catchAndRethrowBlock: {
-        exception = $0
+    WBTry.try(block, catchAndRethrow: {
+        exception = $0 as AnyObject
         return false
     }, finallyBlock: nil)
 

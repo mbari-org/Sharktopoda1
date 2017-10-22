@@ -11,7 +11,7 @@ final class OpenURLPromptViewController: NSViewController {
 
     @IBOutlet weak var urlField: NSTextField!
 
-    override var representedObject: AnyObject? {
+    override var representedObject: Any? {
         didSet {
             if let rep = representedObject as? CustomStringConvertible {
                 requestedURL = rep.description
@@ -28,11 +28,11 @@ final class OpenURLPromptViewController: NSViewController {
         }
         set {
             urlField.stringValue = newValue ?? ""
-            representedObject = urlField.stringValue
+            representedObject = urlField.stringValue as AnyObject
         }
     }
     
-    @IBAction func openUserSelectedURL(sender:NSButton) {
+    @IBAction func openUserSelectedURL(_ sender:NSButton) {
         
         requestPlayback()
         

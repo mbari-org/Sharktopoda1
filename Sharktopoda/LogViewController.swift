@@ -11,7 +11,7 @@ final class LogViewController: MessageHandlerViewController {
 
     @IBOutlet var logView: NSTextView! {
         didSet {
-            logView.editable = false
+            logView.isEditable = false
         }
     }
 
@@ -30,7 +30,7 @@ final class LogViewController: MessageHandlerViewController {
 
 extension LogViewController : LogListener {
     
-    func logChanged(notification: NSNotification) {
+    func logChanged(_ notification: Notification) {
         guard let log = logFromNotification(notification) else { return }
         guard let messageHandler = messageHandler else { return }
         guard log === messageHandler.log else { return }

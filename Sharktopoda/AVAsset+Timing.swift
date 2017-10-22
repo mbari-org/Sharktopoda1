@@ -12,7 +12,7 @@ extension AVAsset {
     
     var frameDuration : CMTime? {
         
-        let visualTracks = tracksWithMediaCharacteristic(AVMediaCharacteristicVisual)
+        let visualTracks = tracks(withMediaCharacteristic: AVMediaCharacteristicVisual)
         guard visualTracks.count > 0 else { return nil }
         return visualTracks.first!.minFrameDuration
     }
@@ -21,7 +21,7 @@ extension AVAsset {
     // for simplicity, we assume only one video track
     var minSeekTolerance : CMTime? {
         
-        let visualTracks = tracksWithMediaCharacteristic(AVMediaCharacteristicVisual)
+        let visualTracks = tracks(withMediaCharacteristic: AVMediaCharacteristicVisual)
         guard visualTracks.count > 0 else { return nil }
         return visualTracks.first!.minFrameDuration.halftime
     }

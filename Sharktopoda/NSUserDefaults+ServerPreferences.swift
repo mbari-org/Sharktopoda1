@@ -8,23 +8,23 @@
 import Foundation
 
 
-extension NSUserDefaults {
+extension UserDefaults {
     
     var preferredServerPort : UInt16 {
         get {
-            return UInt16(integerForKey("server_port"))
+            return UInt16(integer(forKey: "server_port"))
         }
         set {
-            setInteger(Int(newValue), forKey: "server_port")
+            set(Int(newValue), forKey: "server_port")
         }
     }
     
     var startServerOnStartup : Bool {
         get {
-            return boolForKey("load_on_startup")
+            return bool(forKey: "load_on_startup")
         }
         set {
-            setBool(newValue, forKey: "load_on_startup")
+            set(newValue, forKey: "load_on_startup")
         }
     }
 }

@@ -24,26 +24,26 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     var storyboard : NSStoryboard!
     
     lazy var openURLPromptWindowController : NSWindowController = {
-        return self.storyboard.instantiateControllerWithIdentifier(StoryboardIdentifiers.OpenURLWindowController) as! NSWindowController
+        return self.storyboard.instantiateController(withIdentifier: StoryboardIdentifiers.OpenURLWindowController) as! NSWindowController
     }()
     
     // matches player controllers to their UUID
     // this allows us to access videos by UUID
     // and maintain the lifetime of the players
-    var videoPlayerWindowControllers = [NSUUID:PlayerWindowController]()
+    var videoPlayerWindowControllers = [UUID:PlayerWindowController]()
     
     // the frontmost video player window controller, for when a client asks for info about the frontmost video
     var frontmostPlayerWindowController : PlayerWindowController?
     
     // a dictionary matching UUIDs to callbacks, for when we're told to capture frames
-    typealias frameCaptureCallback = (success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()
-    var frameCaptureCallbacks = [NSUUID:(frameCaptureCallback)]()
+    typealias frameCaptureCallback = (_ success:Bool, _ error:NSError?, _ requestedTimeInMilliseconds:UInt?, _ actualTimeInMilliseconds:UInt?)->()
+    var frameCaptureCallbacks = [UUID:(frameCaptureCallback)]()
 
     
     // MARK:- Actions
     
     // shows the openURL window
-    @IBAction func openURL(sender:AnyObject) {
+    @IBAction func openURL(_ sender:AnyObject) {
         
         openURLPromptWindowController.window?.center()
         openURLPromptWindowController.showWindow(self)
@@ -51,16 +51,16 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     
     // sent by a client class,
     // ask client for an URL to play back, then validate it and show a video player window
-    @IBAction func openURLForPlayback(sender:AnyObject) {
+    @IBAction func openURLForPlayback(_ sender:AnyObject) {
         
         guard let requester = sender as? VideoURLPlaybackRequester else { return }
         let possibleURL = requester.urlToPlay
         
-        if let url = NSURL(string:possibleURL) {
-            self.openVideoAtURL(url, usingUUID:NSUUID()) { (success, error) in
+        if let url = URL(string:possibleURL) {
+            self.openVideoAtURL(url, usingUUID:UUID()) { (success, error) in
                 
                 if !success {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         
                         let alert = NSAlert()
                         alert.messageText = "Failed to Load Video"
@@ -74,7 +74,7 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     }
     
     // shows an NSOpenPanel and lets the user choose one video file to play
-    @IBAction func openDocument(sender:AnyObject) {
+    @IBAction func openDocument(_ sender:AnyObject) {
         
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
@@ -83,14 +83,14 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["public.audiovisual-content"]
         
-        openPanel.beginWithCompletionHandler { (result) -> Void in
+        openPanel.begin { (result) -> Void in
             if result == NSFileHandlingPanelOKButton {
-                if let url = openPanel.URL {
+                if let url = openPanel.url {
                     
-                    self.openVideoAtURL(url, usingUUID:NSUUID()) { (success, error) in
+                    self.openVideoAtURL(url, usingUUID:UUID()) { (success, error) in
                         
                         if !success {
-                            dispatch_async(dispatch_get_main_queue()) {
+                            DispatchQueue.main.async {
                                 
                                 let alert = NSAlert()
                                 alert.messageText = "Failed to Load Video"
@@ -124,11 +124,11 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     // MARK:- URL Validation
     
     enum URLValidation {
-        case url(NSURL)
+        case url(URL)
         case error(NSError)
     }
     
-    func validateURLSchemeForURL(url:NSURL) -> URLValidation {
+    func validateURLSchemeForURL(_ url:URL) -> URLValidation {
         
         // only accept http and file urls
         guard ["file", "http", "https"].contains(url.scheme!) else {
@@ -137,7 +137,7 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
         return .url(url)
     }
     
-    func validateURL(url:NSURL) -> URLValidation {
+    func validateURL(_ url:URL) -> URLValidation {
         
         // only accept http and file urls
         
@@ -151,7 +151,7 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
             // if it's a file url, make sure it represents a reachable resource
             if "file" == url.scheme {
                 var error : NSError?
-                if !url.checkResourceIsReachableAndReturnError(&error) {
+                if !(url as NSURL).checkResourceIsReachableAndReturnError(&error) {
                     return .error(error!)
                 }
             }
@@ -163,30 +163,30 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
     
     // MARK:- Introspection of videos
     
-    func playerWindowControllerForUUID(uuid:NSUUID) throws -> PlayerWindowController {
+    func playerWindowControllerForUUID(_ uuid:UUID) throws -> PlayerWindowController {
         guard let out = videoPlayerWindowControllers[uuid] else {
-            throw(errorWithCode(.noVideoForThisUUID, description: "No video is available with UUID \(uuid.UUIDString)"))
+            throw(errorWithCode(.noVideoForThisUUID, description: "No video is available with UUID \(uuid.uuidString)"))
         }
         
         return out
     }
     
-    func infoForVideoWithUUID(uuid:NSUUID) throws -> (url:NSURL, uuid:NSUUID) {
+    func infoForVideoWithUUID(_ uuid:UUID) throws -> (url:URL, uuid:UUID) {
         let pwc = try playerWindowControllerForUUID(uuid)
         
         guard let url = pwc.videoURL else {
-            throw(errorWithCode(.noURLForThisUUID, description: "No url associated with video with UUID \(uuid.UUIDString)"))
+            throw(errorWithCode(.noURLForThisUUID, description: "No url associated with video with UUID \(uuid.uuidString)"))
         }
         guard uuid == pwc.uuid else {
             throw(errorWithCode(.bizarreInconsistency, description: "Bizarre inconsistency at \(#file):\(#line)"))
         }
         
-        return (url, uuid)
+        return (url as URL, uuid)
     }
     
     // MARK:- Utility
     
-    func errorWithCode(code:ErrorCode, description:String) -> NSError {
+    func errorWithCode(_ code:ErrorCode, description:String) -> NSError {
         return NSError(domain: "VideoPlayerCoordinator", code: code.rawValue,
                        userInfo: [NSLocalizedDescriptionKey:description])
     }
@@ -202,17 +202,17 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     
     // the main function that validates and then shows a video given an URL
     // this is the method that is called no matter how a video url is chosen (via open dialog, via openURL window, or via network)
-    func openVideoAtURL(url:NSURL, usingUUID uuid:NSUUID, callback:(success:Bool, error:NSError?) -> ()) {
+    func openVideoAtURL(_ url:URL, usingUUID uuid:UUID, callback:@escaping (_ success:Bool, _ error:NSError?) -> ()) {
         
         switch validateURL(url) {
         case .error(let error):
-            callback(success: false, error: error)
+            callback(false, error)
             return
         default:
             break
         }
         
-        let playerWC = self.storyboard.instantiateControllerWithIdentifier("VideoPlayerWindowController") as! PlayerWindowController
+        let playerWC = self.storyboard.instantiateController(withIdentifier: "VideoPlayerWindowController") as! PlayerWindowController
         playerWC.uuid = uuid
         playerWC.videoURL = url
         playerWC.delegate = self
@@ -231,10 +231,10 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     // MARK:- SharkVideoCoordination:Video Info
     
     
-    func returnInfoForVideoWithUUID(uuid:NSUUID) throws -> [String:AnyObject] {
+    func returnInfoForVideoWithUUID(_ uuid:UUID) throws -> [String:AnyObject] {
         
         let info = try infoForVideoWithUUID(uuid)
-        return ["url":info.url, "uuid":info.uuid]
+        return ["url":info.url as AnyObject, "uuid":info.uuid as AnyObject]
     }
     
     func returnInfoForFrontmostVideo() throws -> [String : AnyObject] {
@@ -247,7 +247,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
             throw(errorWithCode(.bizarreInconsistency, description: "Bizarre inconsistency at \(#file):\(#line)"))
         }
         
-        return try returnInfoForVideoWithUUID(uuid)
+        return try returnInfoForVideoWithUUID(uuid as UUID)
     }
     
     func returnAllVideoInfo() throws -> [[String:AnyObject]] {
@@ -256,12 +256,12 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         
         for (thisUUID, _) in videoPlayerWindowControllers {
             let (thisURL, _) = try infoForVideoWithUUID(thisUUID)
-            out.append(["url":thisURL.description, "uuid":thisUUID.UUIDString])
+            out.append(["url":thisURL.description as AnyObject, "uuid":thisUUID.uuidString as AnyObject])
         }
         return out
     }
     
-    func requestPlaybackStatusForVideoWithUUID(uuid inUUID:NSUUID) throws -> SharkVideoPlaybackStatus {
+    func requestPlaybackStatusForVideoWithUUID(uuid inUUID:UUID) throws -> SharkVideoPlaybackStatus {
         
         let pwc = try playerWindowControllerForUUID(inUUID)
         
@@ -277,25 +277,25 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         }
     }
     
-    func requestElapsedTimeForVideoWithUUID(uuid inUUID:NSUUID) throws -> UInt  {
+    func requestElapsedTimeForVideoWithUUID(uuid inUUID:UUID) throws -> UInt  {
         let pwc = try playerWindowControllerForUUID(inUUID)
         
         return pwc.playerViewController.videoElpasedTimeInMilliseconds
     }
 
-    func advanceToTimeInMilliseconds(time: UInt, forVideoWithUUID inUUID: NSUUID) throws {
+    func advanceToTimeInMilliseconds(_ time: UInt, forVideoWithUUID inUUID: UUID) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
         
         try pwc.playerViewController.advanceToTimeInMilliseconds(time)
     }
     
-    func captureCurrentFrameForVideWithUUID(uuid inUUID:NSUUID, andSaveTo saveLocation:NSURL, referenceUUID:NSUUID,
-                                                 then callback:(success:Bool, error:NSError?, requestedTimeInMilliseconds:UInt?, actualTimeInMilliseconds:UInt?)->()) throws {
+    func captureCurrentFrameForVideWithUUID(uuid inUUID:UUID, andSaveTo saveLocation:URL, referenceUUID:UUID,
+                                                 then callback:@escaping (_ success:Bool, _ error:NSError?, _ requestedTimeInMilliseconds:UInt?, _ actualTimeInMilliseconds:UInt?)->()) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
 
         switch validateURLSchemeForURL(saveLocation) {
         case .error(let error):
-            callback(success: false, error: error, requestedTimeInMilliseconds:nil, actualTimeInMilliseconds:nil)
+            callback(false, error, nil, nil)
             return
         default:
             break
@@ -305,20 +305,20 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         pwc.playerViewController.grabFrameAndSaveItTo(saveLocation, destinationUUID: referenceUUID)
     }
     
-    func receivedFrameGrabbingOutcome(outcome:PlayerViewController.FrameGrabbingOutcome) {
+    func receivedFrameGrabbingOutcome(_ outcome:PlayerViewController.FrameGrabbingOutcome) {
         
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             
             switch outcome {
             case .failure (let error, let requestedTime, let destinationUUID):
-                if let callback = self.frameCaptureCallbacks.removeValueForKey(destinationUUID) {
-                    callback(success: false, error: error, requestedTimeInMilliseconds:requestedTime, actualTimeInMilliseconds:nil)
+                if let callback = self.frameCaptureCallbacks.removeValue(forKey: destinationUUID as UUID) {
+                    callback(false, error, requestedTime, nil)
                 }
                 
                 
             case .success(let requestedTime, let destinationUUID, let actualTime):
-                if let callback = self.frameCaptureCallbacks.removeValueForKey(destinationUUID) {
-                    callback(success:true, error:nil, requestedTimeInMilliseconds:requestedTime, actualTimeInMilliseconds:actualTime)
+                if let callback = self.frameCaptureCallbacks.removeValue(forKey: destinationUUID as UUID) {
+                    callback(true, nil, requestedTime, actualTime)
                 }
                 break
             }
@@ -327,34 +327,34 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
 
     // MARK:- SharkVideoCoordination:Control
     
-    func focusWindowForVideoWithUUID(uuid inUUID:NSUUID) throws {
+    func focusWindowForVideoWithUUID(uuid inUUID:UUID) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
         
         pwc.window?.makeKeyAndOrderFront(self)
     }
     
-    func closeWindowForVideoWithUUID(uuid inUUID:NSUUID) throws {
+    func closeWindowForVideoWithUUID(uuid inUUID:UUID) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
 
         pwc.close()
     }
 
     
-    func playVideoWithUUID(uuid inUUID:NSUUID, rate:Double) throws {
+    func playVideoWithUUID(uuid inUUID:UUID, rate:Double) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
         
         pwc.playerViewController.playVideoAtRate(rate)
     }
     
     ////    Pauses the playback for the video specified by the UUID
-    func pauseVideoWithUUID(uuid inUUID:NSUUID) throws {
+    func pauseVideoWithUUID(uuid inUUID:UUID) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
         
         pwc.playerViewController.pauseVideo(self)
     }
     
     
-    func advanceToNextFrameInVideoWithUUID(uuid inUUID:NSUUID, byFrameCount:Int) throws {
+    func advanceToNextFrameInVideoWithUUID(uuid inUUID:UUID, byFrameCount:Int) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
 
         try pwc.playerViewController.advanceByFrameNumber(1)
@@ -373,23 +373,23 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
 
 extension VideoPlayerCoordinator : PlayerWindowControllerDelegate {
     
-    func playerWindowWillClose(notification: NSNotification) {
+    func playerWindowWillClose(_ notification: Notification) {
         let window = notification.object as! NSWindow
         let playerWC = window.windowController as! PlayerWindowController
         
         // don't manage the player anymore
         // also, release it so that playback will end...
-        videoPlayerWindowControllers.removeValueForKey(playerWC.uuid!)
+        videoPlayerWindowControllers.removeValue(forKey: playerWC.uuid! as UUID)
     }
     
-    func playerWindowDidAppear(notification: NSNotification) {
+    func playerWindowDidAppear(_ notification: Notification) {
         let window = notification.object as! NSWindow
         let playerWC = window.windowController as! PlayerWindowController
 
         frontmostPlayerWindowController = playerWC
     }
     
-    func playerWindowDidBecomeMain(notification: NSNotification) {
+    func playerWindowDidBecomeMain(_ notification: Notification) {
         let window = notification.object as! NSWindow
         let playerWC = window.windowController as! PlayerWindowController
         

@@ -63,12 +63,12 @@ struct VerboseSharkResponse : SharkResponse {
     var dictionaryRepresentation : [String:JSONObject] {
 
         var out = [String:JSONObject]()
-        out["response"] = command.verb.rawValue
-        out["status"] = success.rawValue
+        out["response"] = command.verb.rawValue as JSONObject
+        out["status"] = success.rawValue as JSONObject
 
         for (key, value) in payload {
             var dictValue = value
-            if let uuid = value as? NSUUID {
+            if let uuid = value as? UUID {
                 dictValue = uuid.ITUString
             }
             out[key] = dictValue
@@ -77,9 +77,9 @@ struct VerboseSharkResponse : SharkResponse {
         // if the client asked for a verbose response,
         // then incude the other parameters and the error in the reponse
         if command.wantsVerboseResponse {
-            out["data"] = command.data
+            out["data"] = command.data as JSONObject
 
-            out["error"] = error?.userInfo
+            out["error"] = error?.userInfo as JSONObject
         }
         
         return out
@@ -91,9 +91,9 @@ struct VerboseSharkResponse : SharkResponse {
         return json
     }
     
-    var dataRepresentation : NSData? {
+    var dataRepresentation : Data? {
         do {
-            return try NSJSONSerialization.dataWithJSONObject(jsonSafeDictionaryRepresentation, options: NSJSONWritingOptions(rawValue:0))
+            return try JSONSerialization.data(withJSONObject: jsonSafeDictionaryRepresentation, options: JSONSerialization.WritingOptions(rawValue:0))
         }
         catch {
             return nil
@@ -121,8 +121,8 @@ extension SimpleSharkResponse {
         self.commandVerb = commandVerb
         self.success = status
         
-        commandDictionary.removeValueForKey("response")
-        commandDictionary.removeValueForKey("status")
+        commandDictionary.removeValue(forKey: "response")
+        commandDictionary.removeValue(forKey: "status")
         self.payload = commandDictionary
     }
 }

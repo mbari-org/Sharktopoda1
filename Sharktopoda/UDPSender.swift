@@ -15,27 +15,27 @@ import CocoaAsyncSocket
  */
 class UDPSender: NSObject {
 
-    private var q : dispatch_queue_t = dispatch_get_main_queue()
+    fileprivate var q : DispatchQueue = DispatchQueue.main
     
-    private lazy var udpSocket : GCDAsyncUdpSocket = {
+    fileprivate lazy var udpSocket : GCDAsyncUdpSocket = {
         return GCDAsyncUdpSocket(delegate: self, delegateQueue: self.q)
     }()
 
     var sendTag : Int = 0
-    var messages : [(date:NSDate,address:String,port:PortNumber,data:NSData)] = []
+    var messages : [(date:Date,address:String,port:PortNumber,data:Data)] = []
     
-    func sendMessage(message:String, to address:String, onPort port:PortNumber) -> Bool {
-        guard let data = message.dataUsingEncoding(NSUTF8StringEncoding) else { return false }
+    func sendMessage(_ message:String, to address:String, onPort port:PortNumber) -> Bool {
+        guard let data = message.data(using: String.Encoding.utf8) else { return false }
 
         sendData(data, to: address, onPort: port)
         
         return true
     }
     
-    func sendData(data:NSData, to address:String, onPort port:PortNumber) -> Bool {
+    func sendData(_ data:Data, to address:String, onPort port:PortNumber) -> Bool {
         
-        messages.append((date:NSDate(), address:address, port:port,data:data))
-        udpSocket.sendData(data, toHost: address, port: port, withTimeout: -1, tag: sendTag)
+        messages.append((date:Date(), address:address, port:port,data:data))
+        udpSocket.send(data, toHost: address, port: port, withTimeout: -1, tag: sendTag)
         sendTag += 1
         
         do {
@@ -50,46 +50,46 @@ class UDPSender: NSObject {
 
     
     // callbacks
-    var didSend : (message:String, to:String, port:PortNumber, sentAt:NSDate) -> () = { _, _, _, _ in }
-    var failedToSend : (message:String, to:String, port:PortNumber, sentAt:NSDate, withError:NSError?) -> () = { _, _, _, _, _ in }
-    var didReceiveResponseMessage : (message:String, fromHost:String) -> () = { _, _ in }
-    var didReceiveResponseJSON : (json:JSONObject, fromHost:String) -> () = { _, _ in }
+    var didSend : (_ message:String, _ to:String, _ port:PortNumber, _ sentAt:Date) -> () = { _, _, _, _ in }
+    var failedToSend : (_ message:String, _ to:String, _ port:PortNumber, _ sentAt:Date, _ withError:NSError?) -> () = { _, _, _, _, _ in }
+    var didReceiveResponseMessage : (_ message:String, _ fromHost:String) -> () = { _, _ in }
+    var didReceiveResponseJSON : (_ json:JSONObject, _ fromHost:String) -> () = { _, _ in }
 }
 
 extension UDPSender : GCDAsyncUdpSocketDelegate {
     
-    func udpSocket(sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
 
         let messageData = messages[tag]
-        guard let message = NSString(data: messageData.3, encoding: NSUTF8StringEncoding) as? String
+        guard let message = NSString(data: messageData.3, encoding: String.Encoding.utf8.rawValue) as? String
             else { return }
-        didSend(message:message, to:messageData.1, port:messageData.2, sentAt:messageData.0)
+        didSend(message, messageData.1, messageData.2, messageData.0)
     }
     
-    func udpSocket(sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {
 
         let messageData = messages[tag]
-        guard let message = NSString(data: messageData.3, encoding: NSUTF8StringEncoding) as? String
+        guard let message = NSString(data: messageData.3, encoding: String.Encoding.utf8.rawValue) as? String
             else { return }
-        failedToSend(message:message, to:messageData.1, port:messageData.2, sentAt:messageData.0, withError:error)
+        failedToSend(message, messageData.1, messageData.2, messageData.0, error)
     }
     
-    func udpSocket(sock: GCDAsyncUdpSocket, didReceiveData data: NSData, fromAddress inAddress: NSData, withFilterContext filterContext: AnyObject?) {
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress inAddress: Data, withFilterContext filterContext: AnyObject?) {
         print("\(#function) \(data)")
         
-        let address = GCDAsyncUdpSocket.hostFromAddress(inAddress)!
+        let address = GCDAsyncUdpSocket.host(fromAddress: inAddress)!
         
         do {
-            let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue:0))
-            didReceiveResponseJSON(json: json, fromHost:address)
+            let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue:0))
+            didReceiveResponseJSON(json as JSONObject, address)
             print("json: \(json)")
         }
         catch {
             
             // it's not valid json, but maybe it's a valid string
-            if let message = NSString(data: data, encoding: NSUTF8StringEncoding) as? String {
+            if let message = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String {
                 print("message: \(message)")
-                didReceiveResponseMessage(message: message, fromHost:address)
+                didReceiveResponseMessage(message, address)
             }
         }
     }

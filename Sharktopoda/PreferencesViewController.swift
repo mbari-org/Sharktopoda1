@@ -13,7 +13,7 @@ final class PreferencesViewController: MessageHandlerViewController {
     @IBOutlet weak var startStopButton: NSButton!
     @IBOutlet weak var errorLabel: NSTextField!
 
-    private var preferredServerPort : UInt16 {
+    fileprivate var preferredServerPort : UInt16 {
         
         return UInt16(portField.intValue)
     }
@@ -27,8 +27,8 @@ final class PreferencesViewController: MessageHandlerViewController {
         portField.target = self
         portField.action = #selector(takePortNumberFrom(_:))
         
-        class RestrictiveNumberFormatter : NSNumberFormatter {
-            override func isPartialStringValid(partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<NSString?>, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>) -> Bool {
+        class RestrictiveNumberFormatter : NumberFormatter {
+            override func isPartialStringValid(_ partialString: String, newEditingString newString: AutoreleasingUnsafeMutablePointer<AutoreleasingUnsafeMutablePointer<NSString?>>?, errorDescription error: AutoreleasingUnsafeMutablePointer<AutoreleasingUnsafeMutablePointer<NSString?>>?) -> Bool {
                 guard !partialString.isEmpty else { return true }
                 
                 guard let out = Int(partialString) else { return false }
@@ -45,46 +45,46 @@ final class PreferencesViewController: MessageHandlerViewController {
         errorLabel.stringValue = ""
         startStopButton.intValue = messageHandler!.server.running ? 1 : 0
 
-        let port = messageHandler!.server.running ? (messageHandler!.server.port ?? 0) : NSUserDefaults.standardUserDefaults().preferredServerPort
+        let port = messageHandler!.server.running ? (messageHandler!.server.port ?? 0) : UserDefaults.standard.preferredServerPort
         portField.stringValue = "\(port)"
         portField.becomeFirstResponder()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messageHandlerDidStart(_:)),
-                                                         name: MessageHandler.Notifications.DidStartListening,
+        NotificationCenter.default.addObserver(self, selector: #selector(messageHandlerDidStart(_:)),
+                                                         name: NSNotification.Name(rawValue: MessageHandler.Notifications.DidStartListening),
                                                          object: messageHandler)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messageHandlerDidStop(_:)),
-                                                         name: MessageHandler.Notifications.DidStopListening,
+        NotificationCenter.default.addObserver(self, selector: #selector(messageHandlerDidStop(_:)),
+                                                         name: NSNotification.Name(rawValue: MessageHandler.Notifications.DidStopListening),
                                                          object: messageHandler)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messageHandlerDidFailToStart(_:)),
-                                                         name: MessageHandler.Notifications.DidFailToStartListening,
+        NotificationCenter.default.addObserver(self, selector: #selector(messageHandlerDidFailToStart(_:)),
+                                                         name: NSNotification.Name(rawValue: MessageHandler.Notifications.DidFailToStartListening),
                                                          object: messageHandler)
     }
     
     override func viewWillDisappear() {
         super.viewWillDisappear()
         
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK:- Updating UI
     
     func updateUI() {
 
-        portField.enabled = !messageHandler!.server.running
+        portField.isEnabled = !messageHandler!.server.running
     }
 
     // MARK:- Actions
 
-    @IBAction func startStopButtonPressed(sender:NSButton) {
+    @IBAction func startStopButtonPressed(_ sender:NSButton) {
         
-        NSUserDefaults.standardUserDefaults().preferredServerPort = preferredServerPort
+        UserDefaults.standard.preferredServerPort = preferredServerPort
         
         messageHandler?.toggleServerOnPort(preferredServerPort)
         
-        NSUserDefaults.standardUserDefaults().startServerOnStartup = sender.integerValue != 0
+        UserDefaults.standard.startServerOnStartup = sender.integerValue != 0
     }
     
-    @IBAction func takePortNumberFrom(sender:AnyObject) {
+    @IBAction func takePortNumberFrom(_ sender:AnyObject) {
         
         guard let sender = sender as? NSControl else { return }
         
@@ -93,31 +93,31 @@ final class PreferencesViewController: MessageHandlerViewController {
         
         messageHandler?.startServerOnPort(newPort)
 
-        NSUserDefaults.standardUserDefaults().preferredServerPort = preferredServerPort
+        UserDefaults.standard.preferredServerPort = preferredServerPort
 
         // user started the server from the Preference Window,
         // probably expects the server to run automatically
         // the next time it starts
-        NSUserDefaults.standardUserDefaults().startServerOnStartup = true
+        UserDefaults.standard.startServerOnStartup = true
         
     }
 
     
     // MARK:- Notifications
 
-    func messageHandlerDidStart(notification:NSNotification) {
+    func messageHandlerDidStart(_ notification:Notification) {
         updateUI()
         errorLabel.stringValue = ""
         startStopButton.intValue = messageHandler!.server.running ? 1 : 0
     }
-    func messageHandlerDidStop(notification:NSNotification) {
+    func messageHandlerDidStop(_ notification:Notification) {
         updateUI()
         errorLabel.stringValue = ""
         startStopButton.intValue = messageHandler!.server.running ? 1 : 0
         portField.becomeFirstResponder()
     }
     
-    func messageHandlerDidFailToStart(notification:NSNotification) {
+    func messageHandlerDidFailToStart(_ notification:Notification) {
         guard let error = notification.userInfo?["error"] as? NSError else { return }
         errorLabel.stringValue = error.userInfo[NSLocalizedDescriptionKey] as? String ?? ""
         startStopButton.intValue = messageHandler!.server.running ? 1 : 0

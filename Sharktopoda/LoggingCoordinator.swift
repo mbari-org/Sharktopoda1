@@ -22,7 +22,7 @@ class LoggingCoordinator: NSResponder {
     
     lazy var logViewWindowController : NSWindowController = {
         
-        var out = self.storyboard.instantiateControllerWithIdentifier(StoryboardIdentifiers.LogViewWindowController) as! NSWindowController
+        var out = self.storyboard.instantiateController(withIdentifier: StoryboardIdentifiers.LogViewWindowController) as! NSWindowController
         self.logViewController = out.contentViewController as? LogViewController
         return out
     }()
@@ -30,9 +30,9 @@ class LoggingCoordinator: NSResponder {
 
     // MARK:- Actions
     
-    @IBAction func showLogWindow(sender:AnyObject) {
+    @IBAction func showLogWindow(_ sender:AnyObject) {
         
-        if !(logViewWindowController.window?.visible ?? false) {
+        if !(logViewWindowController.window?.isVisible ?? false) {
             logViewWindowController.showWindow(sender)
         }
         logViewWindowController.window?.makeKeyAndOrderFront(sender)

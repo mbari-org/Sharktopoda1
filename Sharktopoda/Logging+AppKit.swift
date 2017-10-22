@@ -11,32 +11,32 @@ import AppKit
 
 extension NSTextView : Logging {
     
-    func log(message:String, label:LogLabel) {
+    func log(_ message:String, label:LogLabel) {
         textStorage?.log(message, label: label)
         scrollToBottom()
     }
     
-    func showLog(log:NSAttributedString) {
+    func showLog(_ log:NSAttributedString) {
         
         textStorage?.setAttributedString(log)
         scrollToBottom()
     }
     
-    func showLog(log:Log) {
+    func showLog(_ log:Log) {
         
         showLog(log.log)
     }
     
-    private func scrollToBottom() {
+    fileprivate func scrollToBottom() {
         // NOTE: not always scrolling to the bottom
         // I think we're not rewrapping before the new scrollposition is calculated
         guard let scrollView = enclosingScrollView,
-            docView = scrollView.documentView
+            let docView = scrollView.documentView
             else { return }
         
-        let y = docView.flipped ? docView.frame.maxY : 0
+        let y = docView.isFlipped ? docView.frame.maxY : 0
         let newScrollPosition = NSPoint(x: 0, y: y)
         
-        docView.scrollPoint(newScrollPosition)
+        docView.scroll(newScrollPosition)
     }
 }

@@ -20,56 +20,56 @@ class VideoFrameGrabber: NSObject {
     
     let asset : AVAsset
     
-    private let imageGenerator : AVAssetImageGenerator
+    fileprivate let imageGenerator : AVAssetImageGenerator
     
     init(asset:AVAsset) {
         self.asset = asset
         imageGenerator = AVAssetImageGenerator(asset: asset)
     }
     
-    var successCallback : (requestedTime:CMTime, actualTime:CMTime, destinationURL:NSURL, destinationUUID:NSUUID)->() = { _, _, _, _ in }
-    var failureCallback : (requestedTime:CMTime, error:NSError, destinationUUID:NSUUID) -> () = { _ in }
+    var successCallback : (_ requestedTime:CMTime, _ actualTime:CMTime, _ destinationURL:URL, _ destinationUUID:UUID)->() = { _, _, _, _ in }
+    var failureCallback : (_ requestedTime:CMTime, _ error:NSError, _ destinationUUID:UUID) -> () = { _ in }
     
-    private var frameInfo = [CMTimeValue:(NSURL, NSUUID)]()
+    fileprivate var frameInfo = [CMTimeValue:(URL, UUID)]()
     
-    func grabImageAtTime(time:CMTime, savingToLocation saveLocation:NSURL, associatedWithUUID uuid:NSUUID) {
+    func grabImageAtTime(_ time:CMTime, savingToLocation saveLocation:URL, associatedWithUUID uuid:UUID) {
         
         frameInfo[time.value] = (saveLocation, uuid)
         
-        let times = [NSValue(CMTime:time)]
+        let times = [NSValue(time:time)]
         // always take the previous fram to the time passed in (or the frame exactly at the time passed in...)
         imageGenerator.requestedTimeToleranceBefore = asset.frameDuration ?? kCMTimeZero
         imageGenerator.requestedTimeToleranceAfter = kCMTimeZero
         
-        imageGenerator.generateCGImagesAsynchronouslyForTimes(times, completionHandler: completion)
+        imageGenerator.generateCGImagesAsynchronously(forTimes: times, completionHandler: completion as! AVAssetImageGeneratorCompletionHandler)
     }
     
-    private func completion(requestedTime:CMTime, image:CGImage?, actualTime:CMTime, result:AVAssetImageGeneratorResult, error:NSError?) {
+    fileprivate func completion(_ requestedTime:CMTime, image:CGImage?, actualTime:CMTime, result:AVAssetImageGeneratorResult, error:NSError?) {
         
         var responseError = error
         
         switch result {
-        case .Succeeded:
+        case .succeeded:
             gotImage(image!, atTime: actualTime, requestedTime: requestedTime)
-        case .Cancelled:
+        case .cancelled:
             responseError = NSError(domain: "VideoFrameGrabber", code: Errors.Cancelled, userInfo: [NSLocalizedDescriptionKey:"Frame Grabbing was cancelled before this frame could be grabbed (time:\(requestedTime)"])
             fallthrough
-        case .Failed:
-            let (_, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
-            failureCallback(requestedTime:requestedTime, error: responseError!, destinationUUID:uuid)
+        case .failed:
+            let (_, uuid) = frameInfo.removeValue(forKey: requestedTime.value)!
+            failureCallback(requestedTime, responseError!, uuid)
         }
     }
     
-    private lazy var savingQueue : NSOperationQueue = {
+    fileprivate lazy var savingQueue : OperationQueue = {
         $0.maxConcurrentOperationCount = 1  // make it a serial queue
         return $0
-    }(NSOperationQueue())
+    }(OperationQueue())
 
-    private func gotImage(image:CGImage, atTime actualTime:CMTime, requestedTime:CMTime) {
+    fileprivate func gotImage(_ image:CGImage, atTime actualTime:CMTime, requestedTime:CMTime) {
         
-        let (saveLocation, uuid) = frameInfo.removeValueForKey(requestedTime.value)!
+        let (saveLocation, uuid) = frameInfo.removeValue(forKey: requestedTime.value)!
         
-        savingQueue.addOperationWithBlock() {
+        savingQueue.addOperation() {
             
             var type : NSString = kUTTypeJPEG   // default assumption
             if let ext = saveLocation.pathExtension {
@@ -85,10 +85,10 @@ class VideoFrameGrabber: NSObject {
                 }
             }
             
-            guard let destination = CGImageDestinationCreateWithURL(saveLocation, type, 1, nil) else {
+            guard let destination = CGImageDestinationCreateWithURL(saveLocation as CFURL, type, 1, nil) else {
                 let error = NSError(domain: "VideoFrameGrabber", code:Errors.FailedToCreateDestination, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to create destination for saving image to \(saveLocation)"])
-                self.failureCallback(requestedTime: requestedTime, error: error, destinationUUID:uuid)
+                self.failureCallback(requestedTime, error, uuid)
                 return
             }
             
@@ -100,12 +100,12 @@ class VideoFrameGrabber: NSObject {
             guard CGImageDestinationFinalize(destination) else {
                 let error = NSError(domain: "VideoFrameGrabber", code: Errors.FailedToWrite, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to write image to \(saveLocation)"])
-                self.failureCallback(requestedTime: requestedTime, error: error, destinationUUID:uuid)
+                self.failureCallback(requestedTime, error, uuid)
                 return
             }
             // note: no need for CFRelease, swift handles memory management, YAY!!!
  
-            self.successCallback(requestedTime: requestedTime, actualTime: actualTime, destinationURL: saveLocation, destinationUUID: uuid)
+            self.successCallback(requestedTime, actualTime, saveLocation, uuid)
         }
     }
 }

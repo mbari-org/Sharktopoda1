@@ -9,9 +9,9 @@ import Cocoa
 
 protocol PlayerWindowControllerDelegate {
     
-    func playerWindowWillClose(notification: NSNotification)
-    func playerWindowDidAppear(notification: NSNotification)
-    func playerWindowDidBecomeMain(notification: NSNotification)
+    func playerWindowWillClose(_ notification: Notification)
+    func playerWindowDidAppear(_ notification: Notification)
+    func playerWindowDidBecomeMain(_ notification: Notification)
 }
 
 final class PlayerWindowController: NSWindowController {
@@ -22,16 +22,16 @@ final class PlayerWindowController: NSWindowController {
         return contentViewController as! PlayerViewController
     }
     
-    var videoURL : NSURL? {
+    var videoURL : URL? {
         get {
-            return playerViewController.videoURL
+            return playerViewController.videoURL as! URL
         }
         set {
-            playerViewController.videoURL = newValue
+            playerViewController.videoURL = newValue as! NSURL
         }
     }
     
-    var uuid : NSUUID?
+    var uuid : UUID?
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -54,16 +54,16 @@ final class PlayerWindowController: NSWindowController {
     }
     
     
-    override func showWindow(sender: AnyObject?) {
+    override func showWindow(_ sender: Any?) {
         
         super.showWindow(sender)
 
-        delegate?.playerWindowDidAppear(NSNotification(name: "PlayerWindowController.didAppear", object: self.window))
+        delegate?.playerWindowDidAppear(Notification(name: Notification.Name(rawValue: "PlayerWindowController.didAppear"), object: self.window))
     }
     
     // MARK:- KVO
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
 
         switch keyPath! {
             case "title":
@@ -85,14 +85,14 @@ final class PlayerWindowController: NSWindowController {
 
 extension PlayerWindowController : NSWindowDelegate {
     
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         
         playerViewController.removeObserver(self, forKeyPath: "title")
 
         delegate?.playerWindowWillClose(notification)
     }
     
-    func windowDidBecomeMain(notification: NSNotification) {
+    func windowDidBecomeMain(_ notification: Notification) {
         delegate?.playerWindowDidBecomeMain(notification)
     }
 }

@@ -27,11 +27,11 @@ final class MessageHandler: NSObject {
     lazy var server : UDPService = {
         $0.didStartListening = { server in
             self.log("Server Started on port \(server.port!)", label:.start)
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidStartListening, object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.DidStartListening), object: self)
         }
         $0.didStopListening = { _ in
             self.log("Server Stopped", label:.end)
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidStopListening, object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.DidStopListening), object: self)
         }
         $0.didReceiveMessage = { message, address, _ in
             // we don't do anything with non-json messages
@@ -51,7 +51,7 @@ final class MessageHandler: NSObject {
     }(UDPService())
     
     
-    private lazy var remoteSender : UDPSender = {
+    fileprivate lazy var remoteSender : UDPSender = {
         $0.didSend = { message, address, port, timeSent in
             self.log("message sent to \(address):\(port) at \(timeSent): \(message)")
         }
@@ -61,8 +61,8 @@ final class MessageHandler: NSObject {
         return $0
     }(UDPSender())
 
-    private var remoteServer : String?
-    private var remoteServerPort : UInt16?
+    fileprivate var remoteServer : String?
+    fileprivate var remoteServerPort : UInt16?
     
     lazy var interpreter : SharkCommandInterpreter = {
         
@@ -75,15 +75,15 @@ final class MessageHandler: NSObject {
         didSet {
             do {
                 // write the log file to /Library/Logs/Sharktopoda and have one log file for each time Sharktopoda starts up
-                let library = try NSFileManager.defaultManager().URLForDirectory(.LibraryDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
-                let logs = library.URLByAppendingPathComponent("Logs")
-                let sharktopoda = logs!.URLByAppendingPathComponent("Sharktopoda")
+                let library = try FileManager.default.url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                let logs = library.appendingPathComponent("Logs")
+                let sharktopoda = logs.appendingPathComponent("Sharktopoda")
                 
-                let now = NSDate()
-                let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-                let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: now)
+                let now = Date()
+                let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+                let components = (calendar as NSCalendar).components([.year, .month, .day, .hour, .minute, .second], from: now)
                 let logname = "\(components.year)_\(components.month)_\(components.day) \(components.hour)_\(components.minute)_\(components.second).txt"
-                let logURL = sharktopoda!.URLByAppendingPathComponent(logname)
+                let logURL = sharktopoda.appendingPathComponent(logname)
                 log.savePath = logURL
             }
             catch let error as NSError {
@@ -97,7 +97,7 @@ final class MessageHandler: NSObject {
     
     // MARK:- Toggling Server
     
-    func startServerOnPort(port:PortNumber) {
+    func startServerOnPort(_ port:PortNumber) {
         
         let portToTry = port
         do {
@@ -106,7 +106,7 @@ final class MessageHandler: NSObject {
         catch let error as NSError {
             self.log("Error starting server on port \(portToTry): \(error)", label: .error)
             
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.DidFailToStartListening, object: self, userInfo: ["error":error, "port":NSNumber(unsignedShort: portToTry)])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Notifications.DidFailToStartListening), object: self, userInfo: ["error":error, "port":NSNumber(value: portToTry as UInt16)])
         }
     }
     
@@ -114,7 +114,7 @@ final class MessageHandler: NSObject {
         server.stopListening()
     }
     
-    func toggleServerOnPort(port:PortNumber) {
+    func toggleServerOnPort(_ port:PortNumber) {
         
         if server.running {
             stopServer()
@@ -127,7 +127,7 @@ final class MessageHandler: NSObject {
     
     // MARK:- Handling Commands from the client
     
-    private func handleJSON(json:JSONObject, sentFrom address:UDPClient) {
+    fileprivate func handleJSON(_ json:JSONObject, sentFrom address:UDPClient) {
         
         guard let command = SharkCommand(json: json, sentFrom:address, processResponse:processResponse) else {
             self.log("not a command: \(json)", label:.error)
@@ -140,7 +140,7 @@ final class MessageHandler: NSObject {
     }
     
     
-    private func processResponse(response:SharkResponse) {
+    fileprivate func processResponse(_ response:SharkResponse) {
         
         // has to be a verbose response, or else we can't send it
         let response = response as! VerboseSharkResponse
@@ -156,7 +156,7 @@ final class MessageHandler: NSObject {
         }
     }
     
-    private func sendResponse(response:VerboseSharkResponse) {
+    fileprivate func sendResponse(_ response:VerboseSharkResponse) {
         
         guard let data = response.dataRepresentation else {
             log("Malformed response: \(response)", label:.error)
@@ -168,14 +168,14 @@ final class MessageHandler: NSObject {
         server.sendResponse(data, toClient:response.command.address)
     }
 
-    private func sendResponseToRemoteServer(response:VerboseSharkResponse) {
+    fileprivate func sendResponseToRemoteServer(_ response:VerboseSharkResponse) {
         
         guard let data = response.dataRepresentation else {
             log("Malformed response: \(response)", label:.error)
             return
         }
         guard let server = remoteServer,
-            serverPort = remoteServerPort else {
+            let serverPort = remoteServerPort else {
                 log("Not enough information to send response to remote server \(remoteServer) on port \(remoteServerPort)\nresponse:\(response)", label:.error)
                 return
         }
@@ -213,7 +213,7 @@ extension MessageHandler : SharkCommandInterpreterConfigurator {
 
 extension MessageHandler : Logging {
     
-    func log(message:String, label:LogLabel) {
+    func log(_ message:String, label:LogLabel) {
         
         #if false
             // to simultaneously log everything to the console as well, include this line

@@ -87,18 +87,18 @@ struct SharkCommand {
     }
     
     // convenience variables that read from the data dictionary (really, the original JSON dictionary)
-    var url : NSURL? {
+    var url : URL? {
         guard let url = data["url"] as? String else { return nil }
-        return NSURL(string: url)
+        return URL(string: url)
     }
     
     // an object that is meant to be a UUID
     // it may be one, or it may be some other string
     struct UUID : CustomStringConvertible {
         var object : AnyObject
-        var UUID : NSUUID? {
+        var UUID : Foundation.UUID? {
             guard let s = object as? String else { return nil }
-            return NSUUID(UUIDString: s)
+            return Foundation.UUID(uuidString: s)
         }
         var isValidUUID : Bool {
             return nil != UUID
@@ -149,9 +149,9 @@ struct SharkCommand {
         }
     }
     
-    var imageLocation : NSURL? {
+    var imageLocation : URL? {
         guard let url = data["image_location"] as? String else { return nil }
-        return NSURL(string: url)
+        return URL(string: url)
     }
 
     var imageReferenceUUID : UUID? {
@@ -191,7 +191,7 @@ extension SharkCommand {
         // NOTE: for even more security, you could make sure that every key in the command is a known required or optional parameter
         
         self.verb = command
-        commandDictionary.removeValueForKey("command")
+        commandDictionary.removeValue(forKey: "command")
         self.data = commandDictionary
         
         self.address = address

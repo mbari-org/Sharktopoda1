@@ -30,10 +30,10 @@ final class ServerCoordinator: NSResponder {
         super.init()
 
         // listen for any server view controllers to be loaded
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messageHandlerViewControllerDidLoad(_:)),
-                                                         name: MessageHandlerViewController.Notifications.DidLoad, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(messageHandlerViewControllerDidLoad(_:)),
+                                                         name: NSNotification.Name(rawValue: MessageHandlerViewController.Notifications.DidLoad), object: nil)
     
-        if NSUserDefaults.standardUserDefaults().startServerOnStartup {
+        if UserDefaults.standard.startServerOnStartup {
             startServer(self)
         }
     }
@@ -43,23 +43,23 @@ final class ServerCoordinator: NSResponder {
     }
     
     // when a MessageHandlerViewController loads, set its MessageHandler through dependency injection
-    func messageHandlerViewControllerDidLoad(notification:NSNotification) {
+    func messageHandlerViewControllerDidLoad(_ notification:Notification) {
         guard let viewController = notification.object as? MessageHandlerViewController else { return }
         
         viewController.messageHandler = messageHandler
     }
     
-    @IBAction func startServer(sender:AnyObject) {
+    @IBAction func startServer(_ sender:AnyObject) {
         
-        messageHandler.startServerOnPort(NSUserDefaults.standardUserDefaults().preferredServerPort)
+        messageHandler.startServerOnPort(UserDefaults.standard.preferredServerPort)
     }
     
-    @IBAction func stopServer(sender:AnyObject) {
+    @IBAction func stopServer(_ sender:AnyObject) {
         
         messageHandler.stopServer()
     }
     
-    override func validateMenuItem(menuItem: NSMenuItem) -> Bool {
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         
         if menuItem.action == #selector(startServer(_:)) {
                 return !messageHandler.server.running
@@ -106,7 +106,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 try self.videoCoordinator.playVideoWithUUID(uuid:uuid, rate: rate)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid])
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid as AnyObject])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error)
@@ -119,7 +119,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 try self.videoCoordinator.pauseVideoWithUUID(uuid:uuid)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid])
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload:["uuid":uuid as AnyObject])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error)
@@ -145,7 +145,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 let info = try self.videoCoordinator.returnAllVideoInfo()
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["videos":info])
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["videos":info as AnyObject])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error)
@@ -171,7 +171,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 let status = try self.videoCoordinator.requestPlaybackStatusForVideoWithUUID(uuid:uuid)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "status":status.rawValue])
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid as AnyObject, "status":status.rawValue as AnyObject])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error)
@@ -184,7 +184,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 let elapsedTime = try self.videoCoordinator.requestElapsedTimeForVideoWithUUID(uuid: uuid)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":elapsedTime])
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid as AnyObject, "elapsed_time_millis":elapsedTime as AnyObject])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error)
@@ -197,7 +197,7 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
             var response : SharkResponse?
             do {
                 try self.videoCoordinator.advanceToTimeInMilliseconds(time, forVideoWithUUID: uuid)
-                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid, "elapsed_time_millis":time])
+                response = VerboseSharkResponse(successfullyCompletedCommand: command, payload: ["uuid":uuid as AnyObject, "elapsed_time_millis":time as AnyObject])
             }
             catch let error as NSError {
                 response = VerboseSharkResponse(failedCommand: command, error: error)
@@ -216,8 +216,8 @@ extension ServerCoordinator : SharkCommandInterpreterConfigurator {
                         let payload = ["elapsed_time_millis":actualTime!,
                                        "requested_time_millis":requestedTime!,
                                        "image_reference_uuid":referenceUUID,
-                                       "image_location":imageLocation]
-                        response = (VerboseSharkResponse(successfullyCompletedCommand: command, payload:payload))
+                                       "image_location":imageLocation] as [String : Any]
+                        response = (VerboseSharkResponse(successfullyCompletedCommand: command, payload:payload as [String : JSONObject]))
                     }
                     else {
                         response = (VerboseSharkResponse(failedCommand: command, error: error!))

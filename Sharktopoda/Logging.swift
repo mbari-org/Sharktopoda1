@@ -21,8 +21,8 @@ enum LogLabel {
         case .normal:   return NSColor(white: 0.2, alpha: 1.0)
         case .start:    return NSColor(deviceHue: 120/360, saturation: 1, brightness: 0.75, alpha: 1)   // green, but not too bright
         case .end:      return NSColor(deviceHue: 30/360, saturation: 1, brightness: 0.75, alpha: 1)  // orange, but not too bright
-        case important: return NSColor.blueColor()
-        case .error:    return NSColor.redColor()
+        case .important: return NSColor.blue
+        case .error:    return NSColor.red
         }
     }
 }
@@ -31,16 +31,16 @@ enum LogLabel {
 
 // if you want to support logging to the UI, then adopt this protocol
 protocol Logging {
-    func log(message:String, label:LogLabel)
+    func log(_ message:String, label:LogLabel)
 }
 
 extension Logging {
     
-    func log(message:String) {
+    func log(_ message:String) {
         log(message, label:.normal)
     }
     
-    func log(error:NSError) {
+    func log(_ error:NSError) {
         log(error.localizedDescription, label:.error)
     }
 }
@@ -51,25 +51,25 @@ extension Logging {
 // if you want an object that logs as a parameter somewhere, then use this
 final class Log : Logging {
     
-    private(set) var log = NSMutableAttributedString()
+    fileprivate(set) var log = NSMutableAttributedString()
     
-    var savePath : NSURL?
-    private var saveTimer : NSTimer?
+    var savePath : URL?
+    fileprivate var saveTimer : Timer?
     
-    private var writing = false
+    fileprivate var writing = false
     
-    func log(message: String, label: LogLabel, andWriteToFileAfterDelay writeDelay:NSTimeInterval) {
+    func log(_ message: String, label: LogLabel, andWriteToFileAfterDelay writeDelay:TimeInterval) {
         log.log(message, label: label)
         notify()
         
         if !writing {
             // if there was a timer set up to save, then cancel it
             saveTimer?.invalidate()
-            saveTimer = NSTimer.scheduledTimerWithTimeInterval(writeDelay, target: self, selector: #selector(writeLogToDisk(_:)), userInfo: nil, repeats: false)
+            saveTimer = Timer.scheduledTimer(timeInterval: writeDelay, target: self, selector: #selector(writeLogToDisk(_:)), userInfo: nil, repeats: false)
         }
     }
     
-    func log(message: String, label: LogLabel) {
+    func log(_ message: String, label: LogLabel) {
         log(message, label: label, andWriteToFileAfterDelay: 5)
     }
     
@@ -78,29 +78,29 @@ final class Log : Logging {
     }
     
     func notify() {
-        NSNotificationCenter.defaultCenter().postNotificationName(Log.Notifications.LogChanged, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Log.Notifications.LogChanged), object: self)
     }
     
-    func addListener(listener:AnyObject) {
-        NSNotificationCenter.defaultCenter().addObserver(listener, selector: #selector(LogListener.logChanged(_:)), name: Log.Notifications.LogChanged, object: self)
+    func addListener(_ listener:AnyObject) {
+        NotificationCenter.default.addObserver(listener, selector: #selector(LogListener.logChanged(_:)), name: NSNotification.Name(rawValue: Log.Notifications.LogChanged), object: self)
     }
     
-    func removeListener(listener:AnyObject) {
-        NSNotificationCenter.defaultCenter().removeObserver(listener)
+    func removeListener(_ listener:AnyObject) {
+        NotificationCenter.default.removeObserver(listener)
     }
     
-    @objc func writeLogToDisk(_:NSTimer) {
+    @objc func writeLogToDisk(_:Timer) {
         guard let savePath = savePath else { return }
-        guard let saveDirectory = savePath.URLByDeletingLastPathComponent else { return }
+        guard let saveDirectory = savePath.deletingLastPathComponent() else { return }
         guard !writing else { return }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
             
             let stringToWrite = self.log.string
             self.writing = true
             do {
-                try NSFileManager.defaultManager().createDirectoryAtURL(saveDirectory, withIntermediateDirectories: true, attributes: nil)
-                try stringToWrite.writeToURL(savePath, atomically: true, encoding: NSUTF8StringEncoding)
+                try FileManager.default.createDirectory(at: saveDirectory, withIntermediateDirectories: true, attributes: nil)
+                try stringToWrite.write(to: savePath, atomically: true, encoding: String.Encoding.utf8)
 //                print("wrote log to \(savePath)")
             }
             catch let error as NSError {
@@ -114,12 +114,12 @@ final class Log : Logging {
 
 @objc protocol LogListener {
     
-    @objc func logChanged(notification:NSNotification)
+    @objc func logChanged(_ notification:Notification)
 }
 
 extension LogListener {
     
-    func logFromNotification(notification:NSNotification) -> Log? {
+    func logFromNotification(_ notification:Notification) -> Log? {
         return notification.object as? Log
     }
 }
@@ -129,13 +129,13 @@ extension LogListener {
 extension NSMutableAttributedString : Logging {
     
     
-    func log(message:String, label:LogLabel) {
+    func log(_ message:String, label:LogLabel) {
         let attributedMessage = NSAttributedString(string: "\(message)\n",
                                                    attributes: [NSForegroundColorAttributeName: label.textColor]
         )
-        let dateString = "\(NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .ShortStyle, timeStyle: .MediumStyle)):\t"
-        appendAttributedString(NSAttributedString(string:dateString, attributes: [NSForegroundColorAttributeName: NSColor.darkGrayColor()]))
-        appendAttributedString(attributedMessage)
+        let dateString = "\(DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .medium)):\t"
+        append(NSAttributedString(string:dateString, attributes: [NSForegroundColorAttributeName: NSColor.darkGray]))
+        append(attributedMessage)
     }
     
 }

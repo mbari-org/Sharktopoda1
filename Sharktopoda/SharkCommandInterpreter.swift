@@ -30,7 +30,7 @@ class SharkCommandInterpreter {
     }
 
     
-    func handle(command:SharkCommand) {
+    func handle(_ command:SharkCommand) {
         
         // NOTE: the interpreter can callback sending an error,
         // but only the client class can callback sending success
@@ -78,95 +78,95 @@ class SharkCommandInterpreter {
     }
     
     
-    var connectCallback : (port:UInt16, host:String?) -> () = { _, _ in }
-    func connect(command:SharkCommand) {
+    var connectCallback : (_ port:UInt16, _ host:String?) -> () = { _, _ in }
+    func connect(_ command:SharkCommand) {
         guard let port = command.port else {
             callbackErrorForMissingParameter("port", forCommand: command)
             return
         }
         
-        connectCallback(port: port, host: command.host)
+        connectCallback(port, command.host)
     }
     
-    var openCallback : (url:NSURL, uuid:NSUUID, command:SharkCommand) -> () = { _, _, _ in }
-    func open(command:SharkCommand) {
+    var openCallback : (_ url:URL, _ uuid:UUID, _ command:SharkCommand) -> () = { _, _, _ in }
+    func open(_ command:SharkCommand) {
         guard let url = command.url else {
             callbackErrorForMissingParameter("url", forCommand: command)
             return
         }
         guard let uuid = uuidFromCommand(command) else { return }
         
-        openCallback(url: url, uuid: uuid.UUID!, command:command)
+        openCallback(url as URL, uuid.UUID! as UUID, command)
     }
     
-    var closeCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
-    func close(command:SharkCommand) {
+    var closeCallback : (_ uuid:UUID, _ command:SharkCommand) -> () = { _, _ in }
+    func close(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
         
-        closeCallback(uuid: uuid.UUID!, command:command)
+        closeCallback(uuid.UUID! as UUID, command)
     }
 
-    var showCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
-    func show(command:SharkCommand) {
+    var showCallback : (_ uuid:UUID, _ command:SharkCommand) -> () = { _, _ in }
+    func show(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
 
-        showCallback(uuid: uuid.UUID!, command:command)
+        showCallback(uuid.UUID! as UUID, command)
     }
 
-    var getInfoForVideoWithUUIDCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
-    var getFrontmostVideoInfoCallback : (command:SharkCommand) -> () = { _ in }
-    func getVideoInfo(command:SharkCommand) {
-            getFrontmostVideoInfoCallback(command: command)
+    var getInfoForVideoWithUUIDCallback : (_ uuid:UUID, _ command:SharkCommand) -> () = { _, _ in }
+    var getFrontmostVideoInfoCallback : (_ command:SharkCommand) -> () = { _ in }
+    func getVideoInfo(_ command:SharkCommand) {
+            getFrontmostVideoInfoCallback(command)
     }
     
-    var getInfoForAllVideosCallback : (command:SharkCommand) -> () = { _ in }
-    func getInfoForAllVideos(command:SharkCommand) {
-        getInfoForAllVideosCallback(command: command)
+    var getInfoForAllVideosCallback : (_ command:SharkCommand) -> () = { _ in }
+    func getInfoForAllVideos(_ command:SharkCommand) {
+        getInfoForAllVideosCallback(command)
     }
     
-    var playCallback : (uuid:NSUUID, rate:Double, command:SharkCommand) -> () = { _, _, _ in }
-    func play(command:SharkCommand) {
+    var playCallback : (_ uuid:UUID, _ rate:Double, _ command:SharkCommand) -> () = { _, _, _ in }
+    func play(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
 
         let rate = command.rate
-        playCallback(uuid: uuid.UUID!, rate:rate, command:command)
+        playCallback(uuid.UUID! as UUID, rate, command)
     }
     
-    var pauseCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
-    func pause(command:SharkCommand) {
+    var pauseCallback : (_ uuid:UUID, _ command:SharkCommand) -> () = { _, _ in }
+    func pause(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
 
-        pauseCallback(uuid: uuid.UUID!, command:command)
+        pauseCallback(uuid.UUID! as UUID, command)
     }
 
-    var getVideoStatusCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
-    func getVideoStatus(command:SharkCommand) {
+    var getVideoStatusCallback : (_ uuid:UUID, _ command:SharkCommand) -> () = { _, _ in }
+    func getVideoStatus(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
 
-        getVideoStatusCallback(uuid: uuid.UUID!, command:command)
+        getVideoStatusCallback(uuid.UUID! as UUID, command)
     }
 
     
-    var getElapsedTimeCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
-    func getElapsedTime(command:SharkCommand) {
+    var getElapsedTimeCallback : (_ uuid:UUID, _ command:SharkCommand) -> () = { _, _ in }
+    func getElapsedTime(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
 
-        getElapsedTimeCallback(uuid: uuid.UUID!, command: command)
+        getElapsedTimeCallback(uuid.UUID! as UUID, command)
     }
     
-    var advanceToTimeCallback : (uuid:NSUUID, time:UInt, command:SharkCommand) -> () = { _, _, _ in }
-    func advanceToTime(command:SharkCommand) {
+    var advanceToTimeCallback : (_ uuid:UUID, _ time:UInt, _ command:SharkCommand) -> () = { _, _, _ in }
+    func advanceToTime(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
         guard let time = command.elapsedTime else {
             callbackErrorForMissingParameter("elapsed_time_millis", forCommand: command)
             return
         }
         
-        advanceToTimeCallback(uuid: uuid.UUID!, time: time, command: command)
+        advanceToTimeCallback(uuid.UUID! as UUID, time, command)
     }
     
-    var captureCurrentFrameCallback : (uuid:NSUUID, imageLocation:NSURL, imageReferenceUUID:NSUUID, command:SharkCommand) -> () = { _, _, _, _ in }
-    func captureCurrentFrame(command:SharkCommand) {
+    var captureCurrentFrameCallback : (_ uuid:UUID, _ imageLocation:URL, _ imageReferenceUUID:UUID, _ command:SharkCommand) -> () = { _, _, _, _ in }
+    func captureCurrentFrame(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
         guard let imageLocation = command.imageLocation else {
             callbackErrorForMissingParameter("image_location", forCommand: command)
@@ -176,20 +176,20 @@ class SharkCommandInterpreter {
             callbackErrorForMissingParameter("image_reference_uuid", forCommand: command)
             return
         }
-        captureCurrentFrameCallback(uuid:uuid.UUID!, imageLocation:imageLocation, imageReferenceUUID:imageReferenceUUID.UUID!, command:command)
+        captureCurrentFrameCallback(uuid.UUID! as UUID, imageLocation as URL, imageReferenceUUID.UUID! as UUID, command)
     }
     
     
-    var frameAdvanceCallback : (uuid:NSUUID, command:SharkCommand) -> () = { _, _ in }
-    func frameAdvance(command:SharkCommand) {
+    var frameAdvanceCallback : (_ uuid:UUID, _ command:SharkCommand) -> () = { _, _ in }
+    func frameAdvance(_ command:SharkCommand) {
         guard let uuid = uuidFromCommand(command) else { return }
         
-        frameAdvanceCallback(uuid: uuid.UUID!, command:command)
+        frameAdvanceCallback(uuid.UUID! as UUID, command)
     }
 
     // MARK:- Convenience
 
-    private func uuidFromCommand(command:SharkCommand) -> SharkCommand.UUID? {
+    fileprivate func uuidFromCommand(_ command:SharkCommand) -> SharkCommand.UUID? {
         guard let uuid = command.uuid else {
             callbackErrorForMissingParameter("uuid", forCommand: command)
             return nil
@@ -203,21 +203,21 @@ class SharkCommandInterpreter {
 
     // MARK:- Error Handling
     
-    func missingParameterErrorForCommand(command:SharkCommand, parameter:String) -> NSError {
+    func missingParameterErrorForCommand(_ command:SharkCommand, parameter:String) -> NSError {
         return NSError(domain: "SharkCommandInterpreter", code: Errors.MissingValue, userInfo: [NSLocalizedDescriptionKey: "command \"\(command.verb)\" has no value \"\(parameter)\""])
     }
     
-    func callbackError(error:NSError, forCommand command:SharkCommand) {
+    func callbackError(_ error:NSError, forCommand command:SharkCommand) {
         let response = VerboseSharkResponse(failedCommand:command, error:error)
         command.processResponse?(response)
     }
     
-    func callbackErrorForMissingParameter(parameter:String, forCommand command:SharkCommand) {
+    func callbackErrorForMissingParameter(_ parameter:String, forCommand command:SharkCommand) {
         let error = missingParameterErrorForCommand(command, parameter: parameter)
         callbackError(error, forCommand: command)
     }
     
-    func callbackErrorForMalformedUUID(uuid:SharkCommand.UUID, forCommand command:SharkCommand) {
+    func callbackErrorForMalformedUUID(_ uuid:SharkCommand.UUID, forCommand command:SharkCommand) {
         let error = NSError(domain: "SharkCommandInterpreter", code: Errors.InvalidUUID, userInfo: [NSLocalizedDescriptionKey : "\(uuid) is not a valid UUID"])
         let response = VerboseSharkResponse(failedCommand:command, error:error)
         command.processResponse?(response)

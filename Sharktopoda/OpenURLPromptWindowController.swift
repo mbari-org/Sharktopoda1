@@ -13,14 +13,14 @@ final class OpenURLPromptWindowController: NSWindowController {
         super.windowDidLoad()
 
         window?.delegate = self
-        window?.excludedFromWindowsMenu = true
+        window?.isExcludedFromWindowsMenu = true
     }
 }
 
 extension OpenURLPromptWindowController : NSWindowDelegate {
     
     // whenever this window is no longer the key window, it should disappear
-    func windowDidResignKey(notification: NSNotification) {
+    func windowDidResignKey(_ notification: Notification) {
         close()
     }
 }

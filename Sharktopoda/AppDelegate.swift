@@ -22,7 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return NSStoryboard(name: StoryboardIdentifiers.StoryboardName, bundle: nil)
     }()
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         videoCoordinator = VideoPlayerCoordinator()
         videoCoordinator.storyboard = storyboard    
