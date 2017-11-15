@@ -24,10 +24,10 @@ final class PlayerWindowController: NSWindowController {
     
     var videoURL : URL? {
         get {
-            return playerViewController.videoURL as! URL
+            return playerViewController.videoURL
         }
         set {
-            playerViewController.videoURL = newValue as! NSURL
+            playerViewController.videoURL = newValue! as NSURL as URL
         }
     }
     

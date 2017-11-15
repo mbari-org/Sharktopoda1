@@ -61,20 +61,20 @@ extension UDPSender : GCDAsyncUdpSocketDelegate {
     func udpSocket(_ sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
 
         let messageData = messages[tag]
-        guard let message = NSString(data: messageData.3, encoding: String.Encoding.utf8.rawValue) as? String
+        guard let message = NSString(data: messageData.3, encoding: String.Encoding.utf8.rawValue) as String?
             else { return }
         didSend(message, messageData.1, messageData.2, messageData.0)
     }
     
-    func udpSocket(_ sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: NSError?) {
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: Error?) {
 
         let messageData = messages[tag]
-        guard let message = NSString(data: messageData.3, encoding: String.Encoding.utf8.rawValue) as? String
+        guard let message = NSString(data: messageData.3, encoding: String.Encoding.utf8.rawValue) as String?
             else { return }
-        failedToSend(message, messageData.1, messageData.2, messageData.0, error)
+        failedToSend(message, messageData.1, messageData.2, messageData.0, error! as NSError)
     }
     
-    func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress inAddress: Data, withFilterContext filterContext: AnyObject?) {
+    func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress inAddress: Data, withFilterContext filterContext: Any?) {
         print("\(#function) \(data)")
         
         let address = GCDAsyncUdpSocket.host(fromAddress: inAddress)!
@@ -87,7 +87,7 @@ extension UDPSender : GCDAsyncUdpSocketDelegate {
         catch {
             
             // it's not valid json, but maybe it's a valid string
-            if let message = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String {
+            if let message = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String? {
                 print("message: \(message)")
                 didReceiveResponseMessage(message, address)
             }

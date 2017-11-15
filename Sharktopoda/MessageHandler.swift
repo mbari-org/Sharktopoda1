@@ -56,7 +56,7 @@ final class MessageHandler: NSObject {
             self.log("message sent to \(address):\(port) at \(timeSent): \(message)")
         }
         $0.failedToSend = { message, address, port, timeSent, error in
-            self.log("failed to send message to \(address):\(port) at \(timeSent): \(message)\n\nerror:\(error)", label:.error)
+            self.log("failed to send message to \(address):\(port) at \(timeSent): \(message)\n\nerror:\(String(describing: error))", label:.error)
         }
         return $0
     }(UDPSender())
@@ -82,7 +82,7 @@ final class MessageHandler: NSObject {
                 let now = Date()
                 let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
                 let components = (calendar as NSCalendar).components([.year, .month, .day, .hour, .minute, .second], from: now)
-                let logname = "\(components.year)_\(components.month)_\(components.day) \(components.hour)_\(components.minute)_\(components.second).txt"
+                let logname = "\(String(describing: components.year))_\(components.month)_\(components.day) \(components.hour)_\(components.minute)_\(components.second).txt"
                 let logURL = sharktopoda.appendingPathComponent(logname)
                 log.savePath = logURL
             }
@@ -176,7 +176,7 @@ final class MessageHandler: NSObject {
         }
         guard let server = remoteServer,
             let serverPort = remoteServerPort else {
-                log("Not enough information to send response to remote server \(remoteServer) on port \(remoteServerPort)\nresponse:\(response)", label:.error)
+                log("Not enough information to send response to remote server \(String(describing: remoteServer)) on port \(String(describing: remoteServerPort))\nresponse:\(response)", label:.error)
                 return
         }
         

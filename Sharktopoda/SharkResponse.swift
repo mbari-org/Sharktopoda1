@@ -69,7 +69,7 @@ struct VerboseSharkResponse : SharkResponse {
         for (key, value) in payload {
             var dictValue = value
             if let uuid = value as? UUID {
-                dictValue = uuid.ITUString
+                dictValue = uuid.ITUString as JSONObject
             }
             out[key] = dictValue
         }

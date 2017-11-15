@@ -64,7 +64,7 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
                         
                         let alert = NSAlert()
                         alert.messageText = "Failed to Load Video"
-                        alert.informativeText = "Could not load video at \(url.description ?? "unknown")\n\nerror:\(error!.localizedDescription ?? "unknown")"
+                        alert.informativeText = "Could not load video at \(url.description )\n\nerror:\(error!.localizedDescription ?? "unknown")"
                         alert.runModal()
                     }
                 }
@@ -202,8 +202,7 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
     
     // the main function that validates and then shows a video given an URL
     // this is the method that is called no matter how a video url is chosen (via open dialog, via openURL window, or via network)
-    func openVideoAtURL(_ url:URL, usingUUID uuid:UUID, callback:@escaping (_ success:Bool, _ error:NSError?) -> ()) {
-        
+    func openVideoAtURL(_ url: URL, usingUUID uuid: UUID, callback: @escaping (Bool, NSError?) -> ()) {
         switch validateURL(url) {
         case .error(let error):
             callback(false, error)
@@ -225,7 +224,6 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         
         videoPlayerWindowControllers[uuid] = playerWC
     }
-    
     
     
     // MARK:- SharkVideoCoordination:Video Info
@@ -289,10 +287,9 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         try pwc.playerViewController.advanceToTimeInMilliseconds(time)
     }
     
-    func captureCurrentFrameForVideWithUUID(uuid inUUID:UUID, andSaveTo saveLocation:URL, referenceUUID:UUID,
-                                                 then callback:@escaping (_ success:Bool, _ error:NSError?, _ requestedTimeInMilliseconds:UInt?, _ actualTimeInMilliseconds:UInt?)->()) throws {
+    func captureCurrentFrameForVideWithUUID(uuid inUUID: UUID, andSaveTo saveLocation: URL, referenceUUID: UUID, then callback: @escaping (Bool, NSError?, UInt?, UInt?) -> ()) throws {
         let pwc = try playerWindowControllerForUUID(inUUID)
-
+        
         switch validateURLSchemeForURL(saveLocation) {
         case .error(let error):
             callback(false, error, nil, nil)
@@ -300,10 +297,12 @@ extension VideoPlayerCoordinator : SharkVideoCoordination {
         default:
             break
         }
-
+        
         frameCaptureCallbacks[referenceUUID] = callback
         pwc.playerViewController.grabFrameAndSaveItTo(saveLocation, destinationUUID: referenceUUID)
     }
+    
+
     
     func receivedFrameGrabbingOutcome(_ outcome:PlayerViewController.FrameGrabbingOutcome) {
         
