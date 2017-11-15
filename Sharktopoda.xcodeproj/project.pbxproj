@@ -96,7 +96,7 @@
 		7CB585811D78D3480039685C /* NSUserDefaults+ServerPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSUserDefaults+ServerPreferences.swift"; path = "Sharktopoda/NSUserDefaults+ServerPreferences.swift"; sourceTree = SOURCE_ROOT; };
 		7CB585841D78D3A60039685C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Sharktopoda/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		7CB585871D78E1510039685C /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
-		7CB5858C1D78FDBE0039685C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		7CB5858C1D78FDBE0039685C /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
