@@ -24,7 +24,7 @@ Sharktopoda will receive JSON messages and respond with JSON via the UDP port co
 
  Establishes a remote host and port number that Sharktopus can send additional out-of-band messages to (outside of the UDP command -> response messages). There are 2 forms of this message. 
  
- ![Port Configuration](images/Port Configuration.png)
+ ![Port Configuration](images/PortConfiguration.png)
  
  The first form omits the "host" field; Sharktopoda assumes that the host is "localhost".
 
