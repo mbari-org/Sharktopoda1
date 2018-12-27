@@ -71,8 +71,8 @@ class VideoFrameGrabber: NSObject {
         
         savingQueue.addOperation() {
             
-            var type : NSString = kUTTypeJPEG   // default assumption
-            if let ext = saveLocation.pathExtension {
+            var type : NSString? = kUTTypeJPEG   // default assumption
+            if let ext  = saveLocation.pathExtension {
                 switch ext {
                 case "png":
                     type = kUTTypePNG
@@ -85,7 +85,7 @@ class VideoFrameGrabber: NSObject {
                 }
             }
             
-            guard let destination = CGImageDestinationCreateWithURL(saveLocation as CFURL, type, 1, nil) else {
+            guard let destination = CGImageDestinationCreateWithURL(saveLocation as CFURL, type ?? <#default value#>, 1, nil) else {
                 let error = NSError(domain: "VideoFrameGrabber", code:Errors.FailedToCreateDestination, userInfo:
                     [NSLocalizedDescriptionKey: "Unable to create destination for saving image to \(saveLocation)"])
                 self.failureCallback(requestedTime, error, uuid)

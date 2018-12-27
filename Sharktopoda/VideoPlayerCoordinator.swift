@@ -198,6 +198,7 @@ final class VideoPlayerCoordinator: NSResponder, VideoPlaybackCoordinator{
 
 extension VideoPlayerCoordinator : SharkVideoCoordination {
     
+
     // MARK:- SharkVideoCoordination:Video Playback
     
     // the main function that validates and then shows a video given an URL

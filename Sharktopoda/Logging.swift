@@ -91,7 +91,7 @@ final class Log : Logging {
     
     @objc func writeLogToDisk(_:Timer) {
         guard let savePath = savePath else { return }
-        guard let saveDirectory = savePath.deletingLastPathComponent() else { return }
+        guard let saveDirectory: URL = savePath.deletingLastPathComponent() else { return }
         guard !writing else { return }
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {

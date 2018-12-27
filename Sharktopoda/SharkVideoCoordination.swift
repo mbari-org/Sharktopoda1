@@ -34,7 +34,7 @@ protocol SharkVideoCoordination {
     // video loading requires some asynchronicity as the video file is loaded from disk or ther network
     // so we need a callback to be called after the video load has succeeded or failed
     // if success is false, then you should expect error to not be nil
-    func openVideoAtURL(_ url:URL, usingUUID uuid:UUID, callback:(_ success:Bool, _ error:NSError?) -> ())
+    func openVideoAtURL(_ url:URL, usingUUID uuid:UUID, callback: @escaping (_ success:Bool, _ error:NSError?) -> ())
 
     // note: all of these methods are marked as throws
     // because they can be called by the ServerCoordinator
@@ -85,7 +85,7 @@ protocol SharkVideoCoordination {
     ////    When the image has been written to disk it should respond via the remote UDP port specified in the connect command with:
     ////    The status field should be "failed" if Sharktopus is unable to capture and write the image to disk.
     func captureCurrentFrameForVideWithUUID(uuid inUUID:UUID, andSaveTo saveLocation:URL, referenceUUID:UUID,
-                                                 then callback:(_ success:Bool, _ error:NSError?, _ requestedTimeInMilliseconds:UInt?, _ actualTimeInMilliseconds:UInt?)->()) throws
+                                                 then callback: @escaping (_ success:Bool, _ error:NSError?, _ requestedTimeInMilliseconds:UInt?, _ actualTimeInMilliseconds:UInt?)->()) throws
 
     ////    Advance the video one frame for the given video The UDP/JSON command is
     // we'll just make it a generic frame count to advance
