@@ -13,8 +13,5 @@ A java implementation of a remote control is available in the [vcr4j-sharktopoda
 
 ![Screenshot](docs/images/Sharktopus.png)
 
-## Download
-
-You can download Sharktopoda from [bintray](https://bintray.com/hohonuuli/generic/download_file?file_path=1.0.1%2FSharktopoda.dmg)
 
 
