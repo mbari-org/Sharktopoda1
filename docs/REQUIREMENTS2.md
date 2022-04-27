@@ -350,7 +350,7 @@ sequenceDiagram
       shark->>app: status failed response
     else UUID found
     Note over shark,disk: On separate thread
-      shark->>videos: Capture image and elapsed time into video
+      shark->>+videos: Capture image and elapsed time into video
       shark->>disk: write lossless PNG to disk at image_location
       alt Unable to write PNG to image_location
         shark->>app: status failed message via remote port
