@@ -403,3 +403,135 @@ The _status_ field should be `"failed"` if Sharktopus is unable to capture and w
   "status": "failed"
 }
 ```
+
+## Localizations
+
+A localization defines a rectangular region of interest on the video. Users should be able to draw these regions directly on a video window in sharktopoda. Sharktopoda will, in turn, notify the remote app that a new localization has been created. Sharktopoda needs to be able to handle 10,000s of localizations in a video and have them drawn on the correct frames as the video is played, rewinded, etc.
+
+Localizations can be added, deleted, or modified from either a remote app or from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
+
+### -- Add Localization(s)
+
+The initiating app (both sharktopoda and the remote app can create localizations) will send a notification of a new localizations to the other app.
+
+```json
+{
+  "command": "add localizations",
+  "uuid": "<the video's uuid>",
+  "localizations": [
+    {
+      "uuid": "<uuid unique to this localization>",
+      "concept": "Bathybembix bairdii",
+      "elapsedTimeMillis": 49211,
+      "durationMillis": 25, // optional
+      "x": 1076,
+      "y": 13,
+      "width": 623,
+      "height": 475
+    }
+  ]
+}
+```
+
+The receiving app should respond with an ack:
+
+```json
+{
+  "response": "add localizations",
+  "status": "ack"
+}
+```
+
+or a failure if the video with uuid does not exist:
+
+```json
+{
+  "response": "add localizations",
+  "status": "failed"
+}
+```
+
+### -- Localizaton(s) deleted
+
+The initiating app will send a notification of localizations to be deleted.
+
+```json
+{
+  "commmand": "remove localizations",
+  "uuid": "<the video's uuid>",
+  "localizations": [
+    "<uuid for localiation A>",
+    "<uuid for localiation B>"
+  ]
+}
+```
+
+The receiving app will respond with an ack:
+
+```json
+{
+  "response": "remove localizations",
+  "status": "ack"
+}
+```
+
+or a failure if the video with uuid does not exist:
+
+```json
+{
+  "response": "remove localizations",
+  "status": "failed"
+}
+```
+
+### -- Localizations(s) modified
+
+```json
+{
+  "command": "update localizations",
+  "uuid": "<the video's uuid>",
+  "localizations": [
+    {
+      "uuid": "<uuid unique to this localization>",
+      "concept": "Bathybembix bairdii",
+      "elapsedTimeMillis": 49211,
+      "durationMillis": 25, // optional
+      "x": 1076,
+      "y": 13,
+      "width": 623,
+      "height": 475
+    }
+  ]
+}
+```
+
+The receiving app will respond with an ack:
+
+```json
+{
+  "response": "update localizations",
+  "status": "ack"
+}
+```
+
+or a failure if the video with uuid does not exist:
+
+```json
+{
+  "response": "update localizations",
+  "status": "failed"
+}
+```
+
+
+### -- Clear all Localizations
+
+This will only be sent from the remote app to Sharktopoda (not vice versa). Sharktopoda should remove all cached information about the localizations for a given video.
+
+```json
+{
+  "command": "clear localizations",
+  "uuid": "<the video's uuid>"
+}
+
+```
