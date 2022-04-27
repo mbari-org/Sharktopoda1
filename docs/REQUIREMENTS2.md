@@ -1,13 +1,12 @@
-
-# Sharktopoda Requirements
+# Sharktopoda 2 Requirements
 
 Sharktopoda will be a Max OS X video playback application based on AVFoundation/AVKit. It supports a UDP connection allowing other local applications to connect to it. This connection allows other applications to control and query Sharktopoda.
 
-Sharktopoda will display videos (either local files or remote URL's) in windows just like Apples' QuickTime app does. Each window will have an associated UUID (more about that below). Sharktopoda can route control/query commands to the appropriate video window with this UUID.
+Sharktopoda will display videos (either local files or remote URL's) in windows just like Apples' QuickTime app does. Each window will have a unique UUID associated to the window (more about that below). Sharktopoda can route control/query commands to the appropriate video window with this UUID.
 
 ## UI
 
-The UI can be the stock AVKit windows. It should have the controls pictured below. The window should be able to be resized. The ability to make a video window full-screen is not required.
+The UI can be the stock AVKit windows. It should have the controls pictured below. The window should be able to be resized. The ability to make a video window full-screen is nice-to-have, but not required.
 
 ![Sharktopus UI](images/Sharktopus.png)
 
@@ -22,7 +21,7 @@ Sharktopoda will receive JSON messages and respond with JSON via the UDP port co
 
 ### Connect
 
- Establishes a remote host and port number that Sharktopus can send additional out-of-band messages to (outside of the UDP command -> response messages). There are 2 forms of this message.
+ Establishes a remote host and port number that Sharktopus can send outgoing UDP messages to another application. There are 2 forms of this message.
 
  ![Port Configuration](images/Port%20Configuration.png)
 
@@ -45,11 +44,13 @@ The second form explicitly specifies the host:
 }
 ```
 
-### Open
+### -- Open
 
-Opens the specified video in a new window. The application should associate the URL and UUID with the window. (More on that later)
+Opens the specified video in a new window. The application should associate the URL and UUID with the window. (More on that later).
 
-__Open URL__
+If a window with the UUID already exits, the window should be focused and brought to the front of all open Sharktopoda windows (i.e. the same behavior as the "show" command below) and a success response returned.
+
+#### Open URL
 
 ```json
 {
@@ -59,7 +60,7 @@ __Open URL__
 }
 ```
 
-__Open File (using file URL)__
+#### Open File (using file URL)
 
 ```json
 {
@@ -69,9 +70,9 @@ __Open File (using file URL)__
 }
 ```
 
-It should respond with:
+Either open command should respond with a success or failure message:
 
-__Successfully opened video response__
+##### Successfully opened video response
 
 ```json
 {
@@ -80,7 +81,7 @@ __Successfully opened video response__
 }
 ```
 
-__Failed to open video response__
+##### Failed to open video response
 
 ```json
 {
@@ -89,9 +90,9 @@ __Failed to open video response__
 }
 ```
 
-### Close
+### -- Close
 
-It should close the window with the corresponding UUID. No reponse is expected:
+It should close the window with the corresponding UUID:
 
 ```json
 {
@@ -100,8 +101,16 @@ It should close the window with the corresponding UUID. No reponse is expected:
 }
 ```
 
+Close should respond with an ack:
 
-### Show
+```json
+{
+  "response": "close",
+  "status": "ack"
+}
+```
+
+### -- Show
 
 Focuses the window containing the video with the given UUID and brings it to the front of all open Sharktopoda windows.
 
@@ -112,23 +121,40 @@ Focuses the window containing the video with the given UUID and brings it to the
 }
 ```
 
-### Request Video Information for a Specific Window
+Show should respond with an ack:
 
-`{"command":"request video information"}`
+```json
+{
+  "response": "show",
+  "status": "ack"
+}
+```
 
-It should return the UUID and URL of the currently focused (or top most in z order)
+### -- Request Video Information for the focused Window
+
+// TODO should this use a UUID instead of the focused window or maybe that should be a separate command
+
+```json
+{"command": "request video information"}
+```
+
+It should return the UUID and URL of the currently focused (or top most window in z order) as well as the length of the video in milliseconds (named as `duration_millis`) and the frame_rate of the mov
 
 ```json
 {
   "response": "request video information",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
-  "url": "http://someurl/and/moviefile.mov"
+  "url": "http://someurl/and/moviefile.mov",
+  "duration_millis": 150000,
+  "frame_rate": "29.97"
 }
 ```
 
-### Request information for all open videos
+### -- Request information for all open videos
 
-`{"command": "request all information"}`
+```json
+{"command": "request all information"}
+```
 
 It should return info for all open videos like the following:
 
@@ -148,7 +174,7 @@ It should return info for all open videos like the following:
 }
 ```
 
-### Play
+### -- Play
 
 Play the video associated with the UUID. The play rate will be 1.0
 
@@ -168,11 +194,12 @@ Optionally the play command can contain a rate for the playback. A positive rate
   "rate": "-2.4"
 }
 ```
+
 It should respond with:
 
 ```json
 {
-  "response":"play",
+  "response": "play",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status":"ok"
 }
@@ -182,13 +209,13 @@ or
 
 ```json
 {
-  "response":"play",
+  "response": "play",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "failed"
 }
 ```
 
-### Pause
+### -- Pause
 
 Pauses the playback for the video specified by the UUID
 
@@ -203,23 +230,23 @@ It should respond with:
 
 ```json
 {
-  "response":"play",
+  "response": "pause",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status":"ok"
 }
 ```
 
-or
+or, in the case of failure, such as the requested video UUID does not exist:
 
 ```json
 {
-  "response":"play",
+  "response": "pause",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "failed"
 }
 ```
 
-### Request elapsed time
+### -- Request elapsed time
 
 Return the elapsed time (from the start) of the video as milliseconds.
 
@@ -240,24 +267,26 @@ It should respond with:
 }
 ```
 
-### Request Status
+### -- Request Status
 
-Return the current playback status of the video (by UUID). Possible responses include: _shuttling forward_, _shuttling reverse_, _paused_, _playing_, _not found_.
+Return the current playback status of the video (by UUID). Possible responses include: `shuttling forward`, `shuttling reverse`, `paused`, `playing`, `not found`.
 
 - _playing_ is when the video is playing at a rate of 1.0
 - _shuttling forward_ is when the video is playing with a positive rate that is not equal to 1.0
 - _shuttling reverse_ is when the video is playing with a negative rate.
 - _paused_ is obvious. (Not playing)
 
-`{"command": "request status", "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"}`
+```json
+{"command": "request status", "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"}
+```
 
-A response is:
+An example response is:
 
 ```json
 {"response": "request status", "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170", "status": "playing"}
 ```
 
-### Seek Elapsed Time
+### -- Seek Elapsed Time
 
 Seek to the provided elapsed time (which will be in milliseconds)
 
@@ -269,9 +298,65 @@ Seek to the provided elapsed time (which will be in milliseconds)
 }
 ```
 
-### Framecapture
+Seek should respond with an ack:
+
+```json
+{
+  "response": "seek elapsed time",
+  "status": "ack"
+}
+```
+
+### -- Frame advance
+
+Advance the video one frame for the given video The UDP/JSON command is
+
+```json
+{
+  "command": "frame advance",
+  "uuid": "cb5cf7f1-e19c-40ba-b176-a7e479a3cdef"
+}
+```
+
+Frame advance should respond with an ack:
+
+```json
+{
+  "response": "frame advance",
+  "status": "ack"
+}
+```
+
+### -- Framecapture
 
 Sharktopoda should immediately grab the current frame from the video along with the elapsed time of that frame. The image should be saved (in a separate non-blocking thread. I think this is the default in AVFoundation). This action should not interfere with video playback.
+
+```mermaid
+sequenceDiagram 
+    participant app as Remote App
+    participant shark as Sharktopoda
+    participant videos as Open Videos
+    participant disk as Local Disk
+
+    Note over app,shark: Remote app must tell Sharktopoda which port is open via "connect" command
+    app->>shark: Define remote port
+    shark->>shark: Open UDP client to send messages to Remote App
+
+    app->>+shark: {"command": "framecapture", ... }
+    shark->>app: ack
+    shark->>find video by UUID
+
+    alt UUID not found
+      shark->>app: status failed response
+    else UUID found
+      shark->>videos: Capture imaged, elapsed time
+      shark->>+disk: write lossless PNG to disk at image_location
+      alt Unable to write PNG to image_location
+        shark->>app: status failed message via "connect" port
+      else write PNG was successful
+        shark->>-app: status success message via "connect" port
+
+```
 
  ![Framecapture](images/Framecapture.png)
 
@@ -284,7 +369,16 @@ Sharktopoda should immediately grab the current frame from the video along with 
 }
 ```
 
-When the image has been written to disk it should respond via the remote UDP port specified in the _connect_ command with:
+When Sharktopoda receives the command is should response with an ack:
+
+```json
+{
+  "command": "framecapture",
+  "status" : "ack"
+}
+```
+
+After the image has been written to disk, Sharktopoda should inform the remote app that the image has succesfully been written to disk via the remote UDP port specified in the _connect_ command.
 
 ```json
 {
@@ -298,17 +392,12 @@ When the image has been written to disk it should respond via the remote UDP por
 
 The _status_ field should be `"failed"` if Sharktopus is unable to capture and write the image to disk.
 
-## Nice to Haves
-
-These are optional features but are not required.
-
-### Frame advance
-
-Advance the video one frame for the given video The UDP/JSON command is
-
 ```json
 {
-  "command": "frame advance",
-  "uuid": "cb5cf7f1-e19c-40ba-b176-a7e479a3cdef"
+  "response": "framecapture",
+  "elapsed_time_millis": "12345",
+  "image_reference_uuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
+  "image_location": "/Some/path/to/save/image.png",
+  "status": "failed"
 }
 ```
