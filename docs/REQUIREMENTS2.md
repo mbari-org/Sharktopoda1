@@ -338,25 +338,27 @@ sequenceDiagram
     participant videos as Open Videos
     participant disk as Local Disk
 
-    Note over app,shark: Remote app must tell Sharktopoda which port is open via "connect" command
+    Note over app,shark: Remote app must tell Sharktopoda which remote port is open via "connect" command
     app->>shark: Define remote port
     shark->>shark: Open UDP client to send messages to Remote App
 
     app->>+shark: {"command": "framecapture", ... }
-    shark->>app: ack
-    shark->>shark: find video by UUID
+    par Framecapture
+      shark--)app: ack
+      shark--)videos: find video by UUID
 
-    alt UUID not found
-      shark->>app: status failed response
-    else UUID found
-      shark->>videos: Capture imaged and elapsed time in video
-      shark->>disk: write lossless PNG to disk at image_location
-      alt Unable to write PNG to image_location
-        shark->>app: status failed message via connect port
-      else write PNG was successful
-        shark->>-app: status success message via connect port
+      alt UUID not found
+        shark->>app: status failed response
+      else UUID found
+        shark->>videos: Capture image and elapsed time into video
+        shark->>disk: write lossless PNG to disk at image_location
+    and Response
+        alt Unable to write PNG to image_location
+          shark->>app: status failed message via remote port
+        else write PNG was successful
+          shark->>-app: status success message via remote port
+        end
       end
-    end
 ```
 
  ![Framecapture](images/Framecapture.png)
