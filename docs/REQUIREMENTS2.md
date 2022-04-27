@@ -344,7 +344,7 @@ sequenceDiagram
 
     app->>+shark: {"command": "framecapture", ... }
     shark->>app: ack
-    shark->>find video by UUID
+    shark->>shark: find video by UUID
 
     alt UUID not found
       shark->>app: status failed response
