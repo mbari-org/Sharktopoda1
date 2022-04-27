@@ -343,22 +343,21 @@ sequenceDiagram
     shark->>shark: Open UDP client to send messages to Remote App
 
     app->>+shark: {"command": "framecapture", ... }
-    par Framecapture
-      shark--)app: ack
-      shark--)videos: find video by UUID
+    shark->>app: ack
+    shark->>videos: find video by UUID
 
-      alt UUID not found
-        shark->>app: status failed response
-      else UUID found
-        shark->>videos: Capture image and elapsed time into video
-        shark->>disk: write lossless PNG to disk at image_location
-    and Response
-        alt Unable to write PNG to image_location
-          shark->>app: status failed message via remote port
-        else write PNG was successful
-          shark->>-app: status success message via remote port
-        end
+    alt UUID not found
+      shark->>app: status failed response
+    else UUID found
+    Note over shark,disk: On separate thread
+      shark->>videos: Capture image and elapsed time into video
+      shark->>disk: write lossless PNG to disk at image_location
+      alt Unable to write PNG to image_location
+        shark->>app: status failed message via remote port
+      else write PNG was successful
+        shark->>-app: status success message via remote port
       end
+    end
 ```
 
  ![Framecapture](images/Framecapture.png)
