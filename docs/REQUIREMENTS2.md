@@ -352,9 +352,9 @@ sequenceDiagram
       shark->>videos: Capture imaged, elapsed time
       shark->>+disk: write lossless PNG to disk at image_location
       alt Unable to write PNG to image_location
-        shark->>app: status failed message via "connect" port
+        shark->>app: status failed message via connect port
       else write PNG was successful
-        shark->>-app: status success message via "connect" port
+        shark->>-app: status success message via connect port
 
 ```
 
