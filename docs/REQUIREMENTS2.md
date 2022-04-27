@@ -523,7 +523,6 @@ or a failure if the video with uuid does not exist:
 }
 ```
 
-
 ### -- Clear all Localizations
 
 This will only be sent from the remote app to Sharktopoda (not vice versa). Sharktopoda should remove all cached information about the localizations for a given video.
@@ -533,5 +532,22 @@ This will only be sent from the remote app to Sharktopoda (not vice versa). Shar
   "command": "clear localizations",
   "uuid": "<the video's uuid>"
 }
+```
 
+Sharktopoda will respond with an ack:
+
+```json
+{
+  "response": "clear localizations",
+  "status": "ack"
+}
+```
+
+or a failure if the video with uuid does not exist:
+
+```json
+{
+  "response": "clear localizations",
+  "status": "failed"
+}
 ```
