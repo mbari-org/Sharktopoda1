@@ -355,6 +355,8 @@ sequenceDiagram
         shark->>app: status failed message via connect port
       else write PNG was successful
         shark->>-app: status success message via connect port
+      end
+    end
 ```
 
  ![Framecapture](images/Framecapture.png)
