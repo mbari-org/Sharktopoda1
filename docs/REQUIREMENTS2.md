@@ -17,11 +17,13 @@ The UI can be the stock AVKit windows. It should have the controls pictured belo
 
 ## Commands Accepted via the UDP port
 
-Sharktopoda will receive JSON messages and respond with JSON via the UDP port configured under Preferences. It should support the following commands and corresponding functions:
+Sharktopoda will receive JSON messages and respond with JSON via the UDP port configured under Preferences. __NOTE__: The messages below are formatted for clarity, they do not need to be in the application. It's recommended that the messages are minified. 
+
+The application should support the following commands and corresponding functions:
 
 ### Connect
 
- Establishes a remote host and port number that Sharktopus can send outgoing UDP messages to another application. There are 2 forms of this message.
+ Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. There are 2 forms of this message.
 
  ![Port Configuration](images/Port%20Configuration.png)
 
@@ -44,6 +46,18 @@ The second form explicitly specifies the host:
 }
 ```
 
+It should respond with an ok 
+
+```json
+{
+  "response": "connect",
+  "status": "ok"
+}
+```
+
+TODO: how to handle failures?
+
+
 ### -- Open
 
 Opens the specified video in a new window. The application should associate the URL and UUID with the window. (More on that later).
@@ -55,8 +69,8 @@ If a window with the UUID already exits, the window should be focused and brough
 ```json
 {
   "command": "open",
-  "url": "http://someurl/and/moviefile.mov",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
+  "url": "http://someurl/and/moviefile.mov"
 }
 ```
 
@@ -65,8 +79,8 @@ If a window with the UUID already exits, the window should be focused and brough
 ```json
 {
   "command": "open",
-  "url": "file://somefileurl/and/moviefile.mp4",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
+  "url": "file:/somefileurl/and/moviefile.mp4"
 }
 ```
 
@@ -77,6 +91,7 @@ Either open command should respond with a success or failure message:
 ```json
 {
   "response": "open",
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "ok"
 }
 ```
@@ -86,6 +101,7 @@ Either open command should respond with a success or failure message:
 ```json
 {
   "response": "open",
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "failed"
 }
 ```
@@ -101,12 +117,13 @@ It should close the window with the corresponding UUID:
 }
 ```
 
-Close should respond with an ack:
+Close should respond with an ack even if no window with a matching UUID is found
 
 ```json
 {
   "response": "close",
-  "status": "ack"
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
+  "status": "ok"
 }
 ```
 
@@ -126,7 +143,16 @@ Show should respond with an ack:
 ```json
 {
   "response": "show",
-  "status": "ack"
+  "status": "ok"
+}
+```
+
+IF the window with UUID does not exist it should respond with
+
+```json
+{
+  "response": "show",
+  "status": "failed"
 }
 ```
 
@@ -142,11 +168,11 @@ It should return the UUID and URL of the currently focused (or top most window i
 
 ```json
 {
-  "response": "request video information",
+  "response": "request information",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "url": "http://someurl/and/moviefile.mov",
-  "duration_millis": 150000,
-  "frame_rate": "29.97"
+  "durationMillis": 150000,
+  "frameRate": "29.97"
 }
 ```
 
@@ -263,7 +289,17 @@ It should respond with:
 {
   "response": "request elapsed time",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
-  "elapsed_time_millis": "12345"
+  "elapsedTimeMillis": "12345"
+}
+```
+
+or the following in the UUID does not exist:
+
+```json
+{
+  "response": "request elapsed time",
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
+  "status": "failed"
 }
 ```
 
@@ -277,13 +313,19 @@ Return the current playback status of the video (by UUID). Possible responses in
 - _paused_ is obvious. (Not playing)
 
 ```json
-{"command": "request status", "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"}
+{
+  "command": "request status", 
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"
+}
 ```
 
 An example response is:
 
 ```json
-{"response": "request status", "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170", "status": "playing"}
+{
+  "response": "request status", 
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170", 
+  "status": "playing"}
 ```
 
 ### -- Seek Elapsed Time
@@ -294,16 +336,16 @@ Seek to the provided elapsed time (which will be in milliseconds)
 {
   "command": "seek elapsed time",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
-  "elapsed_time_millis": "12345"
+  "elapsedTimeMillis": "12345"
 }
 ```
 
-Seek should respond with an ack:
+Seek should respond with an ok:
 
 ```json
 {
   "response": "seek elapsed time",
-  "status": "ack"
+  "status": "ok"
 }
 ```
 
@@ -323,7 +365,7 @@ Frame advance should respond with an ack:
 ```json
 {
   "response": "frame advance",
-  "status": "ack"
+  "status": "ok"
 }
 ```
 
@@ -364,10 +406,10 @@ sequenceDiagram
 
 ```json
 {
-  "command": "framecapture",
+  "command": "frame capture",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
-  "image_location": "/Some/path/to/save/image.png",
-  "image_reference_uuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef"
+  "imageLocation": "/Some/path/to/save/image.png",
+  "imageReferenceUuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef"
 }
 ```
 
@@ -375,8 +417,8 @@ When Sharktopoda receives the command is should response with an ack:
 
 ```json
 {
-  "command": "framecapture",
-  "status" : "ack"
+  "response": "frame capture",
+  "status" : "ok"
 }
 ```
 
@@ -384,10 +426,10 @@ After the image has been written to disk, Sharktopoda should inform the remote a
 
 ```json
 {
-  "response": "framecapture",
-  "elapsed_time_millis": "12345",
-  "image_reference_uuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
-  "image_location": "/Some/path/to/save/image.png",
+  "response": "frame capture",
+  "elapsedTimeMillis": "12345",
+  "imageReferenceUuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
+  "imageLocation": "/Some/path/to/save/image.png",
   "status": "ok"
 }
 ```
@@ -396,10 +438,10 @@ The _status_ field should be `"failed"` if Sharktopus is unable to capture and w
 
 ```json
 {
-  "response": "framecapture",
-  "elapsed_time_millis": "12345",
-  "image_reference_uuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
-  "image_location": "/Some/path/to/save/image.png",
+  "response": "frame capture",
+  "elapsedTimeMillis": "12345",
+  "imageReferenceUuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
+  "imageLocation": "/Some/path/to/save/image.png",
   "status": "failed"
 }
 ```
@@ -438,7 +480,7 @@ The receiving app should respond with an ack:
 ```json
 {
   "response": "add localizations",
-  "status": "ack"
+  "status": "ok"
 }
 ```
 
@@ -471,7 +513,7 @@ The receiving app will respond with an ack:
 ```json
 {
   "response": "remove localizations",
-  "status": "ack"
+  "status": "ok"
 }
 ```
 
@@ -510,7 +552,7 @@ The receiving app will respond with an ack:
 ```json
 {
   "response": "update localizations",
-  "status": "ack"
+  "status": "ok"
 }
 ```
 
@@ -539,7 +581,7 @@ Sharktopoda will respond with an ack:
 ```json
 {
   "response": "clear localizations",
-  "status": "ack"
+  "status": "ok"
 }
 ```
 
