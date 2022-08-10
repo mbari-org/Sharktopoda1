@@ -12,12 +12,12 @@ The UI can be the stock AVKit windows. It should have the controls pictured belo
 
 ## Configuring the UDP Port
 
-- Under _Preferences_, a user should be able to specify the UDP port that can be used to connect to the app.
+- Under _Preferences_, a user should be able to specify the UDP port that can be used by a remote application to connect to, and control, Sharktopoda.
 - This UDP port should be saved as a preference so it is preserved and restored if an application is shut down and restarted.
 
 ## Commands Accepted via the UDP port
 
-Sharktopoda will receive JSON messages and respond with JSON via the UDP port configured under Preferences. __NOTE__: The messages below are formatted for clarity, they do not need to be in the application. It's recommended that the messages are minified. 
+Sharktopoda will receive JSON messages and respond with JSON via the UDP port configured under Preferences. __NOTE__: The messages below are pretty formatted for clarity, they do not need to be in the application. It's recommended that the messages are minified. The order of the JSON fields is not important. The maximum message size is 4096 bytes and should be encoded as UTF-8.
 
 The application should support the following commands and corresponding functions:
 
@@ -46,7 +46,7 @@ The second form explicitly specifies the host:
 }
 ```
 
-It should respond with an ok 
+It should respond with an ok:
 
 ```json
 {
@@ -57,12 +57,11 @@ It should respond with an ok
 
 TODO: how to handle failures?
 
-
 ### -- Open
 
 Opens the specified video in a new window. The application should associate the URL and UUID with the window. (More on that later).
 
-If a window with the UUID already exits, the window should be focused and brought to the front of all open Sharktopoda windows (i.e. the same behavior as the "show" command below) and a success response returned.
+If a window with the UUID already exits, treat the open command as "show" command below, and a success response returned.
 
 #### Open URL
 
@@ -91,7 +90,6 @@ Either open command should respond with a success or failure message:
 ```json
 {
   "response": "open",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "ok"
 }
 ```
@@ -101,7 +99,6 @@ Either open command should respond with a success or failure message:
 ```json
 {
   "response": "open",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "failed"
 }
 ```
@@ -122,14 +119,13 @@ Close should respond with an ack even if no window with a matching UUID is found
 ```json
 {
   "response": "close",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "ok"
 }
 ```
 
 ### -- Show
 
-Focuses the window containing the video with the given UUID and brings it to the front of all open Sharktopoda windows.
+Focuses the window containing the video with the given UUID and brings it to the front of all open Sharktopoda windows. Some UI toolkits don't grab focus if the app is not already focused. In that case, simply bring the window to the front of the other open Sharktopoda windows.
 
 ```json
 {
@@ -161,7 +157,7 @@ IF the window with UUID does not exist it should respond with
 // TODO should this use a UUID instead of the focused window or maybe that should be a separate command
 
 ```json
-{"command": "request video information"}
+{"command": "request information"}
 ```
 
 It should return the UUID and URL of the currently focused (or top most window in z order) as well as the length of the video in milliseconds (named as `duration_millis`) and the frame_rate of the mov
@@ -191,10 +187,12 @@ It should return info for all open videos like the following:
     {
       "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
       "url": "http://someurl/and/moviefile.mov"
+      "durationMillis": 150000,
     },
     {
       "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
       "url": "file://sometoherurl/and/moviefile.mp4"
+      "durationMillis": 250300,
     }
   ]
 }
@@ -202,7 +200,7 @@ It should return info for all open videos like the following:
 
 ### -- Play
 
-Play the video associated with the UUID. The play rate will be 1.0
+Play the video associated with the UUID. The play rate will be 1.0 which is normal playback speed.
 
 ```json
 {
@@ -226,7 +224,6 @@ It should respond with:
 ```json
 {
   "response": "play",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status":"ok"
 }
 ```
@@ -236,7 +233,6 @@ or
 ```json
 {
   "response": "play",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "failed"
 }
 ```
@@ -257,7 +253,6 @@ It should respond with:
 ```json
 {
   "response": "pause",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status":"ok"
 }
 ```
@@ -267,7 +262,6 @@ or, in the case of failure, such as the requested video UUID does not exist:
 ```json
 {
   "response": "pause",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "failed"
 }
 ```
@@ -288,8 +282,8 @@ It should respond with:
 ```json
 {
   "response": "request elapsed time",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
-  "elapsedTimeMillis": "12345"
+  "elapsedTimeMillis": "12345",
+  "status": "ok"
 }
 ```
 
@@ -298,7 +292,6 @@ or the following in the UUID does not exist:
 ```json
 {
   "response": "request elapsed time",
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "status": "failed"
 }
 ```
@@ -324,7 +317,6 @@ An example response is:
 ```json
 {
   "response": "request status", 
-  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170", 
   "status": "playing"}
 ```
 
@@ -349,6 +341,15 @@ Seek should respond with an ok:
 }
 ```
 
+or the following in the UUID does not exist or the elapsedTimeMillis is before/after the videos start/end:
+
+```json
+{
+  "response": "seek elapsed time",
+  "status": "failed"
+}
+```
+
 ### -- Frame advance
 
 Advance the video one frame for the given video The UDP/JSON command is
@@ -366,6 +367,15 @@ Frame advance should respond with an ack:
 {
   "response": "frame advance",
   "status": "ok"
+}
+```
+
+or the following in the UUID does not exist:
+
+```json
+{
+  "response": "frame advance",
+  "status": "failed"
 }
 ```
 
@@ -422,15 +432,16 @@ When Sharktopoda receives the command is should response with an ack:
 }
 ```
 
-After the image has been written to disk, Sharktopoda should inform the remote app that the image has succesfully been written to disk via the remote UDP port specified in the _connect_ command.
+After the image has been written to disk, Sharktopoda should inform the remote app that the image has successfully been written to disk via the remote UDP port specified in the _connect_ command.
 
 ```json
 {
-  "response": "frame capture",
+  "command": "frame capture done",
   "elapsedTimeMillis": "12345",
   "imageReferenceUuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
   "imageLocation": "/Some/path/to/save/image.png",
-  "status": "ok"
+  "status": "ok",
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"
 }
 ```
 
@@ -438,11 +449,20 @@ The _status_ field should be `"failed"` if Sharktopus is unable to capture and w
 
 ```json
 {
-  "response": "frame capture",
-  "elapsedTimeMillis": "12345",
+  "command": "frame capture done",
   "imageReferenceUuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
   "imageLocation": "/Some/path/to/save/image.png",
-  "status": "failed"
+  "status": "failed",
+  "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170"
+}
+```
+
+Finally, the remote app will respond with an ok:
+
+```json
+{
+  "response": "frame capture done",
+  "status": "ok"
 }
 ```
 
@@ -451,6 +471,10 @@ The _status_ field should be `"failed"` if Sharktopus is unable to capture and w
 A localization defines a rectangular region of interest on the video. Users should be able to draw these regions directly on a video window in sharktopoda. Sharktopoda will, in turn, notify the remote app that a new localization has been created. Sharktopoda needs to be able to handle 10,000s of localizations in a video and have them drawn on the correct frames as the video is played, rewinded, etc.
 
 Localizations can be added, deleted, or modified from either a remote app or from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
+
+Incoming messages will be no larger than 4096 bytes. In practice, the remote application will not send more than 10 localization to Sharktopoda in a single Add or Update message.
+
+```mermaid
 
 ### -- Add Localization(s)
 
@@ -465,11 +489,11 @@ The initiating app (both sharktopoda and the remote app can create localizations
       "uuid": "<uuid unique to this localization>",
       "concept": "Bathybembix bairdii",
       "elapsedTimeMillis": 49211,
-      "durationMillis": 25, // optional
       "x": 1076,
       "y": 13,
       "width": 623,
-      "height": 475
+      "height": 475,
+      "color": "#FFDDDD" // optional field. if unspecified, the default is #FFFFFF
     }
   ]
 }
@@ -527,6 +551,8 @@ or a failure if the video with uuid does not exist:
 ```
 
 ### -- Localizations(s) modified
+
+Update existing localizations in Sharktopoda. If a matching localization's UUID does not exist, ignore that localization. (i.e. do not add, do not update)
 
 ```json
 {
