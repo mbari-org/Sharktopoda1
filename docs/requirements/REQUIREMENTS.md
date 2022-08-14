@@ -1,14 +1,22 @@
 # Sharktopoda 2 Requirements
 
-Sharktopoda will be a Max OS X video playback application based on AVFoundation/AVKit. It supports a UDP connection allowing other local applications to connect to it. This connection allows other applications to control and query Sharktopoda.
+_Sharktopoda 2_ will be a video player that supports MBARI's video annotation and machine learning efforts. It is a native desktop application that will support remote control from other applications via UDP. In addition, it will display rectangular regions of interest (ROIs, aka _localizations_, aka _bounding boxes_) and allow the user to interact (e.g. create, edit, delete) with them. A brief example is illustrated at <https://youtu.be/FKeuG8-UYC0>/
+
+## Overview
+
+_Sharktopoda 2_ will be a Max OS X video playback application based on AVFoundation/AVKit. It supports a UDP connection allowing other local applications to connect to it. This connection allows:
+
+1. Other applications to remotely control and query Sharktopoda.
+2. Other applications to send localizations, which are named rectangular regions of interest, to Sharktopoda as well as commands that mutate (update, delete) localizations in Sharktopoda.
+3. Sharktopoda to send commands that create, update, and delete localizations in the remote app.
 
 Sharktopoda will display videos (either local files or remote URL's) in windows just like Apples' QuickTime app does. Each window will have a unique UUID associated to the window (more about that below). Sharktopoda can route control/query commands to the appropriate video window with this UUID.
 
+Sharktopoda will support the creating, editing, deletion, and display of bounding boxes over top of the video. The video player will display prexisting bounding boxes over the video at the correct frame.
+
 ## UI
 
-The UI can be the stock AVKit windows. It should have the controls pictured below. The window should be able to be resized. The ability to make a video window full-screen is nice-to-have, but not required.
-
-![Sharktopus UI](images/Sharktopus.png)
+The UI can be the stock AVKit windows. Do not use floating controls in the video player as this will interfere with the ability to draw bounding bxoes on top of the video. If using AVKit, use inline controls (i.e. `AVPlayerViewControlsStyle.inline`) The window should be able to be resized. The ability to make a video window full-screen is nice-to-have, but not required.
 
 ## Configuring the UDP Port
 
