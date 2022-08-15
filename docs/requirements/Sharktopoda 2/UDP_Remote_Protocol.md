@@ -6,27 +6,27 @@
 
 `Sharktopoda 2` will support a remote protocol that will allow other applications to send commands to it via UDP. The protocol will support the following incoming video control commands:
 
-- [Connect](#connect)
-- [Open](#open)
-- [Close](#close)
-- [Show](#show)
-- [Request information](#request-video-information-for-the-focused-or-top-most-in-z--order-window)
-- [Request all information](#request-information-for-all-open-videos)
-- [Play](#play)
-- [Pause](#pause)
-- [Request elapsed time](#request-elapsed-time)
-- [Request status](#request-status)
-- [Seek elapsed time](#seek-elapsed-time)
-- [Frame advance](#frame-advance)
-- [Frame capture](#frame-capture)
-- [Ping](#ping)
+- [Connect](#---connect)
+- [Open](#---open)
+- [Close](#---close)
+- [Show](#---show)
+- [Request information](#---request-video-information-for-the-focused-or-top-most-in-z--order-window)
+- [Request all information](#---request-information-for-all-open-videos)
+- [Play](#---play)
+- [Pause](#---pause)
+- [Request elapsed time](#---request-elapsed-time)
+- [Request status](#---request-status)
+- [Seek elapsed time](#---seek-elapsed-time)
+- [Frame advance](#---frame-advance)
+- [Frame capture](#---frame-capture)
+- [Ping](#---ping)
 
 In addition to the control commands, the remote protocol will also support commands for managing information about localizations, aka rectangular regions of interest, displayed over video during playback.
 
-- [Add localizations](#add-localizations)
-- [Remove localizations](#localizatons-deleted)
-- [Update localizations](#localizationss-modified)
-- [Clear localizations](#clear-all-localizations)
+- [Add localizations](#---add-localizations)
+- [Remove localizations](#---localizatons-deleted)
+- [Update localizations](#---localizationss-modified)
+- [Clear localizations](#---clear-all-localizations)
 
 All commands follow a command-response pattern:
 
@@ -44,12 +44,12 @@ sequenceDiagram
 
 Sharktopoda can also send certain commands to the Remote App. It sends these commands via UDP to a host/port that is defined when Sharktopoda receives a `connect` command. The amount of time to wait for a response (i.e. timeout) will be set in the preferences UI. These commands are:
 
-- [Frame capture done](#frame-capture)
-- [Add localizations](#add-localizations)
-- [Remove localizations](#localizatons-deleted)
-- [Update localizations](#localizationss-modified)
-- [Clear localizations](#clear-all-localizations)
-- [Ping](#ping)
+- [Frame capture done](#---frame-capture)
+- [Add localizations](#---add-localizations)
+- [Remove localizations](#---localizatons-deleted)
+- [Update localizations](#---localizationss-modified)
+- [Clear localizations](#---clear-all-localizations)
+- [Ping](#---ping)
 
 ```mermaid
 sequenceDiagram
@@ -67,9 +67,9 @@ Sharktopoda will receive JSON messages and respond with JSON via the UDP port co
 
 The application should support the following commands and corresponding functions:
 
-### Connect
+### -- Connect
 
- Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. When a connect is recieved, Sharktopoda should send a [ping](#ping) command to verify that the port is reachable.
+ Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. When a connect is recieved, Sharktopoda should send a [ping](#---ping) command to verify that the port is reachable.
 
  ```mermaid
 sequenceDiagram 
