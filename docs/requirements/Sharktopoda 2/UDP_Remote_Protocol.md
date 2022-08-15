@@ -27,7 +27,6 @@ In addition to the control commands, the remote protocol will also support comma
 - [Remove localizations](#localizatons-deleted)
 - [Update localizations](#localizationss-modified)
 - [Clear localizations](#clear-all-localizations)
-- [Ping](#ping)
 
 All commands follow a command-response pattern:
 
@@ -50,6 +49,7 @@ Sharktopoda can also send certain commands to the Remote App. It sends these com
 - [Remove localizations](#localizatons-deleted)
 - [Update localizations](#localizationss-modified)
 - [Clear localizations](#clear-all-localizations)
+- [Ping](#ping)
 
 ```mermaid
 sequenceDiagram
@@ -80,7 +80,7 @@ sequenceDiagram
     R->>+S: {"command": "connect", "port": <port number>}
     S-->>-R: {"response": "connect", "status": "ok"}
 
-    Note over R,S: ping sent to verify <port number> is open.
+    Note over R,S: ping sent to <port number> to verify it is open.
     S->>+R: {"command": "ping"}
     alt Ping timed out
       S->>S: Display error dialog
@@ -544,6 +544,23 @@ Finally, the remote app will respond with an ok:
 }
 ```
 
+### --- Ping
+
+This command simple checks that the port can be reached and the application responds. It should timeout if no response is received within the timeout specified in the Preferences dialog. Ping is both and incoming and outgoing command (i.e. Sharktopoda should be able to send and receive ping commands)
+
+```json
+{
+  "command": "ping"
+}
+```
+
+```json
+{
+  "response": "ping",
+  "status": "ok"
+}
+```
+
 ## Localizations
 
 A localization defines a rectangular region of interest on the video. Users should be able to draw these regions directly on a video window in sharktopoda. Sharktopoda will, in turn, notify the remote app that a new localization has been created. Sharktopoda needs to be able to handle 10,000s of localizations in a video and have them drawn on the correct frames as the video is playing, shuttling, etc.
@@ -696,19 +713,3 @@ or a failure if the video with uuid does not exist:
 }
 ```
 
-### --- Ping
-
-This command simple checks that the port can be reached and the application responds. It should timeout if no response is received within the timeout specified in the Preferences dialog.
-
-```json
-{
-  "command": "ping"
-}
-```
-
-```json
-{
-  "response": "ping",
-  "status": "ok"
-}
-```
