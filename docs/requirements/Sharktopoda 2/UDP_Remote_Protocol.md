@@ -18,10 +18,10 @@
 - [Request status](#request-status)
 - [Seek elapsed time](#seek-elapsed-time)
 - [Frame advance](#frame-advance)
-- [Frame capture](#framecapture)
+- [Frame capture](#frame-capture)
 - [Ping](#ping)
 
-In addition to the control commands, it remote protocol will also support commands for managing information about localizations, which are rectangular regions of interest displayed over video during playback.
+In addition to the control commands, the remote protocol will also support commands for managing information about localizations, aka rectangular regions of interest, displayed over video during playback.
 
 - [Add localizations](#add-localizations)
 - [Remove localizations](#localizatons-deleted)
@@ -45,7 +45,7 @@ sequenceDiagram
 
 Sharktopoda can also send certain commands to the Remote App. It sends these commands via UDP to a host/port that is defined when Sharktopoda receives a `connect` command. The amount of time to wait for a response (i.e. timeout) will be set in the preferences UI. These commands are:
 
-- [Frame capture done](#framecapture)
+- [Frame capture done](#frame-capture)
 - [Add localizations](#add-localizations)
 - [Remove localizations](#localizatons-deleted)
 - [Update localizations](#localizationss-modified)
@@ -82,9 +82,9 @@ sequenceDiagram
 
     Note over R,S: ping sent to verify <port number> is open.
     S->>+R: {"command": "ping"}
-    alt Ping failed
+    alt Ping timed out
       S->>S: Display error dialog
-    else Ping succedded
+    else Ping succeeded
       R-->>-S: {"response": "ping"}
       S->>S: Set port/host in memory for later use
       Note over R,S: Use port/host for outgoing commands, e.g.:
@@ -121,7 +121,7 @@ It should respond with an ok:
 }
 ```
 
-Note, the response is always "ok". 
+Note, the response is always "ok".
 
 ### -- Open
 
@@ -191,7 +191,7 @@ Close should respond with an ack even if no window with a matching UUID is found
 
 ### -- Show
 
-Focuses the window containing the video with the given UUID and brings it to the front of all open Sharktopoda windows. Some UI toolkits don't grab focus if the app is not already focused. In that case, simply bring the window to the front of the other open Sharktopoda windows.
+Focuses the window containing the video with the given UUID and brings it to the front of all open Sharktopoda windows. Some UI toolkits do not grab focus if the app is not already focused. In that case, simply bring the window to the front of the other open Sharktopoda windows.
 
 ```json
 {
@@ -224,7 +224,7 @@ If the window with UUID does not exist it should respond with
 {"command": "request information"}
 ```
 
-It should return the UUID and URL of the currently focused (or top most window in z order) as well as the length of the video in milliseconds (named as `duration_millis`) and the frame_rate of the mov.
+It should return the UUID and URL of the currently focused (or top most window in z order) as well as the length of the video in milliseconds (named as `durationMillis`) and the frame_rate of the mov.
 
 ```json
 {
@@ -445,7 +445,7 @@ or the following in the UUID does not exist:
 }
 ```
 
-### -- Framecapture
+### -- Frame capture
 
 Sharktopoda should immediately grab the current frame from the video along with the elapsed time of that frame. The image should be saved (in a separate non-blocking thread. I think this is the default in AVFoundation). This action should not interfere with video playback or block incoming UDP commands.
 
@@ -462,7 +462,7 @@ sequenceDiagram
 
     S->>S: Ready to send messages to Remote App via port 8899
 
-    Note over R,S: Framecapture sequence
+    Note over R,S: Frame capture sequence
     R->>+S: {"command": "frame capture", ... }
     S->>V: find video by UUID
     alt video UUID does not exist
@@ -481,7 +481,7 @@ sequenceDiagram
     end
 ```
 
-The framecapture command specifies the path to save the image too as well as provides a UUID for the image. If an image already exists at that location do not overwrite the image and responsd with a "failed" status message.
+The frame capture command specifies the path to save the image too as well as provides a UUID for the image. If an image already exists at that location do not overwrite the image and responsd with a "failed" status message.
 
 ```json
 {
@@ -546,7 +546,7 @@ Finally, the remote app will respond with an ok:
 
 ## Localizations
 
-A localization defines a rectangular region of interest on the video. Users should be able to draw these regions directly on a video window in sharktopoda. Sharktopoda will, in turn, notify the remote app that a new localization has been created. Sharktopoda needs to be able to handle 10,000s of localizations in a video and have them drawn on the correct frames as the video is played, rewinded, etc.
+A localization defines a rectangular region of interest on the video. Users should be able to draw these regions directly on a video window in sharktopoda. Sharktopoda will, in turn, notify the remote app that a new localization has been created. Sharktopoda needs to be able to handle 10,000s of localizations in a video and have them drawn on the correct frames as the video is playing, shuttling, etc.
 
 Localizations can be added, deleted, or modified from either a remote app __or__ from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
 
@@ -602,8 +602,8 @@ The initiating app will send a notification of localizations to be deleted.
   "commmand": "remove localizations",
   "uuid": "<the video's uuid>",
   "localizations": [
-    "<uuid for localiation A>",
-    "<uuid for localiation B>"
+    "<uuid for localization A>",
+    "<uuid for localization B>"
   ]
 }
 ```
