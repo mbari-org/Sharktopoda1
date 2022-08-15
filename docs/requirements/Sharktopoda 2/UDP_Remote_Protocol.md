@@ -6,27 +6,27 @@
 
 `Sharktopoda 2` will support a remote protocol that will allow other applications to send commands to it via UDP. The protocol will support the following incoming video control commands:
 
-- Connect
-- Open
-- Close
-- Show
-- Request information
-- Request all information
-- Play
-- Pause
-- Request elapsed time
-- Request status
-- Seek elapsed time
-- Frame advance
-- Frame capture
-- Frame capture done (special command)
+- [Connect](#connect)
+- [Open](#open)
+- [Close](#close)
+- [Show](#show)
+- [Request information](#request-video-information-for-the-focused-or-top-most-in-z--order-window)
+- [Request all information](#request-information-for-all-open-videos)
+- [Play](#play)
+- [Pause](#pause)
+- [Request elapsed time](#request-elapsed-time)
+- [Request status](#request-status)
+- [Seek elapsed time](#seek-elapsed-time)
+- [Frame advance](#frame-advance)
+- [Frame capture](#framecapture)
+- [Frame capture done (special command)](#framecapture)
 
 In addition to the control commands, it remote protocol will also support commands for managing information about localizations, which are rectangular regions of interest displayed over video during playback.
 
-- Add localizations
-- Remove localizations
-- Update localizations
-- Clear localizations
+- [Add localizations](#add-localizations)
+- [Remove localizations](#localizatons-deleted)
+- [Update localizations](#localizationss-modified)
+- [Clear localizations](#clear-all-localizations)
 
 All commands follow a command-response pattern:
 
@@ -44,11 +44,11 @@ sequenceDiagram
 
 Sharktopoda can also send certain commands to the Remote App. It sends these comamnds via UDP to a host/port that is defined when Sharktopoda receives a `connect` command. These commands are:
 
-- Frame capture done
-- Add localizations
-- Remove localizations
-- Update localizations
-- Clear localizations
+- [Frame capture done](#framecapture)
+- [Add localizations](#add-localizations)
+- [Remove localizations](#localizatons-deleted)
+- [Update localizations](#localizationss-modified)
+- [Clear localizations](#clear-all-localizations)
 
 ```mermaid
 sequenceDiagram
@@ -528,9 +528,8 @@ A localization defines a rectangular region of interest on the video. Users shou
 
 Localizations can be added, deleted, or modified from either a remote app __or__ from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
 
-Incoming messages will be no larger than 4096 bytes. In practice, the remote application will not send more than 10 localizations to Sharktopoda in a single Add or Update message. 
+Incoming messages will be no larger than 4096 bytes. In practice, the remote application will not send more than 10 localizations to Sharktopoda in a single Add or Update message.
 
-```mermaid
 
 ### -- Add Localization(s)
 
