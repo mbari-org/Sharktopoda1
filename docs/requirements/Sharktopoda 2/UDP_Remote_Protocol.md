@@ -87,11 +87,10 @@ sequenceDiagram
     else Ping succedded
       R-->>-S: {"response": "ping"}
       S->>S: Set port/host in memory for later use
+      Note over R,S: Use port/host for outgoing commands, e.g.:
+      S->>+R: {"command": "add localizations", ...}
+      R-->>-S: {"response": "add localizations", ...}
     end
-    Note over R,S: Use port/host for outgoing commands, e.g.:
- 
-    S->>+R: {"command": "add localizations", ...}
-    R-->>-S: {"response": "add localizations", ...}
  ```
 
  There are 2 forms of this message. The first form omits the "host" field; Sharktopoda assumes that the host is "localhost".
@@ -482,7 +481,7 @@ sequenceDiagram
     end
 ```
 
-The framecapture command specifies the path to save the image too as well as provides a UUID for the image. If an image already exists at that location do not overwrite the image and response with a "failed" status message.
+The framecapture command specifies the path to save the image too as well as provides a UUID for the image. If an image already exists at that location do not overwrite the image and responsd with a "failed" status message.
 
 ```json
 {
@@ -552,7 +551,6 @@ A localization defines a rectangular region of interest on the video. Users shou
 Localizations can be added, deleted, or modified from either a remote app __or__ from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
 
 Incoming messages will be no larger than 4096 bytes. In practice, the remote application will not send more than 10 localizations to Sharktopoda in a single Add or Update message.
-
 
 ### -- Add Localization(s)
 
@@ -630,7 +628,7 @@ or a failure if the video with uuid does not exist:
 
 ### -- Localizations(s) modified
 
-Update existing localizations in Sharktopoda. If a matching localization's UUID does not exist, ignore that localization. (i.e. do not add, do not update)
+Update existing localizations in Sharktopoda. If a matching localization's UUID does not already exist in Sharktopoda, ignore that localization. (i.e. do not add, do not update)
 
 ```json
 {
@@ -680,7 +678,7 @@ This will only be sent from the remote app to Sharktopoda (not vice versa). Shar
 }
 ```
 
-Sharktopoda will respond with an ack:
+Sharktopoda will respond with an ok:
 
 ```json
 {
@@ -700,7 +698,7 @@ or a failure if the video with uuid does not exist:
 
 ### --- Ping
 
-This command simple checks that the port can be reached and the application responsds. It should timeout if no reponse is received.
+This command simple checks that the port can be reached and the application responds. It should timeout if no response is received within the timeout specified in the Preferences dialog.
 
 ```json
 {
