@@ -69,7 +69,7 @@ The application should support the following commands and corresponding function
 
 ### Connect
 
- Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. There are 2 forms of this message.
+ Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. When a connect is recieved, Sharktopoda should send a [ping](#ping) command to verify that the port is reachable.
 
  ```mermaid
 sequenceDiagram 
@@ -94,7 +94,7 @@ sequenceDiagram
     R-->>-S: {"response": "add localizations", ...}
  ```
 
- The first form omits the "host" field; Sharktopoda assumes that the host is "localhost".
+ There are 2 forms of this message. The first form omits the "host" field; Sharktopoda assumes that the host is "localhost".
 
 ```json
 {
@@ -210,7 +210,7 @@ Show should respond with an ack:
 }
 ```
 
-IF the window with UUID does not exist it should respond with
+If the window with UUID does not exist it should respond with
 
 ```json
 {
@@ -383,7 +383,8 @@ An example response is:
 ```json
 {
   "response": "request status", 
-  "status": "playing"}
+  "status": "playing"
+}
 ```
 
 ### -- Seek Elapsed Time
@@ -447,7 +448,7 @@ or the following in the UUID does not exist:
 
 ### -- Framecapture
 
-Sharktopoda should immediately grab the current frame from the video along with the elapsed time of that frame. The image should be saved (in a separate non-blocking thread. I think this is the default in AVFoundation). This action should not interfere with video playback.
+Sharktopoda should immediately grab the current frame from the video along with the elapsed time of that frame. The image should be saved (in a separate non-blocking thread. I think this is the default in AVFoundation). This action should not interfere with video playback or block incoming UDP commands.
 
 ```mermaid
 sequenceDiagram 
@@ -481,7 +482,7 @@ sequenceDiagram
     end
 ```
 
- ![Framecapture](images/Framecapture.png)
+The framecapture command specifies the path to save the image too as well as provides a UUID for the image. If an image already exists at that location do not overwrite the image and response with a "failed" status message.
 
 ```json
 {
@@ -501,7 +502,7 @@ When Sharktopoda receives the command is should response with an ok if the video
 }
 ```
 
-If the video UUID does not exist is responses with:
+If the video UUID does not exist or an image already exists at `imageLocation` respond with:
 
 ```json
 {
