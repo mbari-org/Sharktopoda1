@@ -19,7 +19,7 @@
 - [Seek elapsed time](#seek-elapsed-time)
 - [Frame advance](#frame-advance)
 - [Frame capture](#framecapture)
-- [Frame capture done (special command)](#framecapture)
+- [Ping](#ping)
 
 In addition to the control commands, it remote protocol will also support commands for managing information about localizations, which are rectangular regions of interest displayed over video during playback.
 
@@ -27,6 +27,7 @@ In addition to the control commands, it remote protocol will also support comman
 - [Remove localizations](#localizatons-deleted)
 - [Update localizations](#localizationss-modified)
 - [Clear localizations](#clear-all-localizations)
+- [Ping](#ping)
 
 All commands follow a command-response pattern:
 
@@ -42,7 +43,7 @@ sequenceDiagram
 
 ### Outgoing commands
 
-Sharktopoda can also send certain commands to the Remote App. It sends these comamnds via UDP to a host/port that is defined when Sharktopoda receives a `connect` command. These commands are:
+Sharktopoda can also send certain commands to the Remote App. It sends these commands via UDP to a host/port that is defined when Sharktopoda receives a `connect` command. The amount of time to wait for a response (i.e. timeout) will be set in the preferences UI. These commands are:
 
 - [Frame capture done](#framecapture)
 - [Add localizations](#add-localizations)
@@ -70,7 +71,28 @@ The application should support the following commands and corresponding function
 
  Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. There are 2 forms of this message.
 
- ![Port Configuration](images/Port%20Configuration.png)
+ ```mermaid
+sequenceDiagram 
+    participant R as Remote App
+    participant S as Sharktopoda
+
+    Note over R,S: connect sent to Sharktopoda's UDP port
+    R->>+S: {"command": "connect", "port": <port number>}
+    S-->>-R: {"response": "connect", "status": "ok"}
+
+    Note over R,S: ping sent to verify <port number> is open.
+    S->>+R: {"command": "ping"}
+    alt Ping failed
+      S->>S: Display error dialog
+    else Ping succedded
+      R-->>-S: {"response": "ping"}
+      S->>S: Set port/host in memory for later use
+    end
+    Note over R,S: Use port/host for outgoing commands, e.g.:
+ 
+    S->>+R: {"command": "add localizations", ...}
+    R-->>-S: {"response": "add localizations", ...}
+ ```
 
  The first form omits the "host" field; Sharktopoda assumes that the host is "localhost".
 
@@ -100,7 +122,7 @@ It should respond with an ok:
 }
 ```
 
-TODO: how to handle failures?
+Note, the response is always "ok". 
 
 ### -- Open
 
@@ -672,5 +694,22 @@ or a failure if the video with uuid does not exist:
 {
   "response": "clear localizations",
   "status": "failed"
+}
+```
+
+### --- Ping
+
+This command simple checks that the port can be reached and the application responsds. It should timeout if no reponse is received.
+
+```json
+{
+  "command": "ping"
+}
+```
+
+```json
+{
+  "response": "ping",
+  "status": "ok"
 }
 ```
