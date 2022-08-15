@@ -481,7 +481,7 @@ sequenceDiagram
     end
 ```
 
-The frame capture command specifies the path to save the image too as well as provides a UUID for the image. If an image already exists at that location do not overwrite the image and responsd with a "failed" status message.
+The frame capture command specifies the path to save the image too as well as provides a UUID for the image. If an image already exists at that location, do not overwrite the image and respond with a "failed" status message.
 
 ```json
 {
