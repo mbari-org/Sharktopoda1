@@ -131,6 +131,27 @@ Opens the specified video in a new window. The application should associate the 
 
 If a window with the UUID already exits, treat the open command as "show" command below, and a success response returned.
 
+```mermaid
+sequenceDiagram
+    participant R as Remote App
+    participant S as Sharktopoda
+    participant V as Open Videos
+
+    R->>+S: {"command": "open", ...}
+    S->V: Check if UUID already exists
+    alt UUID exists
+      S->>V: Bring window to front/focus
+      S-->>R: {"response": "open", "status": "ok"} 
+    else UUID is does not exist
+      S-)V: Open video and association UUID with window
+      alt Successfully opened video
+        S-->>R: {"response": "open", "status": "ok"} 
+      else Failed to open video
+        S-->>-R: {"response": "open", "status": "failed"} 
+      end
+    end
+```
+
 #### Open URL
 
 ```json
@@ -746,7 +767,7 @@ or a failure if the video with uuid does not exist:
 
 ### -- Select Localizations
 
-This indicates which localizations are _selected_. Selected localizations should be drawn in the selected color specified in the UI preferences.  If only a single localization is selected, that localization should become editable and be able to moved and resized. When a select command is received, all previously selected annotations should no longer be selected and should be drawn using their original or default color. Any localization UUIDs that do not exist in Sharktopoda should be ignored.
+This indicates which localizations are _selected_. Selected localizations should be drawn in the selected color specified in the UI preferences.  If only a single localization is selected, that localization should become editable and be able to be moved and resized. When a select command is received, all previously selected annotations should no longer be selected and should be drawn using their original or default color. Any localization UUIDs that do not exist in Sharktopoda should be ignored.
 
 ```json
 {
