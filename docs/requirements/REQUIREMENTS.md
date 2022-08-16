@@ -16,7 +16,7 @@ Sharktopoda will support the creating, editing, deletion, and display of boundin
 
 ## UI
 
-The UI can be the stock AVKit windows. Do not use floating controls in the video player as this will interfere with the ability to draw bounding bxoes on top of the video. If using AVKit, use inline controls (i.e. `AVPlayerViewControlsStyle.inline`) The window should be able to be resized. The ability to make a video window full-screen is nice-to-have, but not required.
+The UI can be based on the stock AVKit toolkit. Do not use floating controls in the video player as this will interfere with the ability to draw bounding bxoes on top of the video. If using AVKit, use inline controls (i.e. `AVPlayerViewControlsStyle.inline`) The window should be able to be resized. The ability to make a video window full-screen is nice-to-have, but not required.
 
 ## Configuring the UDP Port
 

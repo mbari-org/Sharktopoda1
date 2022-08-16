@@ -98,7 +98,7 @@ sequenceDiagram
 ```json
 {
   "command": "connect",
-  "port": "8095"
+  "port": 8095
 }
 ```
 
@@ -107,7 +107,7 @@ The second form explicitly specifies the host:
 ```json
 {
   "command": "connect",
-  "port": "8095",
+  "port": 8095,
   "host": "some.server.org"
 }
 ```
@@ -232,7 +232,7 @@ It should return the UUID and URL of the currently focused (or top most window i
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "url": "http://someurl/and/moviefile.mov",
   "durationMillis": 150000,
-  "frameRate": "29.97"
+  "frameRate": 29.97
 }
 ```
 
@@ -252,11 +252,13 @@ It should return info for all open videos like the following:
       "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
       "url": "http://someurl/and/moviefile.mov"
       "durationMillis": 150000,
+      "frameRate": 29.97
     },
     {
       "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
       "url": "file://sometoherurl/and/moviefile.mp4"
       "durationMillis": 250300,
+      "frameRate": 59.97
     }
   ]
 }
@@ -280,7 +282,7 @@ is twice normal speed. -0.5 is half speed in reverse.
 {
   "command": "play",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
-  "rate": "-2.4"
+  "rate": -2.4
 }
 ```
 
@@ -347,7 +349,7 @@ It should respond with:
 ```json
 {
   "response": "request elapsed time",
-  "elapsedTimeMillis": "12345",
+  "elapsedTimeMillis": 12345,
   "status": "ok"
 }
 ```
@@ -363,7 +365,7 @@ or the following in the UUID does not exist:
 
 ### -- Request Status
 
-Return the current playback status of the video (by UUID). Possible responses include: `shuttling forward`, `shuttling reverse`, `paused`, `playing`, `not found`.
+Return the current playback status of the video (by UUID) and the actual rate that the video is playing. Possible responses include: `shuttling forward`, `shuttling reverse`, `paused`, `playing`, `not found`.
 
 - _playing_ is when the video is playing at a rate of 1.0
 - _shuttling forward_ is when the video is playing with a positive rate that is not equal to 1.0
@@ -382,7 +384,17 @@ An example response is:
 ```json
 {
   "response": "request status", 
-  "status": "playing"
+  "status": "playing",
+  "rate": 1.0
+}
+```
+
+or a failed response if the UUID does not exist:
+
+```json
+{
+  "response": "request status", 
+  "status": "failed
 }
 ```
 
@@ -394,7 +406,7 @@ Seek to the provided elapsed time (which will be in milliseconds)
 {
   "command": "seek elapsed time",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
-  "elapsedTimeMillis": "12345"
+  "elapsedTimeMillis": 12345
 }
 ```
 
@@ -418,12 +430,13 @@ or the following in the UUID does not exist or the elapsedTimeMillis is before/a
 
 ### -- Frame advance
 
-Advance the video one frame for the given video. The UDP/JSON command is
+Advance or regress one frame for the given video. If the `direction` field is positive (i.e. 1) the the video should be advance one frame. If the `direction` is negative (-1), then the video should go back one frame. This is supported using [AVPlayerItem.step](https://developer.apple.com/documentation/avfoundation/avplayeritem/1387968-step) The UDP/JSON command is
 
 ```json
 {
   "command": "frame advance",
-  "uuid": "cb5cf7f1-e19c-40ba-b176-a7e479a3cdef"
+  "uuid": "cb5cf7f1-e19c-40ba-b176-a7e479a3cdef",
+  "direction": 1
 }
 ```
 
@@ -515,7 +528,7 @@ After the image has been written to disk, Sharktopoda should inform the remote a
 ```json
 {
   "command": "frame capture done",
-  "elapsedTimeMillis": "12345",
+  "elapsedTimeMillis": 12345,
   "imageReferenceUuid": "aa4cf7f1-e19c-40ba-b176-a7e479a3cdef",
   "imageLocation": "/Some/path/to/save/image.png",
   "status": "ok",
@@ -582,6 +595,7 @@ The initiating app (both sharktopoda and the remote app can create localizations
       "uuid": "<uuid unique to this localization>",
       "concept": "Bathybembix bairdii",
       "elapsedTimeMillis": 49211,
+      "durationMillis": 25, // optional, default is 0;
       "x": 1076,
       "y": 13,
       "width": 623,
@@ -656,11 +670,12 @@ Update existing localizations in Sharktopoda. If a matching localization's UUID 
       "uuid": "<uuid unique to this localization>",
       "concept": "Bathybembix bairdii",
       "elapsedTimeMillis": 49211,
-      "durationMillis": 25, // optional
+      "durationMillis": 25, // optional, default is 0;
       "x": 1076,
       "y": 13,
       "width": 623,
-      "height": 475
+      "height": 475,
+      "color": "#FFDDDD" // optional field. if unspecified, the default is #FFFFFF or the previous value if it was set
     }
   ]
 }
@@ -712,4 +727,3 @@ or a failure if the video with uuid does not exist:
   "status": "failed"
 }
 ```
-
