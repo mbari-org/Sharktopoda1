@@ -27,6 +27,7 @@ In addition to the control commands, the remote protocol will also support comma
 - [Remove localizations](#---localizatons-deleted)
 - [Update localizations](#---localizationss-modified)
 - [Clear localizations](#---clear-all-localizations)
+- [Select localizations](#---select-localizations)
 
 All commands follow a command-response pattern:
 
@@ -49,6 +50,7 @@ Sharktopoda can also send certain commands to the Remote App. It sends these com
 - [Remove localizations](#---localizatons-deleted)
 - [Update localizations](#---localizationss-modified)
 - [Clear localizations](#---clear-all-localizations)
+- [Select localizations](#---select-localizations)
 - [Ping](#---ping)
 
 ```mermaid
@@ -69,7 +71,7 @@ The application should support the following commands and corresponding function
 
 ### -- Connect
 
- Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. When a connect is recieved, Sharktopoda should send a [ping](#---ping) command to verify that the port is reachable.
+ Establishes a remote host and port number that Sharktopoda (the video player) can send outgoing UDP messages to another application. When a `connect` command is received, Sharktopoda should send a [ping](#---ping) command to verify that the port is reachable.
 
  ```mermaid
 sequenceDiagram 
@@ -394,7 +396,7 @@ or a failed response if the UUID does not exist:
 ```json
 {
   "response": "request status", 
-  "status": "failed
+  "status": "failed"
 }
 ```
 
@@ -576,7 +578,21 @@ This command simple checks that the port can be reached and the application resp
 
 ## Localizations
 
-A localization defines a rectangular region of interest on the video. Users should be able to draw these regions directly on a video window in sharktopoda. Sharktopoda will, in turn, notify the remote app that a new localization has been created. Sharktopoda needs to be able to handle 10,000s of localizations in a video and have them drawn on the correct frames as the video is playing, shuttling, etc.
+A localization defines a rectangular region of interest on the video. Users should be able to draw these regions directly on a video window in sharktopoda. Sharktopoda will, in turn, notify the remote app that a new localization has been created. Sharktopoda needs to be able to handle 10,000s of localizations in a video and have them drawn on the correct frames as the video is playing, shuttling, etc. A Localization is also called an `Annotation` and has the following properties:
+
+- `uuid` - The unique identifier for an annotation. UUID v4 (random) is recommended.
+- `concept` - The label associated with a localization that identifies the object in the region of interest. In theory, the concept can be up to 256 characters long, but in practice it is much shorter.
+- `elapsedTimeMillis` - The elapsed time from the start of the video that the localization is to be displayed.
+- `durationMillis` - This field may be present but can be ignored for now. It represents how long the localization is valid. It will span from `elapsedTimeMillis` to `elapsedTimeMillis` + `durationMillis`. The default is 0 which means the localization is valid for a single frame.
+- `x` - The x coordinate of the localization in pixels.
+- `y` - The y coordinate of the localization in pixels.
+- `width` - The width of the localization in pixels.
+- `height` - The height of the localization in pixels.
+- `color` - The color used to draw the localization.
+
+`x`, `y`, `width`, and `height` are in the same coordinates as the unscaled video. Localizations use this image coordinate system where origin is the upper-left, +X is right, +Y is down:
+
+![Image Coordinate System](assets/ImageCoordinateSystem.png)
 
 Localizations can be added, deleted, or modified from either a remote app __or__ from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
 
@@ -724,6 +740,37 @@ or a failure if the video with uuid does not exist:
 ```json
 {
   "response": "clear localizations",
+  "status": "failed"
+}
+```
+
+### -- Select Localizations
+
+This indicates which localizations are _selected_. Selected localizations should be drawn in the selected color specified in the UI preferences.  If only a single localization is selected, that localization should become editable and be able to moved and resized. When a select command is received, all previously selected annotations should no longer be selected and should be drawn using their original or default color. Any localization UUIDs that do not exist in Sharktopoda should be ignored.
+
+```json
+{
+  "command": "select localizations"
+  "uuid": "<the video's uuid>",
+  "localizations": [
+    "<uuid for localization A>",
+    "<uuid for localization B>"
+  ]
+}
+```
+
+```json
+{
+  "response": "select localizations",
+  "status": "ok"
+}
+```
+
+or a failure if the video with uuid does not exist:
+
+```json
+{
+  "response": "select localizations",
   "status": "failed"
 }
 ```
