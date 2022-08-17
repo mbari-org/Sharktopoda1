@@ -36,6 +36,6 @@ When a new annotation is created this section determines properties of the bound
 
 #### Annotation Display
 
-This section specifies the properties for an annotation _after_ it has been drawn on the video. By default an annotation is drawn using a the _Default color_ but each annotation may have it's own unique color assigned.
+This section specifies the properties for an annotation _after_ it has been drawn on the video. By default an annotation is drawn using a the _Default color_ but each annotation may have it's own unique color assigned. Alternatively, all annotations can have a color assigned, when an annotation is created it get's assigned the default color.
 
 ![Network Preferences](assets/Prefs_Network.png)
