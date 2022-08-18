@@ -1,6 +1,6 @@
 # Sharktopoda 2
 
-_Sharktopoda 2_ will be a video player that supports MBARI's video annotation and machine learning efforts. It is a native desktop application that will support remote control from other applications via UDP. In addition, it will display rectangular regions of interest (ROIs, aka _localizations_, aka _bounding boxes_) and allow the user to interact (e.g. create, edit, delete) with them. A prototype example is illustrated at <https://youtu.be/FKeuG8-UYC0>.
+_Sharktopoda 2_ will be a video player that supports MBARI's video annotation and machine learning efforts. It is a native desktop application that will support remote control from other applications via UDP. In addition, it will display rectangular regions of interest (ROIs, aka _localizations_, aka _bounding boxes_, aka _annotations_) and allow the user to interact (e.g. create, edit, delete) with them. A prototype example is illustrated at <https://youtu.be/FKeuG8-UYC0>.
 
 ## Localizations
 
@@ -23,6 +23,8 @@ The video player will display prexisting bounding boxes over the video at the co
 Each localization will be correctly scaled and translated from it's pixel coordinates to match the video as it is scaled. (e.g. when a window is resized)
 
 Localization information can be created/update/deleted/selected via an external application via a [UDP-based remote protocol](UDP_Remote_Protocol.md). Localizations can also be created/updated/deleted/selected from Sharktopoda and then inform the remote applications that an event occurred via the same UDP protocol.
+
+## Specifications
 
 - [UDP Remote Protocol](UDP_Remote_Protocol.md)
 - [UI](UI.md)
