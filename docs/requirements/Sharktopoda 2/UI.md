@@ -61,9 +61,19 @@ The video window can be a standard AVKit window. Floating playback controls shou
 
 When a user clicks on the video (not the video controls) it begins a localization action. All localization actions initiate by the video player should immediately pause video playback. Localization actions [initiated by the remote app](UDP_Remote_Protocol.md#incoming-commands) should NOT pause video playback.
 
+### Selecting a localization 
+
+If the user clicks on the border of an existing localization, that single localization should be [selected](UDP_Remote_Protocol.md#select-localizations) and become editable, allowing a user to resize or move the localization.
+
+Additional localizations can be selected by holding down the command key and clicking on the localizations. If more than one localization is selected, they are not editable.
+
+Multiple localizations can be selected by holding down the command key followed by a single-click + drag. This action will draw a selection rectangle. Any localization that intersects with the selection rectangle when the mouse button is released is selected. 
+
+Whenever a selection action completes a [select](UDP_Remote_Protocol.md#select-localizations) command is sent to the remote applications.
+
 ### Editing a localization
 
-If the user clicks on the border of an existing localization, that single localization should be [selected](UDP_Remote_Protocol.md#select-localizations) and become editable, allowing a user to resize or move the localization. The following events set the new coordianates of the localization and send an [update](UDP_Remote_Protocol.md#localizationss-modified) of the localization to the remote app:
+ The following events set the new coordianates of the localization and send an [update](UDP_Remote_Protocol.md#localizationss-modified) of the localization to the remote app:
 
 - The user hits enter or other definable key if enter can't be used. If we can't use enter, allows the key to be set in preferences.
 - The video leaves the paused state.
@@ -75,3 +85,7 @@ If the user clicks on the border of an existing localization, that single locali
 If the user single-clicks and drags on the video surface, begin drawing a rectangle. When the drag is released, [create a new localization using the caption defined in preferences and send it to the remote app](UDP_Remote_Protocol.md#add-localizations). It should then immediately select the localization and send a [select](UDP_Remote_Protocol.md#select-localizations) message to the remote app.
 
 The caption of a localization does not need to be editable in the video player. Typically, it will be changed by a remote app.
+
+### Deleting a localization
+
+Pressing the delete or backspace key will delete the selected localizations. A [delete](UDP_Remote_Protocol.md#localizatons-deleted) command will be immediately be sent to the remote app.

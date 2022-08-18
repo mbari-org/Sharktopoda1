@@ -2,13 +2,13 @@
 
 _Sharktopoda 2_ will be a native desktop video player application that supports MBARI's video annotation and machine learning efforts. It should be written in the most current version of [Swift](https://developer.apple.com/swift/) and should be based off of [AVFoundation](https://developer.apple.com/av-foundation/) and/or [AVKit](https://developer.apple.com/documentation/avkit).
 
-It will function as a normal video player. In addition, it will support these additional features beyond a standard video player are:
+It will function as a normal video player. In addition, it will support these additional features beyond a standard video player:
 
 1. Support remote control from an external application via a [Remote UDP Protocol](UDP_Remote_Protocol.md)
 2. Ability to render [Localizations](#localizations), which are labeled, rectangular regions of interest (ROIs, aka _localizations_, aka _bounding boxes_, aka _annotations_) , on top of the video at the correct moment in the video.
 3. Ability to interact (create/edit/delete) localizations on a video.
 
-Here are some examples of a prototype to help guide development:
+Here are video examples of a prototype to help guide development:
 
 - [A Remote Annotation Application interacting a with the video player](https://www.youtube.com/watch?v=FKeuG8-UYC0)
 - [A Remote Annotation Application interacting a with the video player showing selectable localizations](https://youtu.be/FKeuG8-UYC0>).
@@ -30,9 +30,9 @@ A Localization is a labeled and localized rectangular region at a given moment i
 
 Additional fields can be added as deemed necessary to support Sharktopoda's functions.
 
-The video player will display prexisting bounding boxes over the video at the correct frame. The player will allow users to specify a time window. Each bounding boxes will have a defined `elapsedTimeMillis`. A visual representation of the bounding box will be displayed from `elapsedTimeMillis - timeWindow / 2.0` to `elapsedTimeMillis + timeWindow / 2.0` over the video. The timeWindow can be set in preferences.
+The video player will display pre-existing localizations over the video at the correct frame. The player will allow users to specify a time window in the _Preferences_. Each bounding boxes will have a defined `elapsedTimeMillis`. A visual representation of the bounding box will be displayed from `elapsedTimeMillis - timeWindow / 2.0` to `elapsedTimeMillis + timeWindow / 2.0` over the video.
 
-Each localization will be correctly scaled and translated from it's pixel coordinates to match the video as it is scaled. (e.g. when a window is resized)
+The localizations x, y,, width, and height are in unscaled pixels relative to the videos actual (i.e. not-scaled) width/height. Each localization will be drawn correctly scaled and translated from it's pixel coordinates to match the video as the video is resized.
 
 Localization information can be created/update/deleted/selected via an external application via a [UDP-based remote protocol](UDP_Remote_Protocol.md). Localizations can also be created/updated/deleted/selected from Sharktopoda and then inform the remote applications that an event occurred via the same UDP protocol.
 
