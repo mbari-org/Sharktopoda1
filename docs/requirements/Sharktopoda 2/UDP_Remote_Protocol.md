@@ -146,7 +146,7 @@ sequenceDiagram
       S-)V: Open video and association UUID with window
       alt Successfully opened video
         S-->>R: {"response": "open", "status": "ok"} 
-      else Failed to open video
+      else Failed to open videoN
         S-->>-R: {"response": "open", "status": "failed"} 
       end
     end
@@ -615,7 +615,7 @@ A localization defines a rectangular region of interest on the video. Users shou
 
 ![Image Coordinate System](assets/ImageCoordinateSystem.png)
 
-Localizations can be added, deleted, or modified from either a remote app __or__ from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
+Localizations can be added, selected, deleted, or modified from either a remote app __or__ from sharktopoda. If a localization is created/mutated in Sharktopoda, it will notify the remote app using UDP via the port defined by the connect command.
 
 Incoming messages will be no larger than 4096 bytes. In practice, the remote application will not send more than 10 localizations to Sharktopoda in a single Add or Update message.
 
