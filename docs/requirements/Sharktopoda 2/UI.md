@@ -72,6 +72,6 @@ If the user clicks on the border of an existing localization, that single locali
 
 ### Creating a localization
 
-If the user single-clicks and drags on the video surface, begin drawing a rectangle. When the drag is released, [create a new localization using the caption defined in preferences and send it to the remote app](UDP_Remote_Protocol.md#add-localizations). 
+If the user single-clicks and drags on the video surface, begin drawing a rectangle. When the drag is released, [create a new localization using the caption defined in preferences and send it to the remote app](UDP_Remote_Protocol.md#add-localizations). It should then immediately select the localization and send a [select](UDP_Remote_Protocol.md#select-localizations) message to the remote app.
 
 The caption of a localization does not need to be editable in the video player. Typically, it will be changed by a remote app.
