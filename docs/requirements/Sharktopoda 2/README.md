@@ -2,9 +2,9 @@
 
 _Sharktopoda 2_ will be a native desktop video player application that supports MBARI's video annotation and machine learning efforts. It should be written in the most current version of [Swift](https://developer.apple.com/swift/) and should be based off of [AVFoundation](https://developer.apple.com/av-foundation/) and/or [AVKit](https://developer.apple.com/documentation/avkit).
 
-It will function as a normal video player. In addition, it will support these additional features beyond a standard video player:
+It will function as a normal video player, including standard audio playback. In addition, it will support these additional features beyond a standard video player:
 
-1. Support remote control from an external application via a [Remote UDP Protocol](UDP_Remote_Protocol.md)
+1. Support remote control from an external application via a [Remote UDP Protocol](UDP_Remote_Protocol.md). Only a single remote app will connect to the video player at a time.
 2. Ability to render [Localizations](#localizations), which are labeled, rectangular regions of interest (ROIs, aka _localizations_, aka _bounding boxes_, aka _annotations_) , on top of the video at the correct moment in the video.
 3. Ability to interact (create/edit/delete) localizations on a video.
 
