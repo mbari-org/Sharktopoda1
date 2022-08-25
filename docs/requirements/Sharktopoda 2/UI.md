@@ -53,7 +53,7 @@ When a new annotation is created this section determines properties of the bound
 
 This section specifies the properties for an annotation _after_ it has been drawn on the video. By default an annotation is drawn using a the _Default color_ but each annotation may have it's own unique color assigned. Alternatively, all annotations can have a color assigned, when an annotation is created it get's assigned the default color.
 
-When the `use display` check box is selected, annotations are no longer drawn just using the global _Time Window_. Instead, the individual duration for an annotation is applied so the the display time for an annotation becomes `annotation.elapsedTimeMillis` to `annotation.elapsedTimeMillis + annotation.durationMillis`
+When the `use display` check box is selected, annotations are no longer drawn just using the global _Time Window_. Instead, the individual duration for each annotation is applied so the the display time for an annotation becomes `annotation.elapsedTimeMillis` to `annotation.elapsedTimeMillis + annotation.durationMillis`. If the `annotation.durationMillis` value is missing the default value is 0 (zero).
 
 #### Annotation Selection
 
@@ -74,8 +74,6 @@ The _Timeout_ sets the timeout in milliseconds for [outgoing commands](UDP_Remot
 The video window can be a standard AVKit window. Floating playback controls should not be used as they would interact with the interactive localization features. If using AVKit, use [inline](https://developer.apple.com/documentation/avkit/avplayerviewcontrolsstyle/inline) controls.
 
 When a user clicks on the video (not the video controls) it begins a localization action. All localization actions initiate by the video player should immediately pause video playback. Localization actions [initiated by the remote app](UDP_Remote_Protocol.md#incoming-commands) should NOT pause video playback.
-
-
 
 ### Selecting a localization
 
