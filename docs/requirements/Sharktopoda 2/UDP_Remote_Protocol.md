@@ -712,7 +712,7 @@ Update existing localizations in Sharktopoda. If a matching localization's UUID 
       "y": 13,
       "width": 623,
       "height": 475,
-      "color": "#FFDDDD" // optional field. if unspecified, the default is #FFFFFF or the previous value if it was set
+      "color": "#FFDDDD" // optional field. if unspecified, the default is from the Annotation preferences pane
     }
   ]
 }

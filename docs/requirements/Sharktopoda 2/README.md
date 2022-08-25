@@ -40,3 +40,9 @@ Localization information can be created/update/deleted/selected via an external 
 
 - [UDP Remote Protocol](UDP_Remote_Protocol.md)
 - [UI](UI.md)
+
+## Resources
+
+- A Java implementation of the [UDP Remote Protocol](UDP_Remote_Protocol.md) is at <https://github.com/mbari-org/vcr4j/tree/develop/vcr4j-remote> with examples of it's use [here](https://github.com/mbari-org/vcr4j/tree/develop/vcr4j-examples/src/main/java/org/mbari/vcr4j/examples/remote). We will be using this library for testing this application.
+- Source code for a Java-based video player that uses the [UDP_Remote_Protocol](UDP_Remote_Protocol.md) is at [mbari-org/jsharktopoda](https://github.com/mbari-org/jsharktopoda/tree/feature/vcr4j-remote). Note that jsharktopoda does not implement any localization features.
+- The [current release of Sharktopoda](https://github.com/mbari-org/Sharktopoda/releases) uses an older version of a UDP Remote Protocol and is written using an outdated version of Swift.
