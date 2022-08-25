@@ -127,7 +127,7 @@ Note, the response is always "ok".
 
 ### -- Open
 
-Opens the specified video in a new window. The application should associate the URL and UUID with the window. (More on that later).
+Opens the specified video in a new window. The application should associate the URL and UUID with the window. (More on that later). If a new window is opened, the video should be immediately paused. (We don't want the video to autoplay when it is first opened)
 
 If a window with the UUID already exits, treat the open command as "show" command below, and a success response returned.
 
