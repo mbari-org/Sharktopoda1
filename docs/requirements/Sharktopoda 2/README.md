@@ -10,8 +10,8 @@ It will function as a normal video player, including standard audio playback. In
 
 Here are video examples of a prototype to help guide development:
 
-- [A Remote Annotation Application interacting a with the video player](https://www.youtube.com/watch?v=FKeuG8-UYC0)
-- [A Remote Annotation Application interacting a with the video player showing selectable localizations](https://youtu.be/FKeuG8-UYC0>).
+- [A Remote Annotation Application interacting a with the video player](hhttps://youtu.be/FKeuG8-UYC0)
+- [A Remote Annotation Application interacting a with the video player showing selectable localizations](https://youtu.be/m8jOhxDvv5Y).
 - [A video player displaying output from machine learning inference](https://youtu.be/AZr0WcuEffQ)
 
 ## Localizations
