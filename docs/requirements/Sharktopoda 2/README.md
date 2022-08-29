@@ -16,12 +16,12 @@ Here are video examples of a prototype to help guide development:
 
 ## Localizations
 
-A Localization is a labeled and localized rectangular region at a given moment in the video. It is also called an `Annotation` and has the following properties:
+A [Localization](UDP_Remote_Protocol.md#localizations) is a labeled and localized rectangular region at a given moment in the video. It is also called an `Annotation` and has the following properties:
 
 - `uuid` - The unique identifier for an annotation. UUID v4 (random) is recommended.
 - `concept` - The label associated with a localization that identifies the object in the region of interest. In theory, the concept can be up to 256 characters long, but in practice it is much shorter.
 - `elapsedTimeMillis` - The elapsed time from the start of the video that the localization is to be displayed.
-- `durationMillis` - This field may be present but can be ignored for now. It represents how long the localization is valid. It will span from `elapsedTimeMillis` to `elapsedTimeMillis` + `durationMillis`. The default is 0 which means the localization is valid for a single frame.
+- `durationMillis` - This field is optional. It represents how long the localization is valid. It will span from `elapsedTimeMillis` to `elapsedTimeMillis` + `durationMillis`. The default is 0 which means the localization is valid for a single frame.
 - `x` - The x coordinate of the localization in pixels.
 - `y` - The y coordinate of the localization in pixels.
 - `width` - The width of the localization in pixels.
@@ -30,9 +30,9 @@ A Localization is a labeled and localized rectangular region at a given moment i
 
 Additional fields can be added as deemed necessary to support Sharktopoda's functions.
 
-The video player will display pre-existing localizations over the video at the correct frame. The player will allow users to specify a time window in the _Preferences_. Each bounding boxes will have a defined `elapsedTimeMillis`. A visual representation of the bounding box will be displayed from `elapsedTimeMillis - timeWindow / 2.0` to `elapsedTimeMillis + timeWindow / 2.0` over the video.
+The video player will display pre-existing localizations over the video at the correct frame. The player will allow users to specify a time window in the _Preferences_ that is combined with a localization's  `elapsedTimeMillis`. In general, a visual representation of the bounding box will be displayed from `elapsedTimeMillis - timeWindow / 2.0` to `elapsedTimeMillis + timeWindow / 2.0` over the video. More details [here](UI.md#annotation-display).
 
-The localizations x, y,, width, and height are in unscaled pixels relative to the videos actual (i.e. not-scaled) width/height. Each localization will be drawn correctly scaled and translated from it's pixel coordinates to match the video as the video is resized.
+The localizations x, y, width, and height are in unscaled pixels relative to the videos actual (i.e. not-scaled) width/height. Each localization will be drawn correctly scaled and translated from it's pixel coordinates to match the video as the video is resized.
 
 Localization information can be created/update/deleted/selected via an external application via a [UDP-based remote protocol](UDP_Remote_Protocol.md). Localizations can also be created/updated/deleted/selected from Sharktopoda and then inform the remote applications that an event occurred via the same UDP protocol.
 
