@@ -57,9 +57,9 @@ When the `use display` check box is selected, annotations are no longer drawn ju
 
 #### Annotation Selection
 
-This specifies the display of _selected_ annotations. Annotations can be selected, either by receiving a command via UPD or by clicking on the localization's border on top of the video.
+This specifies the display of _selected_ annotations. Annotations can be selected, either by receiving a command via UDP or by clicking on the localization's border on top of the video.
 
-When only a single annotation is selected. It become [editable](#editing-a-localization). It should be drawn using like selected annotation, but it should also show an indicator that it is editable. Common editing features in other apps are hot corners (little rectangles), circles on the corners, handles on the edges or an opaque fill to indicate the rectangle can be moved or resized. We are flexible in how the editing UI is implemented in Sharktopoda.
+When only a single annotation is selected. It become [editable](#editing-a-localization). It should be drawn like a selected annotation, but it should also show an indicator that it is editable. Common editing features in other apps are hot corners (little rectangles), circles on the corners, handles on the edges or an opaque fill to indicate the rectangle can be moved or resized. We are flexible in how the editing UI is implemented in Sharktopoda.
 
 ### Network
 
