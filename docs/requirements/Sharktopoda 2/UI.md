@@ -8,7 +8,7 @@ When started, Sharktopoda should show a default window like:
 
 ![Default](assets/Default.png)
 
-This window should be closed when any video window is open. When all video windows are closed this window should be displayed. This is the same behavior as the [IINA video player](https://iina.io/).
+This window should be closed/hidden when any video window is open. When all video windows are closed this window should be displayed. This is the same behavior as the [IINA video player](https://iina.io/).
 
 Both `Open ...` and `Open URL ...` are buttons. When clicked, or the corresponding key strokes occur they should trigger their open action.
 
@@ -16,7 +16,7 @@ Both `Open ...` and `Open URL ...` are buttons. When clicked, or the correspondi
 
 `Open URL ...` should bring up a dialog that allows a user to enter a movie URL. This is the same behavior as `Open Location` in Apple's QuickTime player.
 
-The `port` number at the bottom is the port that Sharktopoda is listening too for incoming UPD commands. It can be changed in _Preferences_.
+The `port` number at the bottom displayes the port that Sharktopoda is listening to for incoming UPD commands. It can be changed in _Preferences_.
 
 ## Preferences
 
@@ -26,7 +26,7 @@ Sharktopoda will have a standard _Preferences_ menu item:
 
 When preferences is opened it will display a window with the tabs/sections shown below. Changes to preferences should be saved when editable field loses focus or the window is closed.
 
-### Annotations
+### Annotations (aka Localizations)
 
 Each annotation can be displayed in one of five states:
 
