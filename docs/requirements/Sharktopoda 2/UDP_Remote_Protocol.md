@@ -637,7 +637,7 @@ The initiating app (both sharktopoda and the remote app can create localizations
       "y": 13,
       "width": 623,
       "height": 475,
-      "color": "#FFDDDD" // optional field. if unspecified, the default is #FFFFFF
+      "color": "#FFDDDD" // optional field. if unspecified, the default is from the Annotation preferences pane
     }
   ]
 }
