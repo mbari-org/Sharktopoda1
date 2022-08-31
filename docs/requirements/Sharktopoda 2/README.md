@@ -46,3 +46,6 @@ Localization information can be created/update/deleted/selected via an external 
 - A Java implementation of the [UDP Remote Protocol](UDP_Remote_Protocol.md) is at <https://github.com/mbari-org/vcr4j/tree/develop/vcr4j-remote> with examples of it's use [here](https://github.com/mbari-org/vcr4j/tree/develop/vcr4j-examples/src/main/java/org/mbari/vcr4j/examples/remote). We will be using this library for testing this application.
 - Source code for a Java-based video player that uses the [UDP_Remote_Protocol](UDP_Remote_Protocol.md) is at [mbari-org/jsharktopoda](https://github.com/mbari-org/jsharktopoda/tree/feature/vcr4j-remote). Note that jsharktopoda is a test bed for the UPD protocol, it does not draw any localizations.
 - The [current release of Sharktopoda](https://github.com/mbari-org/Sharktopoda/releases) uses an older version of a UDP Remote Protocol and is written using an outdated version of Swift.
+- Tutorial on adding overlays in AVFoundation [1](https://www.raywenderlich.com/6236502-avfoundation-tutorial-adding-overlays-and-animations-to-videos) and [2](https://www.raywenderlich.com/2734-avfoundation-tutorial-adding-overlays-and-animations-to-videos)
+- [Cabbage](https://github.com/VideoFlint/Cabbage) composition framework
+- [VideoLab](https://github.com/ruanjx/VideoLab) video effects framework
