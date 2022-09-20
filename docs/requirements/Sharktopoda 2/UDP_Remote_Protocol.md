@@ -4,7 +4,9 @@
 
 ### Incoming commands
 
-`Sharktopoda 2` will support a remote protocol that will allow other applications to send commands to it via UDP. The protocol will support the following incoming video control commands:
+##### Control Commands
+
+`Sharktopoda 2` will support a remote protocol that will allow other applications to send commands to it via UDP. The protocol will support the following control commands:
 
 - [Connect](#---connect)
 - [Open](#---open)
@@ -21,6 +23,8 @@
 - [Frame capture](#---frame-capture)
 - [Ping](#---ping)
 
+##### Localization Commands
+
 In addition to the control commands, the remote protocol will also support commands for managing information about localizations, aka rectangular regions of interest, displayed over video during playback.
 
 - [Add localizations](#---add-localizations)
@@ -29,7 +33,7 @@ In addition to the control commands, the remote protocol will also support comma
 - [Clear localizations](#---clear-all-localizations)
 - [Select localizations](#---select-localizations)
 
-All commands follow a command-response pattern:
+##### Command-Response Pattern
 
 ```mermaid
 sequenceDiagram
@@ -41,9 +45,36 @@ sequenceDiagram
     S-->>-R: {"response": "some command" ...}
 ```
 
+##### Command Message Failures
+
+All commands are expected to be valid JSON messages as per the individual command descriptions herein. 
+
+Invalid JSON command values will be reported as:
+
+```json
+{
+  "command": "unknown",
+  "status": "failed",
+  "cause": "Invalid command"
+}
+```
+
+Invalid JSON message structure will be reported as:
+
+```json
+{
+  "command": <some command>,
+  "status": "failed",
+  "cause": "Invalid message"
+}
+```
+
+NOTE: Sharktopoda does not determine or report why the message structure was invalid. It is expected the developer of the control messaging app will consult these requirements to determine the actual cause.
+
+
 ### Outgoing commands
 
-Sharktopoda can also send certain commands to the Remote App. It sends these commands via UDP to a host/port that is defined when Sharktopoda receives a `connect` command. The amount of time to wait for a response (i.e. timeout) will be set in the preferences UI. These commands are:
+Sharktopoda can also send certain commands to the Remote App. These commands are explicitly sent to the **host/port** established by a preceding [connect](#---connect) control command. The amount of time to wait for a response (i.e. timeout) will be set in the preferences UI. These commands are:
 
 - [Frame capture done](#---frame-capture)
 - [Add localizations](#---add-localizations)
