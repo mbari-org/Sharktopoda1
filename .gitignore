@@ -1,1 +1,5 @@
+# mac noise
 .DS_Store
+
+# emacs noise
+*~
