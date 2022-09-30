@@ -278,15 +278,27 @@ If the window with UUID does not exist it should respond with
 {"command": "request information"}
 ```
 
-It should return the UUID and URL of the currently focused (or top most window in z order) as well as the length of the video in milliseconds (named as `durationMillis`) and the frame_rate of the mov.
+It should return the UUID and URL of the current or last focused window as well as the length of the video in milliseconds (named as `durationMillis`) and the frame_rate of the mov. The `isKey` field indicates if the window is currently handling user keyboard input.
 
 ```json
 {
   "response": "request information",
+  "status": "ok",
   "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
   "url": "http://someurl/and/moviefile.mov",
   "durationMillis": 150000,
-  "frameRate": 29.97
+  "frameRate": 29.97,
+  "isKey": true
+}
+```
+
+If no video windows are currently available (i.e., either no successful **open** commands or all previously opened videos have been closed), it should respond with
+
+```json
+{
+  "response": "request information",
+  "status": "ok",
+  "cause": "No open videos"
 }
 ```
 
@@ -301,6 +313,7 @@ It should return info for all open videos like the following:
 ```json
 {
   "response": "request all information",
+  "status": "ok",
   "videos": [
     {
       "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
@@ -317,6 +330,8 @@ It should return info for all open videos like the following:
   ]
 }
 ```
+
+If no currently available video windows, it should respond the same as **request information**.
 
 ### -- Play
 
