@@ -319,13 +319,15 @@ It should return info for all open videos like the following:
       "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
       "url": "http://someurl/and/moviefile.mov"
       "durationMillis": 150000,
-      "frameRate": 29.97
+      "frameRate": 29.97,
+      "isKey": false
     },
     {
       "uuid": "b52cf7f1-e19c-40ba-b176-a7e479a3b170",
       "url": "file://sometoherurl/and/moviefile.mp4"
       "durationMillis": 250300,
-      "frameRate": 59.97
+      "frameRate": 59.97,
+      "isKey": true
     }
   ]
 }
