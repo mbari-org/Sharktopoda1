@@ -73,7 +73,7 @@ The _Timeout_ sets the timeout in milliseconds for [outgoing commands](UDP_Remot
 
 The video window can be a standard AVKit window. Floating playback controls should not be used as they would interact with the interactive localization features. If using AVKit, use [inline](https://developer.apple.com/documentation/avkit/avplayerviewcontrolsstyle/inline) controls.
 
-When a user clicks on the video (not the video controls) it begins a localization action. All localization actions initiate by the video player should immediately pause video playback. Localization actions [initiated by the remote app](UDP_Remote_Protocol.md#incoming-commands) should NOT pause video playback.
+When a user clicks on the video (not the video controls) it begins a localization action. All localization actions initiated by the video player should immediately pause video playback. Localization actions [initiated by the remote app](UDP_Remote_Protocol.md#incoming-commands) should NOT pause video playback.
 
 ### Selecting a localization
 
@@ -87,9 +87,9 @@ Whenever a selection action completes a [select](UDP_Remote_Protocol.md#select-l
 
 ### Editing a localization
 
- The following events set the new coordianates of the localization and send an [update](UDP_Remote_Protocol.md#localizationss-modified) of the localization to the remote app:
+ The following events set the new coordinates of the localization and send an [update](UDP_Remote_Protocol.md#localizationss-modified) of the localization to the remote app:
 
-- The user hits enter or other definable key if enter can't be used. If we can't use enter, allow the key to be set in preferences. The key setting should be in another preferences pane (e.g. Keys, this is in addition to the Annotations and Network panes.)
+- The user hits enter or other definable key if enter can't be used. If we can't use enter, allow the key to be set in preferences. The key setting should be in another preferences pane (e.g. _Keys_, this is in addition to the Annotations and Network panes.)
 - The video leaves the paused state.
 - The user clicks on another localization.
 - The user single clicks on the video anywhere other than the border/control points of the editable localization.
